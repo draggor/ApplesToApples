@@ -4,5 +4,15 @@
   <artifactId>ApplesToApples</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <dependencies>
+  	<dependency>
+  		<groupId>pircbot</groupId>
+  		<artifactId>pircbot</artifactId>
+  		<version>1.5.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>3.8.1</version>
+  	</dependency>
   </dependencies>
 </project>
