@@ -3,23 +3,24 @@ package net.dracolair.games.applestoapples.commands;
 import net.dracolair.games.applestoapples.ApplesToApples;
 import net.dracolair.games.applestoapples.Bot;
 
+import static net.dracolair.games.applestoapples.MessageMap.*;
+import static net.dracolair.games.applestoapples.Message.*;
+
 public class CmdJoin extends Command {
 
 	@Override
 	public void run(Bot bot, ApplesToApples ata, String[] msgMap) {
-		responses.add(msgMap[0]);
 		if(ata == null) {
 			ata = new ApplesToApples();
 		}
-		if(bot.m_playerList.get(msgMap[1]) != null) {
-			responses.add("bob is already playing.");
+		if(bot.m_playerList.get(NAME(msgMap)) != null) {
+			responses.add(MSG(CHANNEL(msgMap), NAME(msgMap) + " is already playing."));
 		} else {
-			bot.m_gameList.put(msgMap[0], ata);
-			bot.m_playerList.put(msgMap[1], ata);
-			ata.m_players.put(msgMap[1], null);
+			bot.m_gameList.put(CHANNEL(msgMap), ata);
+			bot.m_playerList.put(NAME(msgMap), ata);
+			ata.addPlayer(NAME(msgMap));
 			
-			responses.add("bob has joined the game.");
-			responses.add("Need 2 more to start.");
+			responses.add(MSG(CHANNEL(msgMap), NAME(msgMap) + " has joined the game, need 2 more to start."));
 		}
 	}
 

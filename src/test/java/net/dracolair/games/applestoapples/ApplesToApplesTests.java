@@ -22,21 +22,34 @@ public class ApplesToApplesTests extends TestCase{
 	}
 	
 	public void testCmdIsRunningFalseForBob() {
-		List<String> responses = cmd("bob", "!list");
-		assertEquals("bob: No game is running.", responses.get(1));
+		List<Message> responses = cmd("bob", "!list");
+		assertMessage("bob", "bob: No game is running.", responses.get(0));
 	}
 	
-	public void testCmdIsRunningTrueForBob() {
+	public void testCmdIsRunningTrueForBob1Player() {
 		cmd("Neel", "!join");
-		List<String> responses = cmd("bob", "!list");
+		List<Message> responses = cmd("bob", "!list");
+		ApplesToApples ata = b.getGame("#channel");
 		
-		assertEquals("bob: A game is already running, type !join to play!", responses.get(1));
-		assertEquals("bob: List of players:", responses.get(2));
-		assertEquals("bob: 1) Neel", responses.get(3));
+		assertEquals(1, ata.m_players.size());
+		assertTrue(ata.m_players.containsKey("Neel"));
+		assertMessage("bob", "bob: List of players: Neel:0 ", responses.get(0));
+	}
+	
+	public void testCmdIsRunningTrueForBob2Players() {
+		cmd("Neel", "!join");
+		cmd("Grue", "!join");
+		List<Message> responses = cmd("bob", "!list");
+		ApplesToApples ata = b.getGame("#channel");
+		
+		assertEquals(2, ata.m_players.size());
+		assertTrue(ata.m_players.containsKey("Neel"));
+		assertTrue(ata.m_players.containsKey("Grue"));
+		assertMessage("bob", "bob: List of players: Neel:0 Grue:0 ", responses.get(0));
 	}
 	
 	public void testFirstPlayerJoins() {
-		List<String> responses = cmd("bob", "!join");
+		List<Message> responses = cmd("bob", "!join");
 		
 		ApplesToApples ataFromGList = b.m_gameList.get("#channel");
 		ApplesToApples ataFromPList = b.m_playerList.get("bob");
@@ -47,13 +60,12 @@ public class ApplesToApplesTests extends TestCase{
 		assertNotNull(ataFromPList);
 		assertEquals(ataFromGList, ataFromPList);
 		assertEquals(1, ataFromGList.m_players.size());
-		assertEquals("bob has joined the game.", responses.get(1));
-		assertEquals("Need 2 more to start.", responses.get(2));
+		assertMessage("#channel", "bob has joined the game, need 2 more to start.", responses.get(0));
 	}
 	
 	public void testBobCantJoinTwice() {
 		cmd("bob", "!join");
-		List<String> responses = cmd("bob", "!join");
+		List<Message> responses = cmd("bob", "!join");
 		
 		ApplesToApples ataFromGList = b.m_gameList.get("#channel");
 		ApplesToApples ataFromPList = b.m_playerList.get("bob");
@@ -64,13 +76,13 @@ public class ApplesToApplesTests extends TestCase{
 		assertNotNull(ataFromPList);
 		assertEquals(ataFromGList, ataFromPList);
 		assertEquals(1, ataFromGList.m_players.size());
-		assertEquals("bob is already playing.", responses.get(1));
+		assertMessage("#channel", "bob is already playing.", responses.get(0));
 	}
 	
 	public void testBobCantJoinTwiceFromAnotherChannel() {
 		cmd("bob", "!join");
 		String[] msgMap = {"#bees", "bob", "login", "hostname", "!join"};
-		List<String> responses = b.handleChanMessage(msgMap);
+		List<Message> responses = b.handleChanMessage(msgMap);
 		
 		ApplesToApples ataFromGList = b.m_gameList.get("#channel");
 		ApplesToApples ataFromPList = b.m_playerList.get("bob");
@@ -81,24 +93,50 @@ public class ApplesToApplesTests extends TestCase{
 		assertNotNull(ataFromPList);
 		assertEquals(ataFromGList, ataFromPList);
 		assertEquals(1, ataFromGList.m_players.size());
-		assertEquals("bob is already playing.", responses.get(1));
+		assertMessage("#bees", "bob is already playing.", responses.get(0));
 	}
 	
 	public void testStartGameFail() {
-		List<String> responses = cmd("bob", "!start");
+		List<Message> responses = cmd("bob", "!start");
 		
-		assertEquals("bob is fail, needs 3 to play.", responses.get(1));
+		assertMessage("#channel", "bob is fail, needs 3 to play.", responses.get(0));
 	}
 	
 	public void testStartGameNeeds2More() {
 		cmd("bob", "!join");
-		List<String> responses = cmd("bob", "!start");
+		List<Message> responses = cmd("bob", "!start");
 		
-		assertEquals("bob is fail, needs 2 to play.", responses.get(1));
+		assertMessage("#channel", "bob is fail, needs 2 to play.", responses.get(0));
 	}
 	
-	public List<String> cmd(String name, String command) {
+	public void testStartGameWorks() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		List<Message> responses = cmd("bob", "!start");
+		
+		assertMessage("#channel", "We have >=3 players, the game will begin!", responses.get(0));
+		assertMessage("#channel", "Dealing out cards...", responses.get(1));
+		for(int i = 2; i < 9; i++) {
+			assertMessage("bob", "Card " + (i - 1), responses.get(i));
+		}
+		for(int i = 9; i < 16; i++) {
+			assertMessage("grue", "Card " + (i - 8), responses.get(i));
+		}
+		for(int i = 16; i < 23; i++) {
+			assertMessage("neel", "Card " + (i - 15), responses.get(i));
+		}
+		assertMessage("#channel", "bob is the judge.  Green card is hax", responses.get(23));
+		assertMessage("#channel", "Waiting for players to play cards...", responses.get(24));
+	}
+	
+	public List<Message> cmd(String name, String command) {
 		String[] msgMap = {"#channel", name, "login", "hostname", command};
 		return b.handleChanMessage(msgMap);
+	}
+	
+	public static void assertMessage(String target, String message, Message msg) {
+		assertEquals(target, msg.m_target);
+		assertEquals(message, msg.m_message);
 	}
 }

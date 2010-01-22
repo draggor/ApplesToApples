@@ -5,10 +5,14 @@ import java.util.Map;
 
 public class ApplesToApples {
 	
-	public Map<String, Object> m_players = new HashMap<String, Object>();
+	public Map<String, Player> m_players = new HashMap<String, Player>();
 	
 	public boolean isRunning() {
 		return true;
+	}
+	
+	public void addPlayer(String name) {
+		m_players.put(name, new Player());
 	}
 	
 }
