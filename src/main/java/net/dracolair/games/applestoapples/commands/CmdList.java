@@ -7,7 +7,7 @@ import net.dracolair.games.applestoapples.Bot;
 import net.dracolair.games.applestoapples.Player;
 
 import static net.dracolair.games.applestoapples.MessageMap.*;
-import static net.dracolair.games.applestoapples.Message.*;
+import static net.dracolair.games.applestoapples.Factories.*;
 
 public class CmdList extends Command {
 	

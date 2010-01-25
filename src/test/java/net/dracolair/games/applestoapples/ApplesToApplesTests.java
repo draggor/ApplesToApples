@@ -118,16 +118,44 @@ public class ApplesToApplesTests extends TestCase{
 		assertMessage("#channel", "We have >=3 players, the game will begin!", responses.get(0));
 		assertMessage("#channel", "Dealing out cards...", responses.get(1));
 		for(int i = 2; i < 9; i++) {
-			assertMessage("bob", "Card " + (i - 1), responses.get(i));
+			assertMessage("bob", "Card - " + (i - 1), responses.get(i));
 		}
 		for(int i = 9; i < 16; i++) {
-			assertMessage("grue", "Card " + (i - 8), responses.get(i));
+			assertMessage("grue", "Card - " + (i - 8), responses.get(i));
 		}
 		for(int i = 16; i < 23; i++) {
-			assertMessage("neel", "Card " + (i - 15), responses.get(i));
+			assertMessage("neel", "Card - " + (i - 15), responses.get(i));
 		}
-		assertMessage("#channel", "bob is the judge.  Green card is hax", responses.get(23));
+		assertMessage("#channel", "bob is the judge.  Green card is: hax", responses.get(23));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(24));
+	}
+	
+	public void testAllPlayersPlayCards() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		cmd("bob", "!start");
+		cmd("neel", "!play 5");
+		List<Message> responses = cmd("grue", "!play 4");
+		
+		assertMessage("grue", "Card - 8", responses.get(0));
+		assertMessage("#channel", "The green card is: hax", responses.get(1));
+		assertMessage("#channel", "1. Card 5", responses.get(2));
+		assertMessage("#channel", "2. Card 4", responses.get(3));
+		assertMessage("#channel", "bob must choose a red card!  Type '!choose number'", responses.get(4));
+	}
+	
+	public void testAllPlayersPlayCardsAndJudgePicks() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		cmd("bob", "!start");
+		cmd("neel", "!play 5");
+		cmd("grue", "!play 4");
+		List<Message> responses = cmd("bob", "!choose 2");
+		
+		assertMessage("#channel", "The winner is grue: Card 4!", responses.get(0));
+		assertMessage("#channel", "Scores: bob:0 neel:0 grue:1 ", responses.get(1));
 	}
 	
 	public List<Message> cmd(String name, String command) {

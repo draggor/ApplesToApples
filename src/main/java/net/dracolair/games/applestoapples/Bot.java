@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.dracolair.games.applestoapples.commands.CmdJoin;
 import net.dracolair.games.applestoapples.commands.CmdList;
+import net.dracolair.games.applestoapples.commands.CmdPlay;
 import net.dracolair.games.applestoapples.commands.CmdStart;
 import net.dracolair.games.applestoapples.commands.Command;
 
@@ -27,6 +28,7 @@ public class Bot extends PircBot {
 		m_chanCommands.put("join", new CmdJoin());
 		m_chanCommands.put("list", new CmdList());
 		m_chanCommands.put("start", new CmdStart());
+		m_chanCommands.put("play", new CmdPlay());
 	}
 	
 	public void onMessage(String channel, 

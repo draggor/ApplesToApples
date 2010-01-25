@@ -4,7 +4,7 @@ import net.dracolair.games.applestoapples.ApplesToApples;
 import net.dracolair.games.applestoapples.Bot;
 
 import static net.dracolair.games.applestoapples.MessageMap.*;
-import static net.dracolair.games.applestoapples.Message.*;
+import static net.dracolair.games.applestoapples.Factories.*;
 
 public class CmdJoin extends Command {
 

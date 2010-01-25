@@ -9,10 +9,6 @@ public class Message {
 		m_message = message;
 	}
 	
-	public static Message MSG(String target, String message) {
-		return new Message(target, message);
-	}
-	
 	public String toString() {
 		return m_target + ": " + m_message;
 	}
