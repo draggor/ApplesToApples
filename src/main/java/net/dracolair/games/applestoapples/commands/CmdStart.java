@@ -6,6 +6,7 @@ import net.dracolair.games.applestoapples.ApplesToApples;
 import net.dracolair.games.applestoapples.Bot;
 import net.dracolair.games.applestoapples.Card;
 import net.dracolair.games.applestoapples.Player;
+import net.dracolair.games.applestoapples.State;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 import static net.dracolair.games.applestoapples.MessageMap.*;
@@ -31,8 +32,10 @@ public class CmdStart extends Command {
 				}
 			}
 			ata.m_waiting.remove("bob");
-			responses.add(MSG(CHANNEL(msgMap), "bob is the judge.  Green card is: hax"));
-			responses.add(MSG(CHANNEL(msgMap), "Waiting for players to play cards..."));
+			ata.m_state = State.PLAY;
+			responses.add(MSG(bot.getName(), "!botplay"));
+//			responses.add(MSG(CHANNEL(msgMap), "bob is the judge.  Green card is: hax"));
+//			responses.add(MSG(CHANNEL(msgMap), "Waiting for players to play cards..."));
 		}
 	}
 

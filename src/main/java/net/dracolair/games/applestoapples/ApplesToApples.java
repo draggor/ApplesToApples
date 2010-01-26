@@ -10,10 +10,7 @@ public class ApplesToApples {
 	public Map<String, Player> m_players = new HashMap<String, Player>();
 	public List<Card> m_cards = new LinkedList<Card>();
 	public Map<String, Player> m_waiting = new HashMap<String, Player>();
-	
-	public boolean isRunning() {
-		return true;
-	}
+	public State m_state = State.BEGIN;
 	
 	public void addPlayer(String name) {
 		m_players.put(name, new Player());

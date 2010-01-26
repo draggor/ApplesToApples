@@ -22,10 +22,11 @@ public class CmdPlay extends Command {
 				responses.add(MSG(NAME(msgMap), "Card - 8"));
 
 				if(ata.m_waiting.isEmpty()) {
-					responses.add(MSG("#channel", "The green card is: hax"));
-					responses.add(MSG("#channel", "1. Card 5"));
-					responses.add(MSG("#channel", "2. Card 4"));
-					responses.add(MSG("#channel", "bob must choose a red card!  Type '!choose number'"));
+					responses.add(MSG(bot.getName(), "!botchoose"));
+//					responses.add(MSG("#channel", "The green card is: hax"));
+//					responses.add(MSG("#channel", "1. Card 5"));
+//					responses.add(MSG("#channel", "2. Card 4"));
+//					responses.add(MSG("#channel", "bob must choose a red card!  Type '!choose number'"));
 				}
 			}
 		} catch(Exception e) {

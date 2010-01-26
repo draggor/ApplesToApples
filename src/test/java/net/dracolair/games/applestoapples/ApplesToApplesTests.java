@@ -126,8 +126,18 @@ public class ApplesToApplesTests extends TestCase{
 		for(int i = 16; i < 23; i++) {
 			assertMessage("neel", "Card - " + (i - 15), responses.get(i));
 		}
-		assertMessage("#channel", "bob is the judge.  Green card is: hax", responses.get(23));
-		assertMessage("#channel", "Waiting for players to play cards...", responses.get(24));
+		assertMessage("bees", "!botplay", responses.get(23));
+	}
+	
+	public void testNewRound() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		cmd("bob", "!start");
+		List<Message> responses = cmd("bees", "!botplay");
+		
+		assertMessage("#channel", "bob is the judge.  Green card is: hax", responses.get(0));
+		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
 	}
 	
 	public void testAllPlayersPlayCards() {
@@ -139,10 +149,23 @@ public class ApplesToApplesTests extends TestCase{
 		List<Message> responses = cmd("grue", "!play 4");
 		
 		assertMessage("grue", "Card - 8", responses.get(0));
-		assertMessage("#channel", "The green card is: hax", responses.get(1));
-		assertMessage("#channel", "1. Card 5", responses.get(2));
-		assertMessage("#channel", "2. Card 4", responses.get(3));
-		assertMessage("#channel", "bob must choose a red card!  Type '!choose number'", responses.get(4));
+		assertMessage("bees", "!botchoose", responses.get(1));
+	}
+	
+	public void testChooseMenu() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		cmd("bob", "!start");
+		cmd("bees", "!botplay");
+		cmd("neel", "!play 5");
+		cmd("grue", "!play 4");
+		List<Message> responses = cmd("bees", "!botchoose");
+		
+		assertMessage("#channel", "The green card is: hax", responses.get(0));
+		assertMessage("#channel", "1. Card 5", responses.get(1));
+		assertMessage("#channel", "2. Card 4", responses.get(2));
+		assertMessage("#channel", "bob must choose a red card!  Type '!choose number'", responses.get(3));
 	}
 	
 	public void testAllPlayersPlayCardsAndJudgePicks() {
@@ -152,10 +175,13 @@ public class ApplesToApplesTests extends TestCase{
 		cmd("bob", "!start");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
+		cmd("bees", "!botchoose");
 		List<Message> responses = cmd("bob", "!choose 2");
 		
 		assertMessage("#channel", "The winner is grue: Card 4!", responses.get(0));
 		assertMessage("#channel", "Scores: bob:0 neel:0 grue:1 ", responses.get(1));
+		assertMessage("#channel", "neel is the judge.  Green card is: hax", responses.get(2));
+		assertMessage("#channel", "Waiting for players to play cards...", responses.get(3));
 	}
 	
 	public List<Message> cmd(String name, String command) {
