@@ -16,17 +16,13 @@ public class CmdPlay extends Command {
 			int num = Integer.parseInt(MESSAGE(msgMap));
 			
 			if(num < 8 && num > 0) {
-				Player p = ata.m_waiting.remove(NAME(msgMap));
+				Player p = ata.m_waiting.remove(NICK(msgMap));
 				Card c = p.m_cards.remove(num);
 				ata.m_cards.add(c);
-				responses.add(MSG(NAME(msgMap), "Card - 8"));
+				m_responses.add(MSG(NICK(msgMap), "Card - 8"));
 
 				if(ata.m_waiting.isEmpty()) {
-					responses.add(MSG(bot.getName(), "!botchoose"));
-//					responses.add(MSG("#channel", "The green card is: hax"));
-//					responses.add(MSG("#channel", "1. Card 5"));
-//					responses.add(MSG("#channel", "2. Card 4"));
-//					responses.add(MSG("#channel", "bob must choose a red card!  Type '!choose number'"));
+					m_responses.add(MSG(bot.getName(), "!botchoose"));
 				}
 			}
 		} catch(Exception e) {

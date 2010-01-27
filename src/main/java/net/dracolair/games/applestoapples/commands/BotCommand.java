@@ -12,11 +12,11 @@ public abstract class BotCommand extends Command {
 	
 	@Override
 	public List<Message> execute(Bot bot, String[] msgMap) {
-		responses = new LinkedList<Message>();
-		if(bot.getName() == NAME(msgMap)) {
-			this.run(bot, bot.getGame(CHANNEL(msgMap)), msgMap);
+		m_responses = new LinkedList<Message>();
+		if(bot.getName() == NICK(msgMap)) {
+			this.run(bot, bot.getGameByChan(CHANNEL(msgMap)), msgMap);
 		}
-		return responses;
+		return m_responses;
 	}
 
 }

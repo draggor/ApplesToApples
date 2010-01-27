@@ -1,6 +1,6 @@
 package net.dracolair.games.applestoapples;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +20,11 @@ import static net.dracolair.games.applestoapples.MessageMap.*;
 
 public class Bot extends PircBot {
 
-	public Map<String, ApplesToApples>	m_gameList = new HashMap<String, ApplesToApples>();
-	public Map<String, ApplesToApples>	m_playerList = new HashMap<String, ApplesToApples>();
-	public Map<String, Command> 		m_chanCommands = new HashMap<String, Command>();
-	public Map<String, Command> 		m_privCommands = new HashMap<String, Command>();
+	public Map<String, ApplesToApples>	m_chanToGameMap = new LinkedHashMap<String, ApplesToApples>();
+	public Map<Name, ApplesToApples>	m_nameToGameMap = new LinkedHashMap<Name, ApplesToApples>();
+	public Map<String, Command> 		m_chanCommands = new LinkedHashMap<String, Command>();
+	public Map<String, Command> 		m_privCommands = new LinkedHashMap<String, Command>();
+	public Map<String, Name> 			m_nickToNameMap = new LinkedHashMap<String, Name>();
 
 	public Bot(String name) {
 		this.setName(name);
@@ -67,8 +68,12 @@ public class Bot extends PircBot {
 		return responses;
 	}
 
-	public ApplesToApples getGame(String channel) {
-		return m_gameList.get(channel);
+	public ApplesToApples getGameByChan(String channel) {
+		return m_chanToGameMap.get(channel);
+	}
+	
+	public ApplesToApples getGameByNick(String nick) {
+		return m_nameToGameMap.get(m_nickToNameMap.get(nick));
 	}
 	
 }

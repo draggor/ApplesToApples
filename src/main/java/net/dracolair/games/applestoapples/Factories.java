@@ -11,4 +11,8 @@ public final class Factories {
 	public static Message MSG(String target, String message) {
 		return new Message(target, message);
 	}
+	
+	public static Name NAME(String name) {
+		return new Name(name);
+	}
 }

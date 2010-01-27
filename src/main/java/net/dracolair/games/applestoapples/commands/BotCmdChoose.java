@@ -8,10 +8,10 @@ public class BotCmdChoose extends BotCommand {
 
 	@Override
 	public void run(Bot bot, ApplesToApples ata, String[] msgMap) {
-		responses.add(MSG("#channel", "The green card is: hax"));
-		responses.add(MSG("#channel", "1. Card 5"));
-		responses.add(MSG("#channel", "2. Card 4"));
-		responses.add(MSG("#channel", "bob must choose a red card!  Type '!choose number'"));
+		m_responses.add(MSG("#channel", "The green card is: hax"));
+		m_responses.add(MSG("#channel", "1. Card 5"));
+		m_responses.add(MSG("#channel", "2. Card 4"));
+		m_responses.add(MSG("#channel", "bob must choose a red card!  Type '!choose number'"));
 	}
 
 }

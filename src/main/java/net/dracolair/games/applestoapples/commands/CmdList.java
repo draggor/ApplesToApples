@@ -21,9 +21,9 @@ public class CmdList extends Command {
 				builder.append(e.getValue().m_score);
 				builder.append(" ");
 			}
-			responses.add(MSG(NAME(msgMap), NAME(msgMap) + ": List of players: " + builder.toString()));
+			m_responses.add(MSG(NICK(msgMap), NICK(msgMap) + ": List of players: " + builder.toString()));
 		} else {
-			responses.add(MSG(NAME(msgMap), NAME(msgMap) + ": No game is running."));
+			m_responses.add(MSG(NICK(msgMap), NICK(msgMap) + ": No game is running."));
 		}
 	}
 

@@ -11,12 +11,12 @@ import static net.dracolair.games.applestoapples.MessageMap.*;
 
 public abstract class Command {
 	
-	protected List<Message> responses = null;
+	protected List<Message> m_responses = null;
 	
 	public List<Message> execute(Bot bot, String[] msgMap) {
-		responses = new LinkedList<Message>();
-		this.run(bot, bot.getGame(CHANNEL(msgMap)), msgMap);
-		return responses;
+		m_responses = new LinkedList<Message>();
+		this.run(bot, bot.getGameByChan(CHANNEL(msgMap)), msgMap);
+		return m_responses;
 	}
 	
 	public abstract void run(Bot bot, ApplesToApples ata, String[] msgMap);
