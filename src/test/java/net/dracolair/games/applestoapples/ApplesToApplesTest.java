@@ -146,7 +146,7 @@ public class ApplesToApplesTest extends TestCase{
 		List<Message> responses = cmd("bees", "!botplay");
 		ApplesToApples ata = b.getGameByChan("#channel");
 		
-		assertEquals(2, ata.m_activePlayers.size());
+		assertEquals(2, ata.m_waiting.size());
 		assertEquals("bob", ata.m_judge.toString());
 		
 		assertMessage("#channel", "bob is the judge.  Green card is: hax", responses.get(0));

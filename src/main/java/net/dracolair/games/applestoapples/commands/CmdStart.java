@@ -25,7 +25,6 @@ public class CmdStart extends Command {
 			m_responses.add(MSG(CHANNEL(msgMap), "We have >=3 players, the game will begin!"));
 			m_responses.add(MSG(CHANNEL(msgMap), "Dealing out cards..."));
 			for(Entry<Name, Player> e : ata.m_players.entrySet()) {
-				ata.m_waiting.add(e.getKey());
 				ata.m_activePlayers.add(e.getKey());
 				for(int i = 1; i < 8; i++) {
 					Card c = CARD("Card", String.valueOf(i));
