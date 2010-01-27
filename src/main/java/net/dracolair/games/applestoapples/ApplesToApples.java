@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class ApplesToApples {
 	
-	public Map<String, Player>	m_players = 		new LinkedHashMap<String, Player>();
+	public Map<Name, Player>	m_players = 		new LinkedHashMap<Name, Player>();
 	public List<Card> 			m_cards = 			new LinkedList<Card>();
-	public Map<String, Player>	m_waiting = 		new LinkedHashMap<String, Player>();
+	public List<Name>			m_waiting = 		new LinkedList<Name>();
 	public State				m_state = 			State.BEGIN;
-	public List<String>			m_activePlayers =	new LinkedList<String>();
-	public String				m_judge = 			null;
+	public List<Name>			m_activePlayers =	new LinkedList<Name>();
+	public Name					m_judge = 			null;
 	
-	public void addPlayer(String name) {
+	public void addPlayer(Name name) {
 		m_players.put(name, new Player());
 	}
 	

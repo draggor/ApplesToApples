@@ -30,9 +30,10 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("Neel", "!join");
 		List<Message> responses = cmd("bob", "!list");
 		ApplesToApples ata = b.getGameByChan("#channel");
+		Name neel = b.m_nickToNameMap.get("Neel");
 		
 		assertEquals(1, ata.m_players.size());
-		assertTrue(ata.m_players.containsKey("Neel"));
+		assertTrue(ata.m_players.containsKey(neel));
 		assertMessage("bob", "bob: List of players: Neel:0 ", responses.get(0));
 	}
 	
@@ -41,10 +42,12 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("Grue", "!join");
 		List<Message> responses = cmd("bob", "!list");
 		ApplesToApples ata = b.getGameByChan("#channel");
+		Name neel = b.m_nickToNameMap.get("Neel");
+		Name grue = b.m_nickToNameMap.get("Grue");
 		
 		assertEquals(2, ata.m_players.size());
-		assertTrue(ata.m_players.containsKey("Neel"));
-		assertTrue(ata.m_players.containsKey("Grue"));
+		assertTrue(ata.m_players.containsKey(neel));
+		assertTrue(ata.m_players.containsKey(grue));
 		assertMessage("bob", "bob: List of players: Neel:0 Grue:0 ", responses.get(0));
 	}
 	
@@ -117,9 +120,9 @@ public class ApplesToApplesTest extends TestCase{
 		ApplesToApples ata = b.getGameByChan("#channel");
 		
 		assertEquals(3, ata.m_activePlayers.size());
-		assertEquals("bob", ata.m_activePlayers.get(0));
-		assertEquals("neel", ata.m_activePlayers.get(1));
-		assertEquals("grue", ata.m_activePlayers.get(2));
+		assertEquals("bob", ata.m_activePlayers.get(0).toString());
+		assertEquals("neel", ata.m_activePlayers.get(1).toString());
+		assertEquals("grue", ata.m_activePlayers.get(2).toString());
 		
 		assertMessage("#channel", "We have >=3 players, the game will begin!", responses.get(0));
 		assertMessage("#channel", "Dealing out cards...", responses.get(1));
@@ -144,7 +147,7 @@ public class ApplesToApplesTest extends TestCase{
 		ApplesToApples ata = b.getGameByChan("#channel");
 		
 		assertEquals(2, ata.m_activePlayers.size());
-		assertEquals("bob", ata.m_judge);
+		assertEquals("bob", ata.m_judge.toString());
 		
 		assertMessage("#channel", "bob is the judge.  Green card is: hax", responses.get(0));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));

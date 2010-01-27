@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import net.dracolair.games.applestoapples.ApplesToApples;
 import net.dracolair.games.applestoapples.Bot;
+import net.dracolair.games.applestoapples.Name;
 import net.dracolair.games.applestoapples.Player;
 
 import static net.dracolair.games.applestoapples.MessageMap.*;
@@ -15,7 +16,7 @@ public class CmdList extends Command {
 	public void run(Bot bot, ApplesToApples ata, String[] msgMap) {
 		if(ata != null) {
 			StringBuilder builder = new StringBuilder();
-			for(Entry<String, Player> e : ata.m_players.entrySet()) {
+			for(Entry<Name, Player> e : ata.m_players.entrySet()) {
 				builder.append(e.getKey());
 				builder.append(":");
 				builder.append(e.getValue().m_score);

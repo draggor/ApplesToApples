@@ -21,7 +21,7 @@ public class CmdJoin extends Command {
 			bot.m_chanToGameMap.put(CHANNEL(msgMap), ata);
 			bot.m_nameToGameMap.put(n, ata);
 			bot.m_nickToNameMap.put(NICK(msgMap), n);
-			ata.addPlayer(NICK(msgMap));
+			ata.addPlayer(n);
 			
 			m_responses.add(MSG(CHANNEL(msgMap), NICK(msgMap) + " has joined the game, need 2 more to start."));
 		}
