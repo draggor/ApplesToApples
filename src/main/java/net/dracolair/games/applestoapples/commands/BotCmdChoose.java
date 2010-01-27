@@ -13,14 +13,14 @@ public class BotCmdChoose extends BotCommand {
 	public void run(Bot bot, ApplesToApples ata, MessageMap msgMap) {
 		ata.m_state = State.CHOOSE;		
 		
-		m_responses.add(MSG("#channel", "The green card is: hax"));
+		m_responses.add(MSG(msgMap.CHANNEL, "The green card is: hax"));
 		
 		int cnt = 1;
 		for(Card c : ata.m_cards) {
-			m_responses.add(MSG("#channel", cnt++ + ". " + c));
+			m_responses.add(MSG(msgMap.CHANNEL, cnt++ + ". " + c));
 		}
 		
-		m_responses.add(MSG("#channel", ata.m_judge + " must choose a red card!  Type '!choose number'"));
+		m_responses.add(MSG(msgMap.CHANNEL, ata.m_judge + " must choose a red card!  Type '!choose number'"));
 	}
 
 }

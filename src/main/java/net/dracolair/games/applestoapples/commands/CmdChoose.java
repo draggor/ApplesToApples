@@ -18,9 +18,9 @@ public class CmdChoose extends Command {
 			Card winner = ata.m_cards.get(cardIndex);
 			Player p = ata.m_players.get(winner.m_playedBy);
 			p.m_score++;
-			m_responses.add(MSG("#channel", "The winner is " + winner.m_playedBy + ": " + winner + "!"));
-			m_responses.add(MSG("#channel", "Scores: " + ata.playersNscores()));
-			m_responses.add(MSG("bees", "!botplay"));
+			m_responses.add(MSG(msgMap.CHANNEL, "The winner is " + winner.m_playedBy + ": " + winner + "!"));
+			m_responses.add(MSG(msgMap.CHANNEL, "Scores: " + ata.playersNscores()));
+			m_responses.add(MSG(bot.getName(), "!botplay"));
 		}
 	}
 	
