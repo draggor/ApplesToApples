@@ -15,4 +15,12 @@ public final class Factories {
 	public static Name NAME(String name) {
 		return new Name(name);
 	}
+	
+	public static MessageMap MSGMAP(String channel,
+					  				String nick,
+					  				String login,
+					  				String hostname,
+					  				String message) {
+		return new MessageMap(channel, nick, login, hostname, message);
+	}
 }

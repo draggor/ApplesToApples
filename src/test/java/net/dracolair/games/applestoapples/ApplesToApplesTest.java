@@ -4,6 +4,8 @@ import java.util.List;
 
 import junit.framework.*;
 
+import static net.dracolair.games.applestoapples.Factories.*;
+
 public class ApplesToApplesTest extends TestCase{
 	
 	private Bot b = null;
@@ -84,7 +86,7 @@ public class ApplesToApplesTest extends TestCase{
 	
 	public void testBobCantJoinTwiceFromAnotherChannel() {
 		cmd("bob", "!join");
-		String[] msgMap = {"#bees", "bob", "login", "hostname", "!join"};
+		MessageMap msgMap = MSGMAP("#bees", "bob", "login", "hostname", "!join");
 		List<Message> responses = b.handleChanMessage(msgMap);
 		
 		ApplesToApples ataFromGList = b.m_chanToGameMap.get("#channel");
@@ -199,7 +201,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public List<Message> cmd(String name, String command) {
-		String[] msgMap = {"#channel", name, "login", "hostname", command};
+		MessageMap msgMap = MSGMAP("#channel", name, "login", "hostname", command);
 		return b.handleChanMessage(msgMap);
 	}
 	

@@ -16,7 +16,7 @@ import net.dracolair.games.applestoapples.commands.Command;
 
 import org.jibble.pircbot.PircBot;
 
-import static net.dracolair.games.applestoapples.MessageMap.*;
+import static net.dracolair.games.applestoapples.Factories.*;
 
 public class Bot extends PircBot {
 
@@ -43,21 +43,21 @@ public class Bot extends PircBot {
 						  String login, 
 						  String hostname, 
 						  String message) {
-		String[] msgMap = {channel, sender, login, hostname, message};
+		MessageMap msgMap = MSGMAP(channel, sender, login, hostname, message);
 		for(Message response : handleChanMessage(msgMap)) {
 			sendMessage(response.m_target, response.m_message);
 		}
 	}
 
-	public List<Message> handleChanMessage(String[] msgMap) {
+	public List<Message> handleChanMessage(MessageMap msgMap) {
 		List<Message> responses = new LinkedList<Message>();
-		String[] parsedMessage = MESSAGE(msgMap).split(" ", 2);
+		String[] parsedMessage = msgMap.MESSAGE.split(" ", 2);
 		String cmdKey = parsedMessage[0].substring(1);
-		String[] modMsgMap = msgMap.clone();
+		MessageMap modMsgMap = msgMap.clone();
 		if (parsedMessage.length < 2) {
-			modMsgMap[4] = "";
+			modMsgMap.MESSAGE = "";
 		} else {
-			modMsgMap[4] = parsedMessage[1];
+			modMsgMap.MESSAGE = parsedMessage[1];
 		}
 		Command cmd = m_chanCommands.get(cmdKey);
 		

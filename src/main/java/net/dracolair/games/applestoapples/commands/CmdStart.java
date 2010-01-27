@@ -8,22 +8,22 @@ import net.dracolair.games.applestoapples.Card;
 import net.dracolair.games.applestoapples.Name;
 import net.dracolair.games.applestoapples.Player;
 import net.dracolair.games.applestoapples.State;
+import net.dracolair.games.applestoapples.MessageMap;
 
 import static net.dracolair.games.applestoapples.Factories.*;
-import static net.dracolair.games.applestoapples.MessageMap.*;
 
 public class CmdStart extends Command {
 
 	@Override
-	public void run(Bot bot, ApplesToApples ata, String[] msgMap) {
+	public void run(Bot bot, ApplesToApples ata, MessageMap msgMap) {
 		if(ata == null || ata.m_players.size() < 3) {
-			m_responses.add(MSG(CHANNEL(msgMap), NICK(msgMap) + 
+			m_responses.add(MSG(msgMap.CHANNEL, msgMap.NICK + 
 					                          " is fail, needs " + 
 					                          (ata==null?3:(3-ata.m_players.size())) + 
 					                          " to play."));
 		} else {
-			m_responses.add(MSG(CHANNEL(msgMap), "We have >=3 players, the game will begin!"));
-			m_responses.add(MSG(CHANNEL(msgMap), "Dealing out cards..."));
+			m_responses.add(MSG(msgMap.CHANNEL, "We have >=3 players, the game will begin!"));
+			m_responses.add(MSG(msgMap.CHANNEL, "Dealing out cards..."));
 			for(Entry<Name, Player> e : ata.m_players.entrySet()) {
 				ata.m_activePlayers.add(e.getKey());
 				for(int i = 1; i < 8; i++) {

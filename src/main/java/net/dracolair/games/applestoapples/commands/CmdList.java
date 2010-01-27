@@ -1,30 +1,19 @@
 package net.dracolair.games.applestoapples.commands;
 
-import java.util.Map.Entry;
-
 import net.dracolair.games.applestoapples.ApplesToApples;
 import net.dracolair.games.applestoapples.Bot;
-import net.dracolair.games.applestoapples.Name;
-import net.dracolair.games.applestoapples.Player;
+import net.dracolair.games.applestoapples.MessageMap;
 
-import static net.dracolair.games.applestoapples.MessageMap.*;
 import static net.dracolair.games.applestoapples.Factories.*;
 
 public class CmdList extends Command {
 	
 	@Override
-	public void run(Bot bot, ApplesToApples ata, String[] msgMap) {
+	public void run(Bot bot, ApplesToApples ata, MessageMap msgMap) {
 		if(ata != null) {
-			StringBuilder builder = new StringBuilder();
-			for(Entry<Name, Player> e : ata.m_players.entrySet()) {
-				builder.append(e.getKey());
-				builder.append(":");
-				builder.append(e.getValue().m_score);
-				builder.append(" ");
-			}
-			m_responses.add(MSG(NICK(msgMap), NICK(msgMap) + ": List of players: " + builder.toString()));
+			m_responses.add(MSG(msgMap.NICK, msgMap.NICK + ": List of players: " + ata.playersNscores()));
 		} else {
-			m_responses.add(MSG(NICK(msgMap), NICK(msgMap) + ": No game is running."));
+			m_responses.add(MSG(msgMap.NICK, msgMap.NICK + ": No game is running."));
 		}
 	}
 

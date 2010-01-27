@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class ApplesToApples {
 	
@@ -16,6 +17,19 @@ public class ApplesToApples {
 	
 	public void addPlayer(Name name) {
 		m_players.put(name, new Player());
+	}
+	
+	public String playersNscores() {
+		StringBuilder builder = new StringBuilder();
+		
+		for(Entry<Name, Player> e : m_players.entrySet()) {
+			builder.append(e.getKey());
+			builder.append(":");
+			builder.append(e.getValue().m_score);
+			builder.append(" ");
+		}
+		
+		return builder.toString();
 	}
 	
 }
