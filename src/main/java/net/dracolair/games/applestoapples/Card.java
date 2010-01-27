@@ -1,8 +1,9 @@
 package net.dracolair.games.applestoapples;
 
 public class Card {
-	String m_name = "";
-	String m_desc = "";
+	public String m_name = "";
+	public String m_desc = "";
+	public Name m_playedBy;
 	
 	public Card(String name, String desc) {
 		m_name = name;

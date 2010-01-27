@@ -196,8 +196,7 @@ public class ApplesToApplesTest extends TestCase{
 		
 		assertMessage("#channel", "The winner is grue: Card - 4!", responses.get(0));
 		assertMessage("#channel", "Scores: bob:0 neel:0 grue:1 ", responses.get(1));
-		assertMessage("#channel", "neel is the judge.  Green card is: hax", responses.get(2));
-		assertMessage("#channel", "Waiting for players to play cards...", responses.get(3));
+		assertMessage("bees", "!botplay", responses.get(2));
 	}
 	
 	public List<Message> cmd(String name, String command) {

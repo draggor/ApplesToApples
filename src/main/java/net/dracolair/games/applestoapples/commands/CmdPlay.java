@@ -21,6 +21,7 @@ public class CmdPlay extends Command {
 				ata.m_waiting.remove(n);
 				Player p = ata.m_players.get(n);
 				Card c = p.m_cards.remove(cardIndex);
+				c.m_playedBy = n;
 				ata.m_cards.add(c);
 				m_responses.add(MSG(msgMap.NICK, "Card - 8"));
 
