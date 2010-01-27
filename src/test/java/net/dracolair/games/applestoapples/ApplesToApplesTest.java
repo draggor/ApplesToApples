@@ -177,8 +177,8 @@ public class ApplesToApplesTest extends TestCase{
 		List<Message> responses = cmd("bees", "!botchoose");
 		
 		assertMessage("#channel", "The green card is: hax", responses.get(0));
-		assertMessage("#channel", "1. Card 5", responses.get(1));
-		assertMessage("#channel", "2. Card 4", responses.get(2));
+		assertMessage("#channel", "1. Card - 5", responses.get(1));
+		assertMessage("#channel", "2. Card - 4", responses.get(2));
 		assertMessage("#channel", "bob must choose a red card!  Type '!choose number'", responses.get(3));
 	}
 	
@@ -192,7 +192,7 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("bees", "!botchoose");
 		List<Message> responses = cmd("bob", "!choose 2");
 		
-		assertMessage("#channel", "The winner is grue: Card 4!", responses.get(0));
+		assertMessage("#channel", "The winner is grue: Card - 4!", responses.get(0));
 		assertMessage("#channel", "Scores: bob:0 neel:0 grue:1 ", responses.get(1));
 		assertMessage("#channel", "neel is the judge.  Green card is: hax", responses.get(2));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(3));

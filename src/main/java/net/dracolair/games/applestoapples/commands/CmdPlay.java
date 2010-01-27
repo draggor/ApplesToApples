@@ -14,7 +14,7 @@ public class CmdPlay extends Command {
 	@Override
 	public void run(Bot bot, ApplesToApples ata, String[] msgMap) {
 		try {
-			int cardIndex = Integer.parseInt(MESSAGE(msgMap));
+			int cardIndex = Integer.parseInt(MESSAGE(msgMap)) - 1;
 			
 			if(cardIndex < 8 && cardIndex > 0) {
 				Name n = bot.m_nickToNameMap.get(NICK(msgMap));
