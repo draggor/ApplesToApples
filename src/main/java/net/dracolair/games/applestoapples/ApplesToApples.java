@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static net.dracolair.games.applestoapples.Factories.*;
+
 public class ApplesToApples {
 	
 	public Map<Name, Player>	m_players = 		new LinkedHashMap<Name, Player>();
@@ -30,6 +32,12 @@ public class ApplesToApples {
 		}
 		
 		return builder.toString();
+	}
+	
+	int cardcnt = 1;
+	
+	public Card getRandomCard() {
+		return CARD("Card", String.valueOf(cardcnt++));
 	}
 	
 }

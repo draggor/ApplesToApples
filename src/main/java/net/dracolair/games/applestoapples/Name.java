@@ -12,4 +12,12 @@ public class Name {
 		return m_name;
 	}
 	
+	public boolean equals(String name) {
+		return m_name.equals(name);
+	}
+	
+	public boolean equals(Name name) {
+		return m_name.equals(name.m_name);
+	}
+	
 }

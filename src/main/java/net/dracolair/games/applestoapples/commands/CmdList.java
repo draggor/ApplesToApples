@@ -1,7 +1,10 @@
 package net.dracolair.games.applestoapples.commands;
 
+import java.util.List;
+
 import net.dracolair.games.applestoapples.ApplesToApples;
 import net.dracolair.games.applestoapples.Bot;
+import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageMap;
 
 import static net.dracolair.games.applestoapples.Factories.*;
@@ -9,11 +12,11 @@ import static net.dracolair.games.applestoapples.Factories.*;
 public class CmdList extends Command {
 	
 	@Override
-	public void run(Bot bot, ApplesToApples ata, MessageMap msgMap) {
+	public void run(Bot bot, ApplesToApples ata, MessageMap msgMap, List<Message> responses) {
 		if(ata != null) {
-			m_responses.add(MSG(msgMap.NICK, msgMap.NICK + ": List of players: " + ata.playersNscores()));
+			responses.add(MSG(msgMap.NICK, msgMap.NICK + ": List of players: " + ata.playersNscores()));
 		} else {
-			m_responses.add(MSG(msgMap.NICK, msgMap.NICK + ": No game is running."));
+			responses.add(MSG(msgMap.NICK, msgMap.NICK + ": No game is running."));
 		}
 	}
 

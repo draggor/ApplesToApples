@@ -128,16 +128,34 @@ public class ApplesToApplesTest extends TestCase{
 		
 		assertMessage("#channel", "We have >=3 players, the game will begin!", responses.get(0));
 		assertMessage("#channel", "Dealing out cards...", responses.get(1));
-		for(int i = 2; i < 9; i++) {
-			assertMessage("bob", "Card - " + (i - 1), responses.get(i));
+		assertMessage("bees", "!botdeal7 bob", responses.get(2));
+		assertMessage("bees", "!botdeal7 neel", responses.get(3));
+		assertMessage("bees", "!botdeal7 grue", responses.get(4));
+		assertMessage("bees", "!botplay", responses.get(5));
+	}
+	
+	public void testDeal7() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		cmd("bob", "!start");
+		List<Message> responses = cmd("bees", "!botdeal7 bob");
+		
+		for(int i = 0; i < 7; i++) {
+			assertMessage("bob", "Card - " + (i + 1), responses.get(i));
 		}
-		for(int i = 9; i < 16; i++) {
-			assertMessage("neel", "Card - " + (i - 8), responses.get(i));
+		
+		responses = cmd("bees", "!botdeal7 neel");
+		
+		for(int i = 0; i < 7; i++) {
+			assertMessage("neel", "Card - " + (i + 8), responses.get(i));
 		}
-		for(int i = 16; i < 23; i++) {
-			assertMessage("grue", "Card - " + (i - 15), responses.get(i));
+		
+		responses = cmd("bees", "!botdeal7 grue");
+		
+		for(int i = 0; i < 7; i++) {
+			assertMessage("grue", "Card - " + (i + 15), responses.get(i));
 		}
-		assertMessage("bees", "!botplay", responses.get(23));
 	}
 	
 	public void testNewRound() {
@@ -145,6 +163,9 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
+		cmd("bees", "!botdeal7 bob");
+		cmd("bees", "!botdeal7 neel");
+		cmd("bees", "!botdeal7 grue");
 		List<Message> responses = cmd("bees", "!botplay");
 		ApplesToApples ata = b.getGameByChan("#channel");
 		
@@ -160,6 +181,9 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
+		cmd("bees", "!botdeal7 bob");
+		cmd("bees", "!botdeal7 neel");
+		cmd("bees", "!botdeal7 grue");
 		cmd("bees", "!botplay");
 		cmd("neel", "!play 5");
 		List<Message> responses = cmd("grue", "!play 4");
@@ -173,14 +197,17 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
+		cmd("bees", "!botdeal7 bob");
+		cmd("bees", "!botdeal7 neel");
+		cmd("bees", "!botdeal7 grue");
 		cmd("bees", "!botplay");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
 		List<Message> responses = cmd("bees", "!botchoose");
 		
 		assertMessage("#channel", "The green card is: hax", responses.get(0));
-		assertMessage("#channel", "1. Card - 5", responses.get(1));
-		assertMessage("#channel", "2. Card - 4", responses.get(2));
+		assertMessage("#channel", "1. Card - 12", responses.get(1));
+		assertMessage("#channel", "2. Card - 18", responses.get(2));
 		assertMessage("#channel", "bob must choose a red card!  Type '!choose number'", responses.get(3));
 	}
 	
@@ -189,12 +216,15 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
+		cmd("bees", "!botdeal7 bob");
+		cmd("bees", "!botdeal7 neel");
+		cmd("bees", "!botdeal7 grue");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
 		cmd("bees", "!botchoose");
 		List<Message> responses = cmd("bob", "!choose 2");
 		
-		assertMessage("#channel", "The winner is grue: Card - 4!", responses.get(0));
+		assertMessage("#channel", "The winner is grue: Card - 18!", responses.get(0));
 		assertMessage("#channel", "Scores: bob:0 neel:0 grue:1 ", responses.get(1));
 		assertMessage("bees", "!botplay", responses.get(2));
 	}

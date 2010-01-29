@@ -4,20 +4,23 @@ import java.util.List;
 
 import net.dracolair.games.applestoapples.ApplesToApples;
 import net.dracolair.games.applestoapples.Bot;
+import net.dracolair.games.applestoapples.Card;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageMap;
+import net.dracolair.games.applestoapples.Player;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
-public class BotCmdPlay extends BotCommand {
+public class BotCmdDeal7 extends BotCommand {
 
 	@Override
 	public void run(Bot bot, ApplesToApples ata, MessageMap msgMap, List<Message> responses) {
-		ata.m_waiting.addAll(ata.m_activePlayers);
-		ata.m_judge = ata.m_waiting.remove(0);
-		
-		responses.add(MSG(msgMap.CHANNEL, ata.m_judge + " is the judge.  Green card is: hax"));
-		responses.add(MSG(msgMap.CHANNEL, "Waiting for players to play cards..."));
+		Player p = ata.m_players.get(bot.m_nickToNameMap.get(msgMap.MESSAGE));
+		for(int c = 0; c < 7; c++) {
+			Card card = ata.getRandomCard();
+			p.m_cards.add(card);
+			responses.add(MSG(msgMap.MESSAGE, card.toString()));
+		}
 	}
 
 }

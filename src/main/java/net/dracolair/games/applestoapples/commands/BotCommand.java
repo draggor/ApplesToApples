@@ -11,11 +11,11 @@ public abstract class BotCommand extends Command {
 	
 	@Override
 	public List<Message> execute(Bot bot, MessageMap msgMap) {
-		m_responses = new LinkedList<Message>();
+		List<Message> responses = new LinkedList<Message>();
 		if(bot.getName().equals(msgMap.NICK)) {
-			this.run(bot, bot.getGameByChan(msgMap.CHANNEL), msgMap);
+			this.run(bot, bot.getGameByChan(msgMap.CHANNEL), msgMap, responses);
 		}
-		return m_responses;
+		return responses;
 	}
 
 }
