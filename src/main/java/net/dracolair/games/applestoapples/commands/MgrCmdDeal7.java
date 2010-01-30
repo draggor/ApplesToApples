@@ -11,20 +11,16 @@ import net.dracolair.games.applestoapples.Player;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
-public class CmdChoose extends Command {
+public class MgrCmdDeal7 extends ManagerCommand {
 
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
-		int cardIndex = Integer.parseInt(msgMap.MESSAGE) - 1;
-		
-		if(cardIndex >= 0 && cardIndex < ata.m_cards.size()) {
-			Card winner = ata.m_cards.get(cardIndex);
-			Player p = ata.m_players.get(winner.m_playedBy);
-			p.m_score++;
-			responses.add(MSG(msgMap.ROOM, "The winner is " + winner.m_playedBy + ": " + winner + "!"));
-			responses.add(MSG(msgMap.ROOM, "Scores: " + ata.playersNscores()));
-			responses.add(MSG(gameManager.getName(), "!botplay"));
+		Player p = ata.m_players.get(gameManager.m_nickToNameMap.get(msgMap.MESSAGE));
+		for(int c = 0; c < 7; c++) {
+			Card card = ata.getRandomCard();
+			p.m_cards.add(card);
+			responses.add(MSG(msgMap.MESSAGE, card.toString()));
 		}
 	}
-	
+
 }

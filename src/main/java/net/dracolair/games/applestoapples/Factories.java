@@ -16,11 +16,9 @@ public final class Factories {
 		return new Name(name);
 	}
 	
-	public static MessageMap MSGMAP(String channel,
-					  				String nick,
-					  				String login,
-					  				String hostname,
-					  				String message) {
-		return new MessageMap(channel, nick, login, hostname, message);
+	public static MessageInfo MSGINFO(String room,
+					  				  String nick,
+					  				  String message) {
+		return new MessageInfo(room, nick, message);
 	}
 }

@@ -9,11 +9,15 @@ import net.dracolair.games.applestoapples.MessageInfo;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
-public class CmdList extends Command {
-	
+public class MgrCmdPlay extends ManagerCommand {
+
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
-		responses.add(MSG(msgMap.NICK, "List of players: " + ata.playersNscores()));
+		ata.m_waiting.addAll(ata.m_activePlayers);
+		ata.m_judge = ata.m_waiting.remove(0);
+		
+		responses.add(MSG(msgMap.ROOM, ata.m_judge + " is the judge.  Green card is: hax"));
+		responses.add(MSG(msgMap.ROOM, "Waiting for players to play cards..."));
 	}
 
 }

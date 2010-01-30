@@ -8,10 +8,10 @@ import static net.dracolair.games.applestoapples.Factories.*;
 
 public class ApplesToApplesTest extends TestCase{
 	
-	private Bot b = null;
+	private GameManager b = null;
 	
 	protected void setUp() {
-		b = new Bot("bees");
+		b = new GameManager("bees");
 	}
 	
 	protected void tearDown() {
@@ -19,47 +19,47 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testStartupNoGamesRunning() {
-		assertTrue(b.m_chanToGameMap.isEmpty());
+		assertTrue(b.m_roomToGameMap.isEmpty());
 		assertTrue(b.m_nameToGameMap.isEmpty());
 	}
 	
 	public void testCmdIsRunningFalseForBob() {
 		List<Message> responses = cmd("bob", "!list");
-		assertMessage("bob", "bob: No game is running.", responses.get(0));
+		assertMessage("bob", "List of players: ", responses.get(0));
 	}
 	
 	public void testCmdIsRunningTrueForBob1Player() {
 		cmd("Neel", "!join");
 		List<Message> responses = cmd("bob", "!list");
-		ApplesToApples ata = b.getGameByChan("#channel");
+		Game ata = b.getGameByChan("#channel");
 		Name neel = b.m_nickToNameMap.get("Neel");
 		
 		assertEquals(1, ata.m_players.size());
 		assertTrue(ata.m_players.containsKey(neel));
-		assertMessage("bob", "bob: List of players: Neel:0 ", responses.get(0));
+		assertMessage("bob", "List of players: Neel:0 ", responses.get(0));
 	}
 	
 	public void testCmdIsRunningTrueForBob2Players() {
 		cmd("Neel", "!join");
 		cmd("Grue", "!join");
 		List<Message> responses = cmd("bob", "!list");
-		ApplesToApples ata = b.getGameByChan("#channel");
+		Game ata = b.getGameByChan("#channel");
 		Name neel = b.m_nickToNameMap.get("Neel");
 		Name grue = b.m_nickToNameMap.get("Grue");
 		
 		assertEquals(2, ata.m_players.size());
 		assertTrue(ata.m_players.containsKey(neel));
 		assertTrue(ata.m_players.containsKey(grue));
-		assertMessage("bob", "bob: List of players: Neel:0 Grue:0 ", responses.get(0));
+		assertMessage("bob", "List of players: Neel:0 Grue:0 ", responses.get(0));
 	}
 	
 	public void testFirstPlayerJoins() {
 		List<Message> responses = cmd("bob", "!join");
 		
-		ApplesToApples ataFromGList = b.m_chanToGameMap.get("#channel");
-		ApplesToApples ataFromPList = b.getGameByNick("bob");
+		Game ataFromGList = b.m_roomToGameMap.get("#channel");
+		Game ataFromPList = b.getGameByNick("bob");
 		
-		assertEquals(1, b.m_chanToGameMap.size());
+		assertEquals(1, b.m_roomToGameMap.size());
 		assertNotNull(ataFromGList);
 		assertEquals(1, b.m_nameToGameMap.size());
 		assertNotNull(ataFromPList);
@@ -72,10 +72,10 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("bob", "!join");
 		List<Message> responses = cmd("bob", "!join");
 		
-		ApplesToApples ataFromGList = b.m_chanToGameMap.get("#channel");
-		ApplesToApples ataFromPList = b.getGameByNick("bob");
+		Game ataFromGList = b.m_roomToGameMap.get("#channel");
+		Game ataFromPList = b.getGameByNick("bob");
 		
-		assertEquals(1, b.m_chanToGameMap.size());
+		assertEquals(1, b.m_roomToGameMap.size());
 		assertNotNull(ataFromGList);
 		assertEquals(1, b.m_nameToGameMap.size());
 		assertNotNull(ataFromPList);
@@ -86,13 +86,13 @@ public class ApplesToApplesTest extends TestCase{
 	
 	public void testBobCantJoinTwiceFromAnotherChannel() {
 		cmd("bob", "!join");
-		MessageMap msgMap = MSGMAP("#bees", "bob", "login", "hostname", "!join");
-		List<Message> responses = b.handleChanMessage(msgMap);
+		MessageInfo msgMap = MSGINFO("#bees", "bob", "!join");
+		List<Message> responses = b.processMessage(msgMap);
 		
-		ApplesToApples ataFromGList = b.m_chanToGameMap.get("#channel");
-		ApplesToApples ataFromPList = b.getGameByNick("bob");
+		Game ataFromGList = b.m_roomToGameMap.get("#channel");
+		Game ataFromPList = b.getGameByNick("bob");
 		
-		assertEquals(1, b.m_chanToGameMap.size());
+		assertEquals(2, b.m_roomToGameMap.size());
 		assertNotNull(ataFromGList);
 		assertEquals(1, b.m_nameToGameMap.size());
 		assertNotNull(ataFromPList);
@@ -119,7 +119,7 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		List<Message> responses = cmd("bob", "!start");
-		ApplesToApples ata = b.getGameByChan("#channel");
+		Game ata = b.getGameByChan("#channel");
 		
 		assertEquals(3, ata.m_activePlayers.size());
 		assertEquals("bob", ata.m_activePlayers.get(0).toString());
@@ -167,7 +167,7 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("bees", "!botdeal7 neel");
 		cmd("bees", "!botdeal7 grue");
 		List<Message> responses = cmd("bees", "!botplay");
-		ApplesToApples ata = b.getGameByChan("#channel");
+		Game ata = b.getGameByChan("#channel");
 		
 		assertEquals(2, ata.m_waiting.size());
 		assertEquals("bob", ata.m_judge.toString());
@@ -230,8 +230,8 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public List<Message> cmd(String name, String command) {
-		MessageMap msgMap = MSGMAP("#channel", name, "login", "hostname", command);
-		return b.handleChanMessage(msgMap);
+		MessageInfo msgMap = MSGINFO("#channel", name, command);
+		return b.processMessage(msgMap);
 	}
 	
 	public static void assertMessage(String target, String message, Message msg) {

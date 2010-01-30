@@ -6,14 +6,13 @@ import net.dracolair.games.applestoapples.Game;
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
+import net.dracolair.games.applestoapples.State;
 
-import static net.dracolair.games.applestoapples.Factories.*;
+public class MgrCmdState extends ManagerCommand {
 
-public class CmdList extends Command {
-	
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
-		responses.add(MSG(msgMap.NICK, "List of players: " + ata.playersNscores()));
+		ata.m_state = State.valueOf(msgMap.MESSAGE);
 	}
 
 }
