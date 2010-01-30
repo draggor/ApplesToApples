@@ -19,5 +19,5 @@ public class MgrCmdPlay extends ManagerCommand {
 		responses.add(MSG(msgMap.ROOM, ata.m_judge + " is the judge.  Green card is: hax"));
 		responses.add(MSG(msgMap.ROOM, "Waiting for players to play cards..."));
 	}
-
+	
 }

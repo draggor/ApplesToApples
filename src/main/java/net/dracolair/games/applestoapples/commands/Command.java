@@ -7,14 +7,36 @@ import net.dracolair.games.applestoapples.Game;
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
+import net.dracolair.games.applestoapples.Requirement;
 
 public abstract class Command {
 	
 	public List<Message> execute(GameManager gameManager, MessageInfo msgMap) {
 		List<Message> responses = new LinkedList<Message>();
-		this.run(gameManager, gameManager.getGameByChan(msgMap.ROOM), msgMap, responses);
+		List<Requirement> requirements = new LinkedList<Requirement>();
+		Game ata = gameManager.getGameByChan(msgMap.ROOM);
+		
+		getRequirements(gameManager, ata, msgMap, requirements);
+		
+		boolean runCmd = true;
+		for(Requirement requirement : requirements) {
+			if(!requirement.m_condition) {
+				runCmd = false;
+				responses.add(requirement.m_message);
+			}
+		}
+		
+		if(runCmd) {
+			this.run(gameManager, ata, msgMap, responses);
+		}
+		
 		return responses;
 	}
 	
+	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgMap, List<Requirement> requirements) {
+		
+	}
+	
 	public abstract void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses);
+	
 }

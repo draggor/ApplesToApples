@@ -21,4 +21,8 @@ public final class Factories {
 					  				  String message) {
 		return new MessageInfo(room, nick, message);
 	}
+	
+	public static Requirement REQ(boolean condition, Message message) {
+		return new Requirement(condition, message);
+	}
 }
