@@ -8,6 +8,8 @@ import net.dracolair.games.applestoapples.Card;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
 import net.dracolair.games.applestoapples.Player;
+import net.dracolair.games.applestoapples.Requirement;
+import net.dracolair.games.applestoapples.State;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
@@ -23,8 +25,13 @@ public class CmdChoose extends Command {
 			p.m_score++;
 			responses.add(MSG(msgMap.ROOM, "The winner is " + winner.m_playedBy + ": " + winner + "!"));
 			responses.add(MSG(msgMap.ROOM, "Scores: " + ata.playersNscores()));
-			responses.add(MSG(gameManager.getName(), "!botplay"));
+			responses.add(MSG(gameManager.getName(), "!botcleanup"));
 		}
+	}
+	
+	@Override
+	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgMap, List<Requirement> requirements) {
+		requirements.add(REQ(ata.m_state == State.CHOOSE, MSG("", "")));
 	}
 	
 }

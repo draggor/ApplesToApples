@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.dracolair.games.applestoapples.commands.MgrCmdChoose;
+import net.dracolair.games.applestoapples.commands.MgrCmdCleanup;
 import net.dracolair.games.applestoapples.commands.MgrCmdDeal7;
 import net.dracolair.games.applestoapples.commands.MgrCmdPlay;
 import net.dracolair.games.applestoapples.commands.CmdChoose;
@@ -34,6 +35,7 @@ public class GameManager {
 		m_commands.put("botplay", new MgrCmdPlay());
 		m_commands.put("botchoose", new MgrCmdChoose());
 		m_commands.put("botdeal7", new MgrCmdDeal7());
+		m_commands.put("botcleanup", new MgrCmdCleanup());
 	}
 
 	public List<Message> processMessage(MessageInfo msgMap) {
@@ -46,6 +48,7 @@ public class GameManager {
 		} else {
 			modMsgMap.MESSAGE = parsedMessage[1];
 		}
+		
 		Command cmd = m_commands.get(cmdKey);
 		
 		if (cmd != null) {

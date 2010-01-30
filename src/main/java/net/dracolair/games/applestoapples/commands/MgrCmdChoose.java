@@ -1,6 +1,6 @@
 package net.dracolair.games.applestoapples.commands;
 
-import static net.dracolair.games.applestoapples.Factories.MSG;
+import static net.dracolair.games.applestoapples.Factories.*;
 
 import java.util.List;
 
@@ -24,5 +24,5 @@ public class MgrCmdChoose extends ManagerCommand {
 		
 		responses.add(MSG(msgMap.ROOM, ata.m_judge + " must choose a red card!  Type '!choose number'"));
 	}
-
+	
 }

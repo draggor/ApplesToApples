@@ -9,6 +9,8 @@ import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
 import net.dracolair.games.applestoapples.Name;
 import net.dracolair.games.applestoapples.Player;
+import net.dracolair.games.applestoapples.Requirement;
+import net.dracolair.games.applestoapples.State;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
@@ -36,5 +38,9 @@ public class CmdPlay extends Command {
 			e.printStackTrace();
 		}
 	}
-
+	
+	@Override
+	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgMap, List<Requirement> requirements) {
+		requirements.add(REQ(ata.m_state == State.PLAY, MSG("", "")));
+	}
 }

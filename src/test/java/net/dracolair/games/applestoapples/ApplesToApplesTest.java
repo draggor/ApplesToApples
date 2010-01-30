@@ -1,5 +1,6 @@
 package net.dracolair.games.applestoapples;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.*;
@@ -227,7 +228,30 @@ public class ApplesToApplesTest extends TestCase{
 		
 		assertMessage("#channel", "The winner is grue: Card - 18!", responses.get(0));
 		assertMessage("#channel", "Scores: bob:0 neel:0 grue:1 ", responses.get(1));
-		assertMessage("bees", "!botplay", responses.get(2));
+		assertMessage("bees", "!botcleanup", responses.get(2));
+	}
+	
+	public void testCleanup() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		cmd("bob", "!start");
+		cmd("bees", "!botdeal7 bob");
+		cmd("bees", "!botdeal7 neel");
+		cmd("bees", "!botdeal7 grue");
+		cmd("bees", "!botplay");
+		cmd("neel", "!play 5");
+		cmd("grue", "!play 4");
+		cmd("bees", "!botchoose");
+		cmd("bob", "!choose 2");
+		List<Message> responses = cmd("bees", "!botcleanup");
+		Game ata = gameManager.getGameByChan("#channel");
+		List<Name> names = new LinkedList<Name>(ata.m_players.keySet());
+		
+		assertEquals("neel", names.get(0).toString());
+		assertEquals("grue", names.get(1).toString());
+		assertEquals("bob", names.get(2).toString());
+		assertMessage("bees", "!botplay", responses.get(0));
 	}
 	
 	public void testNextRound() {
@@ -243,7 +267,11 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("grue", "!play 4");
 		cmd("bees", "!botchoose");
 		cmd("bob", "!choose 2");
-		cmd("bees", "!botplay");
+		cmd("bees", "!botcleanup");
+		List<Message> responses = cmd("bees", "!botplay");
+		
+		assertMessage("#channel", "neel is the judge.  Green card is: hax", responses.get(0));
+		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
 	}
 	
 	public List<Message> cmd(String name, String command) {

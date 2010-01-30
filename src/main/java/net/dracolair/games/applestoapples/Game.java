@@ -19,6 +19,7 @@ public class Game {
 	
 	public void addPlayer(Name name) {
 		m_players.put(name, new Player());
+		m_activePlayers.add(name);
 	}
 	
 	public String playersNscores() {
@@ -40,4 +41,11 @@ public class Game {
 		return CARD("Card", String.valueOf(cardcnt++));
 	}
 	
+	public void rotatePlayers() {
+		List<Name> names = new LinkedList<Name>(m_players.keySet());
+		Player temp = m_players.remove(names.get(0));
+		m_players.put(names.get(0), temp);
+		Name name = m_activePlayers.remove(0);
+		m_activePlayers.add(name);
+	}
 }

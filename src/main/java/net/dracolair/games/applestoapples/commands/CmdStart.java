@@ -21,7 +21,6 @@ public class CmdStart extends Command {
 		responses.add(MSG(msgMap.ROOM, "We have >=3 players, the game will begin!"));
 		responses.add(MSG(msgMap.ROOM, "Dealing out cards..."));
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
-			ata.m_activePlayers.add(e.getKey());
 			responses.add(MSG(gameManager.getName(), "!botdeal7 " + e.getKey()));
 		}
 		ata.m_state = State.PLAY;
@@ -30,12 +29,17 @@ public class CmdStart extends Command {
 	
 	@Override
 	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgMap, List<Requirement> requirements) {
-		boolean cond = ata.m_players.size() >= 3;
-		Message msg = MSG(msgMap.ROOM, msgMap.NICK + 
-					                          " is fail, needs " + 
-					                          (3-ata.m_players.size()) + 
-					                          " to play.");
-		requirements.add(REQ(cond, msg));
+		boolean cond1 = ata.m_state == State.BEGIN;
+		Message msg1 = MSG(msgMap.ROOM, "A game has already begun!");
+		
+		boolean cond2 = ata.m_players.size() >= 3;
+		Message msg2 = MSG(msgMap.ROOM, msgMap.NICK + 
+					                    " is fail, needs " + 
+					                    (3-ata.m_players.size()) + 
+					                    " to play.");
+		
+		requirements.add(REQ(cond1, msg1));
+		requirements.add(REQ(cond2, msg2));
 	}
 
 }

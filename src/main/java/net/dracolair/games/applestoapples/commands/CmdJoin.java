@@ -16,7 +16,6 @@ public class CmdJoin extends Command {
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
 		Name n = NAME(msgMap.NICK);
-		gameManager.m_roomToGameMap.put(msgMap.ROOM, ata);
 		gameManager.m_nameToGameMap.put(n, ata);
 		gameManager.m_nickToNameMap.put(msgMap.NICK, n);
 		ata.addPlayer(n);
