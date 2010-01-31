@@ -26,9 +26,11 @@ public class CmdPlay extends Command {
 				ata.m_waiting.remove(n);
 				Player p = ata.m_players.get(n);
 				Card c = p.m_redCards.remove(cardIndex);
+				Card newCard = ata.m_redCards.remove(0);
+				p.m_redCards.add(newCard);
 				c.m_playedBy = n;
 				ata.m_cards.add(c);
-				responses.add(MSG(msgInfo.NICK, "Card - 8"));
+				responses.add(MSG(msgInfo.NICK, newCard.toString()));
 
 				if(ata.m_waiting.isEmpty()) {
 					responses.add(MSG(gameManager.getName(), "!botchoose"));

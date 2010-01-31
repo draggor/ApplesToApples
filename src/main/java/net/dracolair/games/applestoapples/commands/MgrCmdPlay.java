@@ -18,7 +18,8 @@ public class MgrCmdPlay extends ManagerCommand {
 		ata.m_waiting.addAll(ata.m_activePlayers);
 		ata.m_judge = ata.m_waiting.remove(0);
 		
-		ata.m_greenCard = ata.getRandomCard();
+	//	ata.m_greenCard = ata.getRandomCard();
+		ata.m_greenCard = ata.m_greenCards.remove(0);
 		
 		responses.add(MSG(msgInfo.ROOM, ata.m_judge + " is the judge.  Green card is: " + ata.m_greenCard));
 		responses.add(MSG(msgInfo.ROOM, "Waiting for players to play cards..."));

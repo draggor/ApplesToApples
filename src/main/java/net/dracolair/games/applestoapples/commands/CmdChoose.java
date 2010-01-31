@@ -28,7 +28,7 @@ public class CmdChoose extends Command {
 			if(++p.m_score == ata.m_limit) {
 				responses.add(MSG(gameManager.getName(), "!botendgame"));
 			} else {
-				responses.add(MSG(msgInfo.ROOM, "The winner is " + winner.m_playedBy + ": " + winner + "!"));
+				responses.add(MSG(msgInfo.ROOM, "The winner is " + winner.m_playedBy + ": " + winner.m_name + "!"));
 				responses.add(MSG(msgInfo.ROOM, "Scores: " + ata.playersNscores()));
 				responses.add(MSG(gameManager.getName(), "!botcleanup"));
 			}

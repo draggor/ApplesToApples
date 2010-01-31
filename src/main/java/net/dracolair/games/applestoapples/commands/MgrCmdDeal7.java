@@ -17,7 +17,8 @@ public class MgrCmdDeal7 extends ManagerCommand {
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		Player p = ata.m_players.get(gameManager.m_nickToNameMap.get(msgInfo.MESSAGE));
 		for(int c = 0; c < 7; c++) {
-			Card card = ata.getRandomCard();
+		//	Card card = ata.getRandomCard();
+			Card card = ata.m_redCards.remove(0);
 			p.m_redCards.add(card);
 			responses.add(MSG(msgInfo.MESSAGE, card.toString()));
 		}

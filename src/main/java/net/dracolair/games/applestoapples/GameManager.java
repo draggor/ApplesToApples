@@ -17,8 +17,13 @@ import net.dracolair.games.applestoapples.commands.CmdPlay;
 import net.dracolair.games.applestoapples.commands.CmdStart;
 import net.dracolair.games.applestoapples.commands.Command;
 
+import static net.dracolair.games.applestoapples.FileParser.*;
+
 public class GameManager {
 
+	public static List<Card>	RED = null;
+	public static List<Card>	GREEN = null;
+	
 	public Map<String, Game>	m_roomToGameMap = new LinkedHashMap<String, Game>();
 	public Map<Name, Game>		m_nameToGameMap = new LinkedHashMap<Name, Game>();
 	public Map<String, Command> m_commands = new LinkedHashMap<String, Command>();
@@ -27,6 +32,13 @@ public class GameManager {
 	
 	public GameManager(String name) {
 		m_name = name;
+		
+		if(RED == null) {
+			RED = loadCardsFromFile("src/main/resources/red.txt");
+		}
+		if(GREEN == null) {
+			GREEN = loadCardsFromFile("src/main/resources/green.txt");
+		}
 		
 		m_commands.put("join", new CmdJoin());
 		m_commands.put("list", new CmdList());
@@ -63,7 +75,7 @@ public class GameManager {
 	public Game getGameByChan(String channel) {
 		Game ata = m_roomToGameMap.get(channel);
 		if(ata == null) {
-			ata = new Game();
+			ata = new Game(RED, GREEN);
 			m_roomToGameMap.put(channel, ata);
 		}
 		return ata;

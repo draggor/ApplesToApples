@@ -18,6 +18,13 @@ public class Game {
 	public Name					m_judge = 			null;
 	public int					m_limit = 			2;
 	public Card					m_greenCard = 		null;
+	public List<Card>			m_greenCards = 		null;
+	public List<Card>			m_redCards = 		null;
+	
+	public Game(List<Card> red, List<Card> green) {
+		m_redCards = new LinkedList<Card>(red);
+		m_greenCards = new LinkedList<Card>(green);
+	}
 	
 	public void addPlayer(Name name) {
 		m_players.put(name, new Player());
