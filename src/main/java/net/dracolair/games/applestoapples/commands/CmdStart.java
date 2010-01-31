@@ -17,9 +17,9 @@ import static net.dracolair.games.applestoapples.Factories.*;
 public class CmdStart extends Command {
 
 	@Override
-	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
-		responses.add(MSG(msgMap.ROOM, "We have >=3 players, the game will begin!"));
-		responses.add(MSG(msgMap.ROOM, "Dealing out cards..."));
+	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
+		responses.add(MSG(msgInfo.ROOM, "We have >=3 players, the game will begin!"));
+		responses.add(MSG(msgInfo.ROOM, "Dealing out cards..."));
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
 			responses.add(MSG(gameManager.getName(), "!botdeal7 " + e.getKey()));
 		}
@@ -28,12 +28,12 @@ public class CmdStart extends Command {
 	}
 	
 	@Override
-	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgMap, List<Requirement> requirements) {
+	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
 		boolean cond1 = ata.m_state == State.BEGIN;
-		Message msg1 = MSG(msgMap.ROOM, "A game has already begun!");
+		Message msg1 = MSG(msgInfo.ROOM, "A game has already begun!");
 		
 		boolean cond2 = ata.m_players.size() >= 3;
-		Message msg2 = MSG(msgMap.ROOM, msgMap.NICK + 
+		Message msg2 = MSG(msgInfo.ROOM, msgInfo.NICK + 
 					                    " is fail, needs " + 
 					                    (3-ata.m_players.size()) + 
 					                    " to play.");

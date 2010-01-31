@@ -17,18 +17,18 @@ import static net.dracolair.games.applestoapples.Factories.*;
 public class CmdPlay extends Command {
 
 	@Override
-	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
+	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		try {
-			int cardIndex = Integer.parseInt(msgMap.MESSAGE) - 1;
+			int cardIndex = Integer.parseInt(msgInfo.MESSAGE) - 1;
 			
-			if(cardIndex < 8 && cardIndex > 0) {
-				Name n = gameManager.m_nickToNameMap.get(msgMap.NICK);
+			if(cardIndex < 8 && cardIndex >= 0) {
+				Name n = gameManager.m_nickToNameMap.get(msgInfo.NICK);
 				ata.m_waiting.remove(n);
 				Player p = ata.m_players.get(n);
-				Card c = p.m_cards.remove(cardIndex);
+				Card c = p.m_redCards.remove(cardIndex);
 				c.m_playedBy = n;
 				ata.m_cards.add(c);
-				responses.add(MSG(msgMap.NICK, "Card - 8"));
+				responses.add(MSG(msgInfo.NICK, "Card - 8"));
 
 				if(ata.m_waiting.isEmpty()) {
 					responses.add(MSG(gameManager.getName(), "!botchoose"));
@@ -40,7 +40,7 @@ public class CmdPlay extends Command {
 	}
 	
 	@Override
-	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgMap, List<Requirement> requirements) {
+	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
 		requirements.add(REQ(ata.m_state == State.PLAY, MSG("", "")));
 	}
 }

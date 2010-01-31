@@ -13,16 +13,16 @@ import net.dracolair.games.applestoapples.State;
 public class MgrCmdChoose extends ManagerCommand {
 
 	@Override
-	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
+	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		ata.m_state = State.CHOOSE;		
 		
-		responses.add(MSG(msgMap.ROOM, "The green card is: hax"));
+		responses.add(MSG(msgInfo.ROOM, "The green card is: hax"));
 		
 		for(int cnt = 0; cnt < ata.m_cards.size(); cnt++) {
-			responses.add(MSG(msgMap.ROOM, (cnt + 1) + ". " + ata.m_cards.get(cnt)));
+			responses.add(MSG(msgInfo.ROOM, (cnt + 1) + ". " + ata.m_cards.get(cnt)));
 		}
 		
-		responses.add(MSG(msgMap.ROOM, ata.m_judge + " must choose a red card!  Type '!choose number'"));
+		responses.add(MSG(msgInfo.ROOM, ata.m_judge + " must choose a red card!  Type '!choose number'"));
 	}
 	
 }

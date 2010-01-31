@@ -12,7 +12,7 @@ import static net.dracolair.games.applestoapples.Factories.*;
 public class MgrCmdCleanup extends ManagerCommand {
 
 	@Override
-	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
+	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		ata.rotatePlayers();
 		responses.add(MSG(gameManager.getName(), "!botplay"));
 	}

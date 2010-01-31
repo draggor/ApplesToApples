@@ -12,8 +12,8 @@ import static net.dracolair.games.applestoapples.Factories.*;
 public class CmdList extends Command {
 	
 	@Override
-	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
-		responses.add(MSG(msgMap.NICK, "List of players: " + ata.playersNscores()));
+	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
+		responses.add(MSG(msgInfo.NICK, "List of players: " + ata.playersNscores()));
 	}
 
 }

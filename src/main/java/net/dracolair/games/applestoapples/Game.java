@@ -16,6 +16,8 @@ public class Game {
 	public State				m_state = 			State.BEGIN;
 	public List<Name>			m_activePlayers =	new LinkedList<Name>();
 	public Name					m_judge = 			null;
+	public int					m_limit = 			2;
+	public Card					m_greenCard = 		null;
 	
 	public void addPlayer(Name name) {
 		m_players.put(name, new Player());
@@ -47,5 +49,18 @@ public class Game {
 		m_players.put(names.get(0), temp);
 		Name name = m_activePlayers.remove(0);
 		m_activePlayers.add(name);
+	}
+	
+	public Name getWinner() {
+		Player p = new Player();
+		Name n = null;
+		p.m_score = -1;
+		for(Entry<Name, Player> e : m_players.entrySet()) {
+			if(e.getValue().m_score > p.m_score) {
+				p = e.getValue();
+				n = e.getKey();
+			}
+		}
+		return n;
 	}
 }

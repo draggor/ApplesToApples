@@ -11,12 +11,12 @@ import net.dracolair.games.applestoapples.Requirement;
 
 public abstract class Command {
 	
-	public List<Message> execute(GameManager gameManager, MessageInfo msgMap) {
+	public List<Message> execute(GameManager gameManager, MessageInfo msgInfo) {
 		List<Message> responses = new LinkedList<Message>();
 		List<Requirement> requirements = new LinkedList<Requirement>();
-		Game ata = gameManager.getGameByChan(msgMap.ROOM);
+		Game ata = gameManager.getGameByChan(msgInfo.ROOM);
 		
-		getRequirements(gameManager, ata, msgMap, requirements);
+		getRequirements(gameManager, ata, msgInfo, requirements);
 		
 		boolean runCmd = true;
 		for(Requirement requirement : requirements) {
@@ -27,16 +27,16 @@ public abstract class Command {
 		}
 		
 		if(runCmd) {
-			this.run(gameManager, ata, msgMap, responses);
+			this.run(gameManager, ata, msgInfo, responses);
 		}
 		
 		return responses;
 	}
 	
-	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgMap, List<Requirement> requirements) {
+	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
 		
 	}
 	
-	public abstract void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses);
+	public abstract void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses);
 	
 }

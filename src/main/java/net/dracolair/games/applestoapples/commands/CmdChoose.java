@@ -16,21 +16,27 @@ import static net.dracolair.games.applestoapples.Factories.*;
 public class CmdChoose extends Command {
 
 	@Override
-	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
-		int cardIndex = Integer.parseInt(msgMap.MESSAGE) - 1;
+	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
+		int cardIndex = Integer.parseInt(msgInfo.MESSAGE) - 1;
 		
 		if(cardIndex >= 0 && cardIndex < ata.m_cards.size()) {
 			Card winner = ata.m_cards.get(cardIndex);
+			ata.m_cards.clear();
 			Player p = ata.m_players.get(winner.m_playedBy);
-			p.m_score++;
-			responses.add(MSG(msgMap.ROOM, "The winner is " + winner.m_playedBy + ": " + winner + "!"));
-			responses.add(MSG(msgMap.ROOM, "Scores: " + ata.playersNscores()));
-			responses.add(MSG(gameManager.getName(), "!botcleanup"));
+			p.m_greenCards.add(ata.m_greenCard);
+			
+			if(++p.m_score == ata.m_limit) {
+				responses.add(MSG(gameManager.getName(), "!botendgame"));
+			} else {
+				responses.add(MSG(msgInfo.ROOM, "The winner is " + winner.m_playedBy + ": " + winner + "!"));
+				responses.add(MSG(msgInfo.ROOM, "Scores: " + ata.playersNscores()));
+				responses.add(MSG(gameManager.getName(), "!botcleanup"));
+			}
 		}
 	}
 	
 	@Override
-	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgMap, List<Requirement> requirements) {
+	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
 		requirements.add(REQ(ata.m_state == State.CHOOSE, MSG("", "")));
 	}
 	

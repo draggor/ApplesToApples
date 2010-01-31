@@ -173,7 +173,7 @@ public class ApplesToApplesTest extends TestCase{
 		assertEquals(2, ata.m_waiting.size());
 		assertEquals("bob", ata.m_judge.toString());
 		
-		assertMessage("#channel", "bob is the judge.  Green card is: hax", responses.get(0));
+		assertMessage("#channel", "bob is the judge.  Green card is: Card - 22", responses.get(0));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
 	}
 	
@@ -270,13 +270,63 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("bees", "!botcleanup");
 		List<Message> responses = cmd("bees", "!botplay");
 		
-		assertMessage("#channel", "neel is the judge.  Green card is: hax", responses.get(0));
+		assertMessage("#channel", "neel is the judge.  Green card is: Card - 23", responses.get(0));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
 	}
 	
+	public void testChooseLastWinner() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		cmd("bob", "!start");
+		cmd("bees", "!botdeal7 bob");
+		cmd("bees", "!botdeal7 neel");
+		cmd("bees", "!botdeal7 grue");
+		cmd("bees", "!botplay");
+		cmd("neel", "!play 5");
+		cmd("grue", "!play 4");
+		cmd("bees", "!botchoose");
+		cmd("bob", "!choose 2");
+		cmd("bees", "!botcleanup");
+		cmd("bees", "!botplay");
+		cmd("grue", "!play 1");
+		cmd("bob", "!play 3");
+		cmd("bees", "!botchoose");
+		List<Message> responses = cmd("neel", "!choose 1");
+		
+		assertMessage("bees", "!botendgame", responses.get(0));
+	}
+	
+	public void testEndGame() {
+		cmd("bob", "!join");
+		cmd("neel", "!join");
+		cmd("grue", "!join");
+		cmd("bob", "!start");
+		cmd("bees", "!botdeal7 bob");
+		cmd("bees", "!botdeal7 neel");
+		cmd("bees", "!botdeal7 grue");
+		cmd("bees", "!botplay");
+		cmd("neel", "!play 5");
+		cmd("grue", "!play 4");
+		cmd("bees", "!botchoose");
+		cmd("bob", "!choose 2");
+		cmd("bees", "!botcleanup");
+		cmd("bees", "!botplay");
+		cmd("grue", "!play 6");
+		cmd("bob", "!play 3");
+		cmd("bees", "!botchoose");
+		cmd("neel", "!choose 1");
+		List<Message> responses = cmd("bees", "!botendgame");
+		
+		assertMessage("#channel", "GAME OVER!  The winner is grue", responses.get(0));
+		assertMessage("#channel", "neel is: ", responses.get(1));
+		assertMessage("#channel", "grue is: Card, Card", responses.get(2));
+		assertMessage("#channel", "bob is: ", responses.get(3));
+	}
+	
 	public List<Message> cmd(String name, String command) {
-		MessageInfo msgMap = MSGINFO("#channel", name, command);
-		return gameManager.processMessage(msgMap);
+		MessageInfo msgInfo = MSGINFO("#channel", name, command);
+		return gameManager.processMessage(msgInfo);
 	}
 	
 	public static void assertMessage(String target, String message, Message msg) {

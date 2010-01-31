@@ -8,6 +8,7 @@ import java.util.Map;
 import net.dracolair.games.applestoapples.commands.MgrCmdChoose;
 import net.dracolair.games.applestoapples.commands.MgrCmdCleanup;
 import net.dracolair.games.applestoapples.commands.MgrCmdDeal7;
+import net.dracolair.games.applestoapples.commands.MgrCmdEndGame;
 import net.dracolair.games.applestoapples.commands.MgrCmdPlay;
 import net.dracolair.games.applestoapples.commands.CmdChoose;
 import net.dracolair.games.applestoapples.commands.CmdJoin;
@@ -36,23 +37,24 @@ public class GameManager {
 		m_commands.put("botchoose", new MgrCmdChoose());
 		m_commands.put("botdeal7", new MgrCmdDeal7());
 		m_commands.put("botcleanup", new MgrCmdCleanup());
+		m_commands.put("botendgame", new MgrCmdEndGame());
 	}
 
-	public List<Message> processMessage(MessageInfo msgMap) {
+	public List<Message> processMessage(MessageInfo msgInfo) {
 		List<Message> responses = new LinkedList<Message>();
-		String[] parsedMessage = msgMap.MESSAGE.split(" ", 2);
+		String[] parsedMessage = msgInfo.MESSAGE.split(" ", 2);
 		String cmdKey = parsedMessage[0].substring(1);
-		MessageInfo modMsgMap = msgMap.clone();
+		MessageInfo modMsgInfo = msgInfo.clone();
 		if (parsedMessage.length < 2) {
-			modMsgMap.MESSAGE = "";
+			modMsgInfo.MESSAGE = "";
 		} else {
-			modMsgMap.MESSAGE = parsedMessage[1];
+			modMsgInfo.MESSAGE = parsedMessage[1];
 		}
 		
 		Command cmd = m_commands.get(cmdKey);
 		
 		if (cmd != null) {
-			responses = cmd.execute(this, modMsgMap);
+			responses = cmd.execute(this, modMsgInfo);
 		}
 
 		return responses;

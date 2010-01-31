@@ -14,12 +14,12 @@ import static net.dracolair.games.applestoapples.Factories.*;
 public class MgrCmdDeal7 extends ManagerCommand {
 
 	@Override
-	public void run(GameManager gameManager, Game ata, MessageInfo msgMap, List<Message> responses) {
-		Player p = ata.m_players.get(gameManager.m_nickToNameMap.get(msgMap.MESSAGE));
+	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
+		Player p = ata.m_players.get(gameManager.m_nickToNameMap.get(msgInfo.MESSAGE));
 		for(int c = 0; c < 7; c++) {
 			Card card = ata.getRandomCard();
-			p.m_cards.add(card);
-			responses.add(MSG(msgMap.MESSAGE, card.toString()));
+			p.m_redCards.add(card);
+			responses.add(MSG(msgInfo.MESSAGE, card.toString()));
 		}
 	}
 	
