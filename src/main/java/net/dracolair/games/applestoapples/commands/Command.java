@@ -11,10 +11,9 @@ import net.dracolair.games.applestoapples.Requirement;
 
 public abstract class Command {
 	
-	public List<Message> execute(GameManager gameManager, MessageInfo msgInfo) {
+	public List<Message> execute(GameManager gameManager, Game ata, MessageInfo msgInfo) {
 		List<Message> responses = new LinkedList<Message>();
 		List<Requirement> requirements = new LinkedList<Requirement>();
-		Game ata = gameManager.getGameByChan(msgInfo.ROOM);
 		
 		getRequirements(gameManager, ata, msgInfo, requirements);
 		

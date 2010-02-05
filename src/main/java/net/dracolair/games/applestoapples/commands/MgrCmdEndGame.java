@@ -22,11 +22,6 @@ public class MgrCmdEndGame extends ManagerCommand {
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
 			responses.add(MSG("#channel", e.getKey() + " is: " + e.getValue().greenCards()));
 		}
-		
-		responses.add(MSG("#channel", "GAME OVER!  The winner is grue"));
-		responses.add(MSG("#channel", "grue is: Somecard1, Somecard2 "));
-		responses.add(MSG("#channel", "bob is: "));
-		responses.add(MSG("#channel", "neel is"));
 	}
 
 }

@@ -10,6 +10,7 @@ public class Bot extends PircBot {
 	
 	public Bot(String name) {
 		this.setName(name);
+		this.setLogin(name);
 		m_gameManager = new GameManager(name);
 	}
 	
@@ -19,7 +20,7 @@ public class Bot extends PircBot {
 			  String hostname, 
 			  String message) {
 		MessageInfo msgMap = MSGINFO(channel, sender, message);
-		for(Message response : m_gameManager.processMessage(msgMap)) {
+		for(Message response : m_gameManager.processRoomMessage(msgMap)) {
 			sendMessage(response.m_target, response.m_message);
 		}
 	}

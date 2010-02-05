@@ -88,7 +88,7 @@ public class ApplesToApplesTest extends TestCase{
 	public void testBobCantJoinTwiceFromAnotherChannel() {
 		cmd("bob", "!join");
 		MessageInfo msgMap = MSGINFO("#bees", "bob", "!join");
-		List<Message> responses = gameManager.processMessage(msgMap);
+		List<Message> responses = gameManager.processRoomMessage(msgMap);
 		
 		Game ataFromGList = gameManager.m_roomToGameMap.get("#channel");
 		Game ataFromPList = gameManager.getGameByNick("bob");
@@ -326,7 +326,7 @@ public class ApplesToApplesTest extends TestCase{
 	
 	public List<Message> cmd(String name, String command) {
 		MessageInfo msgInfo = MSGINFO("#channel", name, command);
-		return gameManager.processMessage(msgInfo);
+		return gameManager.processRoomMessage(msgInfo);
 	}
 	
 	public static void assertMessage(String target, String message, Message msg) {

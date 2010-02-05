@@ -51,11 +51,33 @@ public class GameManager {
 		m_commands.put("botcleanup", new MgrCmdCleanup());
 		m_commands.put("botendgame", new MgrCmdEndGame());
 	}
-
-	public List<Message> processMessage(MessageInfo msgInfo) {
+	
+	public List<Message> processRoomMessage(MessageInfo msgInfo) {
+		List<Message> responses = new LinkedList<Message>();
+		if(msgInfo.MESSAGE.charAt(0) == '!') {
+			String[] parsedMessage = msgInfo.MESSAGE.split(" ", 2);
+			String cmdKey = parsedMessage[0].substring(1);
+			MessageInfo modMsgInfo = msgInfo.clone();
+			if (parsedMessage.length < 2) {
+				modMsgInfo.MESSAGE = "";
+			} else {
+				modMsgInfo.MESSAGE = parsedMessage[1];
+			}
+			
+			Command cmd = m_commands.get(cmdKey);
+			Game ata = getGameByChan(modMsgInfo.ROOM);
+			
+			if (cmd != null) {
+				responses = cmd.execute(this, ata, modMsgInfo);
+			}
+		}
+		return responses;
+	}
+	
+	public List<Message> processPrivMessage(MessageInfo msgInfo) {
 		List<Message> responses = new LinkedList<Message>();
 		String[] parsedMessage = msgInfo.MESSAGE.split(" ", 2);
-		String cmdKey = parsedMessage[0].substring(1);
+		String cmdKey = parsedMessage[0];
 		MessageInfo modMsgInfo = msgInfo.clone();
 		if (parsedMessage.length < 2) {
 			modMsgInfo.MESSAGE = "";
@@ -64,9 +86,10 @@ public class GameManager {
 		}
 		
 		Command cmd = m_commands.get(cmdKey);
+		Game ata = getGameByNick(modMsgInfo.NICK);
 		
 		if (cmd != null) {
-			responses = cmd.execute(this, modMsgInfo);
+			responses = cmd.execute(this, ata, modMsgInfo);
 		}
 
 		return responses;
