@@ -1,5 +1,7 @@
 package net.dracolair.games.applestoapples;
 
+import java.util.List;
+
 public final class Factories {
 	
 	private Factories() {}
@@ -24,5 +26,9 @@ public final class Factories {
 	
 	public static Requirement REQ(boolean condition, Message message) {
 		return new Requirement(condition, message);
+	}
+	
+	public static Game GAME(List<Card> red, List<Card> green, boolean isRandom) {
+		return new Game(red, green, isRandom);
 	}
 }

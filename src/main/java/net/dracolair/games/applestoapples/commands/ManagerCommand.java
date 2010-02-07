@@ -16,5 +16,5 @@ public abstract class ManagerCommand extends Command {
 		super.getRequirements(gameManager, ata, msgInfo, requirements);
 		requirements.add(REQ(gameManager.getName().equals(msgInfo.NICK), MSG(msgInfo.NICK, "You're not authorized to run this command")));
 	}
-	
+
 }

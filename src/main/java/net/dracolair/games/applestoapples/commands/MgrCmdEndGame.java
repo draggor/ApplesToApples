@@ -22,6 +22,8 @@ public class MgrCmdEndGame extends ManagerCommand {
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
 			responses.add(MSG("#channel", e.getKey() + " is: " + e.getValue().greenCards()));
 		}
+		
+		ata = null;
 	}
 
 }

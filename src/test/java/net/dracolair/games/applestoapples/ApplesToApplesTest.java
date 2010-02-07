@@ -25,11 +25,13 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testCmdIsRunningFalseForBob() {
+		cmd("bees", "!botcreategame false");
 		List<Message> responses = cmd("bob", "!list");
 		assertMessage("bob", "List of players: ", responses.get(0));
 	}
 	
 	public void testCmdIsRunningTrueForBob1Player() {
+		cmd("bees", "!botcreategame false");
 		cmd("Neel", "!join");
 		List<Message> responses = cmd("bob", "!list");
 		Game ata = gameManager.getGameByChan("#channel");
@@ -41,6 +43,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testCmdIsRunningTrueForBob2Players() {
+		cmd("bees", "!botcreategame false");
 		cmd("Neel", "!join");
 		cmd("Grue", "!join");
 		List<Message> responses = cmd("bob", "!list");
@@ -55,6 +58,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testFirstPlayerJoins() {
+		cmd("bees", "!botcreategame false");
 		List<Message> responses = cmd("bob", "!join");
 		
 		Game ataFromGList = gameManager.m_roomToGameMap.get("#channel");
@@ -70,6 +74,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testBobCantJoinTwice() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		List<Message> responses = cmd("bob", "!join");
 		
@@ -86,9 +91,12 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testBobCantJoinTwiceFromAnotherChannel() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
-		MessageInfo msgMap = MSGINFO("#bees", "bob", "!join");
-		List<Message> responses = gameManager.processRoomMessage(msgMap);
+		MessageInfo msgMap1 = MSGINFO("#bees", "bees", "!botcreategame false");
+		gameManager.processRoomMessage(msgMap1);
+		MessageInfo msgMap2 = MSGINFO("#bees", "bob", "!join");
+		List<Message> responses = gameManager.processRoomMessage(msgMap2);
 		
 		Game ataFromGList = gameManager.m_roomToGameMap.get("#channel");
 		Game ataFromPList = gameManager.getGameByNick("bob");
@@ -103,12 +111,14 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testStartGameFail() {
+		cmd("bees", "!botcreategame false");
 		List<Message> responses = cmd("bob", "!start");
 		
 		assertMessage("#channel", "bob is fail, needs 3 to play.", responses.get(0));
 	}
 	
 	public void testStartGameNeeds2More() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		List<Message> responses = cmd("bob", "!start");
 		
@@ -116,6 +126,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testStartGameWorks() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -136,6 +147,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testDeal7() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -160,6 +172,7 @@ public class ApplesToApplesTest extends TestCase{
 */	}
 	
 	public void testNewRound() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -178,6 +191,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testAllPlayersPlayCards() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -194,6 +208,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testChooseMenu() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -213,6 +228,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testAllPlayersPlayCardsAndJudgePicks() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -232,6 +248,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testCleanup() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -255,6 +272,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testNextRound() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -275,6 +293,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testChooseLastWinner() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");
@@ -298,6 +317,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public void testEndGame() {
+		cmd("bees", "!botcreategame false");
 		cmd("bob", "!join");
 		cmd("neel", "!join");
 		cmd("grue", "!join");

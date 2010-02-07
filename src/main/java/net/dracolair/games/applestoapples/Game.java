@@ -1,12 +1,12 @@
 package net.dracolair.games.applestoapples;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Map.Entry;
-
-import static net.dracolair.games.applestoapples.Factories.*;
 
 public class Game {
 	
@@ -20,14 +20,25 @@ public class Game {
 	public Card					m_greenCard = 		null;
 	public List<Card>			m_greenCards = 		null;
 	public List<Card>			m_redCards = 		null;
+	public boolean				m_isRandom = 		true;
+	public Random				m_random = 			new Random();
 	
-	public Game(List<Card> red, List<Card> green) {
+	public Game(List<Card> red, List<Card> green, boolean isRandom) {
 		m_redCards = new LinkedList<Card>(red);
 		m_greenCards = new LinkedList<Card>(green);
+		m_isRandom = isRandom;
+		if(m_isRandom) {
+			Collections.shuffle(m_redCards);
+			Collections.shuffle(m_greenCards);
+		}
 	}
 	
 	public void addPlayer(Name name) {
 		m_players.put(name, new Player());
+		if(m_isRandom) {
+			int index = m_random.nextInt(m_activePlayers.size()) + 1;
+			m_activePlayers.add(index, name);
+		}
 		m_activePlayers.add(name);
 	}
 	
@@ -42,12 +53,6 @@ public class Game {
 		}
 		
 		return builder.toString();
-	}
-	
-	int cardcnt = 1;
-	
-	public Card getRandomCard() {
-		return CARD("Card", String.valueOf(cardcnt++));
 	}
 	
 	public void rotatePlayers() {

@@ -13,6 +13,40 @@
   				<target>5</target>
   			</configuration>
   		</plugin>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-jar-plugin</artifactId>
+  			<version>2.3</version>
+  			<configuration>
+	  			<archive>
+	            	<manifest>
+	            		<mainClass>net.dracolair.games.applestoapples.ApplesToApples</mainClass>
+	            	</manifest>
+	            </archive>
+            </configuration>
+  		</plugin>
+  		<plugin>
+  			<artifactId>maven-assembly-plugin</artifactId>
+  			<version>2.2-beta-5</version>
+  			<executions>
+      			<execution>
+        			<phase>package</phase>
+        			<goals>
+          				<goal>attached</goal>
+        			</goals>
+      			</execution>
+    		</executions>
+    		<configuration>
+    			<archive>
+	            	<manifest>
+	            		<mainClass>net.dracolair.games.applestoapples.ApplesToApples</mainClass>
+	            	</manifest>
+	            </archive>
+      			<descriptorRefs>
+        			<descriptorRef>jar-with-dependencies</descriptorRef>
+      			</descriptorRefs>
+    		</configuration>
+  		</plugin>
   	</plugins>
   </build>
   <dependencies>
@@ -28,4 +62,10 @@
   		<scope>test</scope>
   	</dependency>
   </dependencies>
+  <pluginRepositories>
+        <pluginRepository>
+            <id>onejar-maven-plugin.googlecode.com</id>
+            <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

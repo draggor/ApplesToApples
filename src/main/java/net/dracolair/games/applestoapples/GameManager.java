@@ -7,6 +7,7 @@ import java.util.Map;
 
 import net.dracolair.games.applestoapples.commands.MgrCmdChoose;
 import net.dracolair.games.applestoapples.commands.MgrCmdCleanup;
+import net.dracolair.games.applestoapples.commands.MgrCmdCreateGame;
 import net.dracolair.games.applestoapples.commands.MgrCmdDeal7;
 import net.dracolair.games.applestoapples.commands.MgrCmdEndGame;
 import net.dracolair.games.applestoapples.commands.MgrCmdPlay;
@@ -50,6 +51,7 @@ public class GameManager {
 		m_commands.put("botdeal7", new MgrCmdDeal7());
 		m_commands.put("botcleanup", new MgrCmdCleanup());
 		m_commands.put("botendgame", new MgrCmdEndGame());
+		m_commands.put("botcreategame", new MgrCmdCreateGame());
 	}
 	
 	public List<Message> processRoomMessage(MessageInfo msgInfo) {
@@ -96,12 +98,7 @@ public class GameManager {
 	}
 
 	public Game getGameByChan(String channel) {
-		Game ata = m_roomToGameMap.get(channel);
-		if(ata == null) {
-			ata = new Game(RED, GREEN);
-			m_roomToGameMap.put(channel, ata);
-		}
-		return ata;
+		return m_roomToGameMap.get(channel);
 	}
 	
 	public Game getGameByNick(String nick) {
