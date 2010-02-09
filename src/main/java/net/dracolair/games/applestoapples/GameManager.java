@@ -125,4 +125,13 @@ public class GameManager {
 		}
 		m_roomToGameMap.put(room, GAME(RED, GREEN, ata.m_isRandom));
 	}
+
+	public void changeNick(String oldNick, String newNick) {
+		Name n = m_nickToNameMap.get(oldNick);
+		if(n != null) {
+			n.m_name = newNick;
+			m_nickToNameMap.put(newNick, n);
+			m_nickToNameMap.remove(oldNick);
+		}
+	}
 }

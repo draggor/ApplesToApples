@@ -28,7 +28,9 @@ public class MgrCmdPlay extends ManagerCommand {
 		
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
 			StringBuilder b = new StringBuilder();
+			b.append("Red Cards:");
 			for(int i = 0; i < 7; i++) {
+				b.append(" ");
 				b.append((i+1));
 				b.append(". ");
 				b.append(e.getValue().m_redCards.get(i).m_name);

@@ -68,4 +68,12 @@ public class Bot extends PircBot {
 		System.out.println("NOTICE: " + notice);
 	}
 	
+	@Override
+	public void onNickChange(String oldNick, 
+							 String login, 
+							 String hostname, 
+							 String newNick) {
+		m_gameManager.changeNick(oldNick, newNick);
+	}
+	
 }

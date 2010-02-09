@@ -110,6 +110,15 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("#bees", "bob is already playing.", responses.get(0));
 	}
 	
+	public void testChangeNick() {
+		cmd("bees", "!botcreategame false");
+		cmd("bob", "!join");
+		gameManager.changeNick("bob", "newhart");
+		List<Message> responses = cmd("newhart", "!list");
+		
+		assertMessage("newhart", "List of players: newhart:0 ", responses.get(0));
+	}
+	
 	public void testStartGameFail() {
 		cmd("bees", "!botcreategame false");
 		List<Message> responses = cmd("bob", "!start");
@@ -221,7 +230,7 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("grue", "!play 4");
 		List<Message> responses = privcmd("bees", "!botchoose #channel");
 		
-		assertMessage("#channel", "The green card is: hax", responses.get(0));
+		assertMessage("#channel", "The green card is: Absurd - ridiculous, senseless, foolish", responses.get(0));
 		assertMessage("#channel", "1. A Locker Room - Steamy atmosphere ... bawdy humor ... sweaty bodies ... HEY! Sounds like Cable TV!", responses.get(1));
 		assertMessage("#channel", "2. A Sunset - The sun never set on the British Empire ... because God didn't trust the English in the dark.", responses.get(2));
 		assertMessage("#channel", "bob must choose a red card!  Type '!choose number'", responses.get(3));
