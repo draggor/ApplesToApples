@@ -1,11 +1,14 @@
 package net.dracolair.games.applestoapples.commands;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.dracolair.games.applestoapples.Game;
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
+import net.dracolair.games.applestoapples.Name;
+import net.dracolair.games.applestoapples.Player;
 import net.dracolair.games.applestoapples.State;
 
 import static net.dracolair.games.applestoapples.Factories.*;
@@ -20,8 +23,18 @@ public class MgrCmdPlay extends ManagerCommand {
 		
 		ata.m_greenCard = ata.m_greenCards.remove(0);
 		
-		responses.add(MSG(msgInfo.ROOM, ata.m_judge + " is the judge.  Green card is: " + ata.m_greenCard));
-		responses.add(MSG(msgInfo.ROOM, "Waiting for players to play cards..."));
+		responses.add(MSG(msgInfo.MESSAGE, ata.m_judge + " is the judge.  Green card is: " + ata.m_greenCard));
+		responses.add(MSG(msgInfo.MESSAGE, "Waiting for players to play cards..."));
+		
+		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
+			StringBuilder b = new StringBuilder();
+			for(int i = 0; i < 7; i++) {
+				b.append((i+1));
+				b.append(". ");
+				b.append(e.getValue().m_redCards.get(i).m_name);
+			}
+			responses.add(MSG(e.getKey().toString(), b.toString()));
+		}
 	}
 	
 }

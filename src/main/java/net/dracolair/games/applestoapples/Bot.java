@@ -17,6 +17,7 @@ public class Bot extends PircBot {
 	}
 	
 	public void processResponses(List<Message> responses) {
+		System.out.println(responses);
 		for(Message response : responses) {
 			sendMessage(response.m_target, response.m_message);
 		}
@@ -28,7 +29,16 @@ public class Bot extends PircBot {
 						  String login, 
 						  String hostname, 
 						  String message) {
-		processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sender, message)));
+		if(sender.equals("Draggor") && hostname.equals("216-80-120-145.alc-bsr1.chi-alc.il.static.cable.rcn.com")) {
+			String[] sp = message.split(" ", 3);
+			if(sp[0].equals("!c")) {
+				processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sp[1], sp[2])));
+			} else {
+				processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sender, message)));
+			}
+		} else {
+			processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sender, message)));
+		}
 	}
 	
 	@Override
@@ -47,6 +57,15 @@ public class Bot extends PircBot {
 		if(sender.equals(m_gameManager.getName()) && m_gameManager.getGameByChan(channel) == null) {
 			processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sender, "!botcreategame")));
 		}
+	}
+	
+	@Override
+	public void onNotice(String sourceNick, 
+						 String sourceLogin, 
+						 String sourceHostname, 
+						 String target, 
+						 String notice) {
+		System.out.println("NOTICE: " + notice);
 	}
 	
 }

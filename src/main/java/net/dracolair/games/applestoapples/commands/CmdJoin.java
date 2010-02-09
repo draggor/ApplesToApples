@@ -19,8 +19,7 @@ public class CmdJoin extends Command {
 		gameManager.m_nameToGameMap.put(n, ata);
 		gameManager.m_nickToNameMap.put(msgInfo.NICK, n);
 		ata.addPlayer(n);
-		
-		responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has joined the game, need 2 more to start."));
+		responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has joined the game, need "+ (3-ata.m_players.size()) + " more to start."));
 	}
 
 	@Override

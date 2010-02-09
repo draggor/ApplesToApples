@@ -14,6 +14,9 @@ public class MgrCmdCreateGame extends ManagerCommand {
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		boolean isRandom = Boolean.parseBoolean(msgInfo.MESSAGE);
+		if(msgInfo.MESSAGE.equals("")) {
+			isRandom = true;
+		}
 		ata = GAME(GameManager.RED, GameManager.GREEN, isRandom);
 		gameManager.m_roomToGameMap.put(msgInfo.ROOM, ata);
 	}

@@ -1,5 +1,6 @@
 package net.dracolair.games.applestoapples.commands;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -18,13 +19,16 @@ public class CmdStart extends Command {
 
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
+		if(ata.m_isRandom) {
+			Collections.shuffle(ata.m_activePlayers);
+		}
 		responses.add(MSG(msgInfo.ROOM, "We have >=3 players, the game will begin!"));
 		responses.add(MSG(msgInfo.ROOM, "Dealing out cards..."));
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
 			responses.add(MSG(gameManager.getName(), "!botdeal7 " + e.getKey()));
 		}
-		ata.m_state = State.PLAY;
-		responses.add(MSG(gameManager.getName(), "!botplay"));
+		
+		responses.add(MSG(gameManager.getName(), "!botplay " + msgInfo.ROOM));
 	}
 	
 	@Override

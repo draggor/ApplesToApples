@@ -143,7 +143,7 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("bees", "!botdeal7 bob", responses.get(2));
 		assertMessage("bees", "!botdeal7 neel", responses.get(3));
 		assertMessage("bees", "!botdeal7 grue", responses.get(4));
-		assertMessage("bees", "!botplay", responses.get(5));
+		assertMessage("bees", "!botplay #channel", responses.get(5));
 	}
 	
 	public void testDeal7() {
@@ -152,19 +152,19 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		List<Message> responses = cmd("bees", "!botdeal7 bob");
+		List<Message> responses = privcmd("bees", "!botdeal7 bob");
 		
 /*		for(int i = 0; i < 7; i++) {
 			assertMessage("bob", "Card - " + (i + 1), responses.get(i));
 		}
 */		
-		responses = cmd("bees", "!botdeal7 neel");
+		responses = privcmd("bees", "!botdeal7 neel");
 		
 /*		for(int i = 0; i < 7; i++) {
 			assertMessage("neel", "Card - " + (i + 8), responses.get(i));
 		}
 */		
-		responses = cmd("bees", "!botdeal7 grue");
+		responses = privcmd("bees", "!botdeal7 grue");
 		
 /*		for(int i = 0; i < 7; i++) {
 			assertMessage("grue", "Card - " + (i + 15), responses.get(i));
@@ -177,10 +177,10 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		cmd("bees", "!botdeal7 bob");
-		cmd("bees", "!botdeal7 neel");
-		cmd("bees", "!botdeal7 grue");
-		List<Message> responses = cmd("bees", "!botplay");
+		privcmd("bees", "!botdeal7 bob");
+		privcmd("bees", "!botdeal7 neel");
+		privcmd("bees", "!botdeal7 grue");
+		List<Message> responses = privcmd("bees", "!botplay #channel");
 		Game ata = gameManager.getGameByChan("#channel");
 		
 		assertEquals(2, ata.m_waiting.size());
@@ -196,15 +196,15 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		cmd("bees", "!botdeal7 bob");
-		cmd("bees", "!botdeal7 neel");
-		cmd("bees", "!botdeal7 grue");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botdeal7 bob");
+		privcmd("bees", "!botdeal7 neel");
+		privcmd("bees", "!botdeal7 grue");
+		privcmd("bees", "!botplay #channel");
 		cmd("neel", "!play 5");
 		List<Message> responses = cmd("grue", "!play 4");
 		
 		assertMessage("grue", "Adolph Hitler - 1889-1945, turned Germany into a militarized dictatorship, caused the slaughter of millions and launched World War II.", responses.get(0));
-		assertMessage("bees", "!botchoose", responses.get(1));
+		assertMessage("bees", "!botchoose #channel", responses.get(1));
 	}
 	
 	public void testChooseMenu() {
@@ -213,13 +213,13 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		cmd("bees", "!botdeal7 bob");
-		cmd("bees", "!botdeal7 neel");
-		cmd("bees", "!botdeal7 grue");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botdeal7 bob");
+		privcmd("bees", "!botdeal7 neel");
+		privcmd("bees", "!botdeal7 grue");
+		privcmd("bees", "!botplay #channel");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
-		List<Message> responses = cmd("bees", "!botchoose");
+		List<Message> responses = privcmd("bees", "!botchoose #channel");
 		
 		assertMessage("#channel", "The green card is: hax", responses.get(0));
 		assertMessage("#channel", "1. A Locker Room - Steamy atmosphere ... bawdy humor ... sweaty bodies ... HEY! Sounds like Cable TV!", responses.get(1));
@@ -233,18 +233,18 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		cmd("bees", "!botdeal7 bob");
-		cmd("bees", "!botdeal7 neel");
-		cmd("bees", "!botdeal7 grue");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botdeal7 bob");
+		privcmd("bees", "!botdeal7 neel");
+		privcmd("bees", "!botdeal7 grue");
+		privcmd("bees", "!botplay #channel");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
-		cmd("bees", "!botchoose");
+		privcmd("bees", "!botchoose #channel");
 		List<Message> responses = cmd("bob", "!choose 2");
 		
 		assertMessage("#channel", "The winner is grue: A Sunset!", responses.get(0));
 		assertMessage("#channel", "Scores: bob:0 neel:0 grue:1 ", responses.get(1));
-		assertMessage("bees", "!botcleanup", responses.get(2));
+		assertMessage("bees", "!botcleanup #channel", responses.get(2));
 	}
 	
 	public void testCleanup() {
@@ -253,22 +253,22 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		cmd("bees", "!botdeal7 bob");
-		cmd("bees", "!botdeal7 neel");
-		cmd("bees", "!botdeal7 grue");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botdeal7 bob");
+		privcmd("bees", "!botdeal7 neel");
+		privcmd("bees", "!botdeal7 grue");
+		privcmd("bees", "!botplay #channel");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
-		cmd("bees", "!botchoose");
+		privcmd("bees", "!botchoose #channel");
 		cmd("bob", "!choose 2");
-		List<Message> responses = cmd("bees", "!botcleanup");
+		List<Message> responses = privcmd("bees", "!botcleanup #channel");
 		Game ata = gameManager.getGameByChan("#channel");
 		List<Name> names = new LinkedList<Name>(ata.m_players.keySet());
 		
 		assertEquals("neel", names.get(0).toString());
 		assertEquals("grue", names.get(1).toString());
 		assertEquals("bob", names.get(2).toString());
-		assertMessage("bees", "!botplay", responses.get(0));
+		assertMessage("bees", "!botplay #channel", responses.get(0));
 	}
 	
 	public void testNextRound() {
@@ -277,16 +277,16 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		cmd("bees", "!botdeal7 bob");
-		cmd("bees", "!botdeal7 neel");
-		cmd("bees", "!botdeal7 grue");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botdeal7 bob");
+		privcmd("bees", "!botdeal7 neel");
+		privcmd("bees", "!botdeal7 grue");
+		privcmd("bees", "!botplay #channel");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
-		cmd("bees", "!botchoose");
+		privcmd("bees", "!botchoose #channel");
 		cmd("bob", "!choose 2");
-		cmd("bees", "!botcleanup");
-		List<Message> responses = cmd("bees", "!botplay");
+		privcmd("bees", "!botcleanup #channel");
+		List<Message> responses = privcmd("bees", "!botplay #channel");
 		
 		assertMessage("#channel", "neel is the judge.  Green card is: Addictive - obsessive, consuming, captivating", responses.get(0));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
@@ -298,22 +298,22 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		cmd("bees", "!botdeal7 bob");
-		cmd("bees", "!botdeal7 neel");
-		cmd("bees", "!botdeal7 grue");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botdeal7 bob");
+		privcmd("bees", "!botdeal7 neel");
+		privcmd("bees", "!botdeal7 grue");
+		privcmd("bees", "!botplay #channel");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
-		cmd("bees", "!botchoose");
+		privcmd("bees", "!botchoose #channel");
 		cmd("bob", "!choose 2");
-		cmd("bees", "!botcleanup");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botcleanup #channel");
+		privcmd("bees", "!botplay #channel");
 		cmd("grue", "!play 1");
 		cmd("bob", "!play 3");
-		cmd("bees", "!botchoose");
+		privcmd("bees", "!botchoose #channel");
 		List<Message> responses = cmd("neel", "!choose 1");
 		
-		assertMessage("bees", "!botendgame", responses.get(0));
+		assertMessage("bees", "!botendgame #channel", responses.get(0));
 	}
 	
 	public void testEndGame() {
@@ -322,21 +322,21 @@ public class ApplesToApplesTest extends TestCase{
 		cmd("neel", "!join");
 		cmd("grue", "!join");
 		cmd("bob", "!start");
-		cmd("bees", "!botdeal7 bob");
-		cmd("bees", "!botdeal7 neel");
-		cmd("bees", "!botdeal7 grue");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botdeal7 bob");
+		privcmd("bees", "!botdeal7 neel");
+		privcmd("bees", "!botdeal7 grue");
+		privcmd("bees", "!botplay #channel");
 		cmd("neel", "!play 5");
 		cmd("grue", "!play 4");
-		cmd("bees", "!botchoose");
+		privcmd("bees", "!botchoose #channel");
 		cmd("bob", "!choose 2");
-		cmd("bees", "!botcleanup");
-		cmd("bees", "!botplay");
+		privcmd("bees", "!botcleanup #channel");
+		privcmd("bees", "!botplay #channel");
 		cmd("grue", "!play 6");
 		cmd("bob", "!play 3");
-		cmd("bees", "!botchoose");
+		privcmd("bees", "!botchoose #channel");
 		cmd("neel", "!choose 1");
-		List<Message> responses = cmd("bees", "!botendgame");
+		List<Message> responses = privcmd("bees", "!botendgame #channel");
 		
 		assertMessage("#channel", "GAME OVER!  The winner is grue", responses.get(0));
 		assertMessage("#channel", "neel is: ", responses.get(1));
@@ -347,6 +347,11 @@ public class ApplesToApplesTest extends TestCase{
 	public List<Message> cmd(String name, String command) {
 		MessageInfo msgInfo = MSGINFO("#channel", name, command);
 		return gameManager.processRoomMessage(msgInfo);
+	}
+	
+	public List<Message> privcmd(String name, String command) {
+		MessageInfo msgInfo = MSGINFO("#channel", name, command);
+		return gameManager.processPrivMessage(msgInfo);
 	}
 	
 	public static void assertMessage(String target, String message, Message msg) {

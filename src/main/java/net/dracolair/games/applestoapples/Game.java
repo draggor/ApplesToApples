@@ -35,10 +35,6 @@ public class Game {
 	
 	public void addPlayer(Name name) {
 		m_players.put(name, new Player());
-		if(m_isRandom) {
-			int index = m_random.nextInt(m_activePlayers.size()) + 1;
-			m_activePlayers.add(index, name);
-		}
 		m_activePlayers.add(name);
 	}
 	

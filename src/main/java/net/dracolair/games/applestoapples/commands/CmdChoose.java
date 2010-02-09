@@ -26,11 +26,11 @@ public class CmdChoose extends Command {
 			p.m_greenCards.add(ata.m_greenCard);
 			
 			if(++p.m_score == ata.m_limit) {
-				responses.add(MSG(gameManager.getName(), "!botendgame"));
+				responses.add(MSG(gameManager.getName(), "!botendgame " + msgInfo.ROOM));
 			} else {
 				responses.add(MSG(msgInfo.ROOM, "The winner is " + winner.m_playedBy + ": " + winner.m_name + "!"));
 				responses.add(MSG(msgInfo.ROOM, "Scores: " + ata.playersNscores()));
-				responses.add(MSG(gameManager.getName(), "!botcleanup"));
+				responses.add(MSG(gameManager.getName(), "!botcleanup " + msgInfo.ROOM));
 			}
 		}
 	}

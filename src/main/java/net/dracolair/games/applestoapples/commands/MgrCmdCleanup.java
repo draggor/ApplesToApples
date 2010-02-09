@@ -14,7 +14,7 @@ public class MgrCmdCleanup extends ManagerCommand {
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		ata.rotatePlayers();
-		responses.add(MSG(gameManager.getName(), "!botplay"));
+		responses.add(MSG(gameManager.getName(), "!botplay " + msgInfo.MESSAGE));
 	}
 
 }

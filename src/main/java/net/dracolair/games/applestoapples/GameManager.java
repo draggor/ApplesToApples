@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.dracolair.games.applestoapples.commands.CmdLimit;
 import net.dracolair.games.applestoapples.commands.MgrCmdChoose;
 import net.dracolair.games.applestoapples.commands.MgrCmdCleanup;
 import net.dracolair.games.applestoapples.commands.MgrCmdCreateGame;
@@ -19,6 +20,7 @@ import net.dracolair.games.applestoapples.commands.CmdStart;
 import net.dracolair.games.applestoapples.commands.Command;
 
 import static net.dracolair.games.applestoapples.FileParser.*;
+import static net.dracolair.games.applestoapples.Factories.*;
 
 public class GameManager {
 
@@ -46,6 +48,7 @@ public class GameManager {
 		m_commands.put("start", new CmdStart());
 		m_commands.put("play", new CmdPlay());
 		m_commands.put("choose", new CmdChoose());
+		m_commands.put("limit", new CmdLimit());
 		m_commands.put("botplay", new MgrCmdPlay());
 		m_commands.put("botchoose", new MgrCmdChoose());
 		m_commands.put("botdeal7", new MgrCmdDeal7());
@@ -56,6 +59,7 @@ public class GameManager {
 	
 	public List<Message> processRoomMessage(MessageInfo msgInfo) {
 		List<Message> responses = new LinkedList<Message>();
+		System.out.println("processRoomMessage: " + msgInfo.MESSAGE);
 		if(msgInfo.MESSAGE.charAt(0) == '!') {
 			String[] parsedMessage = msgInfo.MESSAGE.split(" ", 2);
 			String cmdKey = parsedMessage[0].substring(1);
@@ -78,8 +82,9 @@ public class GameManager {
 	
 	public List<Message> processPrivMessage(MessageInfo msgInfo) {
 		List<Message> responses = new LinkedList<Message>();
-		String[] parsedMessage = msgInfo.MESSAGE.split(" ", 2);
-		String cmdKey = parsedMessage[0];
+		System.out.println("processPrivMessage: " + msgInfo.MESSAGE);
+		String[] parsedMessage = msgInfo.MESSAGE.split(" ", 3);
+		String cmdKey = parsedMessage[0].substring(1);
 		MessageInfo modMsgInfo = msgInfo.clone();
 		if (parsedMessage.length < 2) {
 			modMsgInfo.MESSAGE = "";
@@ -88,7 +93,10 @@ public class GameManager {
 		}
 		
 		Command cmd = m_commands.get(cmdKey);
-		Game ata = getGameByNick(modMsgInfo.NICK);
+		Game ata = getGameByChan(modMsgInfo.MESSAGE);
+		if(ata == null) {
+			ata = getGameByNick(modMsgInfo.MESSAGE);
+		}
 		
 		if (cmd != null) {
 			responses = cmd.execute(this, ata, modMsgInfo);
@@ -107,5 +115,14 @@ public class GameManager {
 	
 	public String getName() {
 		return m_name;
+	}
+
+	public void reset(String room) {
+		Game ata = getGameByChan(room);
+		for(Name n : ata.m_players.keySet()) {
+			m_nameToGameMap.remove(n);
+			m_nickToNameMap.remove(n.toString());
+		}
+		m_roomToGameMap.put(room, GAME(RED, GREEN, ata.m_isRandom));
 	}
 }

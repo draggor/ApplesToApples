@@ -31,9 +31,9 @@ public class CmdPlay extends Command {
 				c.m_playedBy = n;
 				ata.m_cards.add(c);
 				responses.add(MSG(msgInfo.NICK, newCard.toString()));
-
+				System.out.println(ata.m_waiting);
 				if(ata.m_waiting.isEmpty()) {
-					responses.add(MSG(gameManager.getName(), "!botchoose"));
+					responses.add(MSG(gameManager.getName(), "!botchoose " + msgInfo.ROOM));
 				}
 			}
 		} catch(Exception e) {
@@ -44,5 +44,6 @@ public class CmdPlay extends Command {
 	@Override
 	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
 		requirements.add(REQ(ata.m_state == State.PLAY, MSG("", "")));
+		requirements.add(REQ(ata.m_judge != gameManager.m_nickToNameMap.get(msgInfo.NICK), MSG("", "")));
 	}
 }

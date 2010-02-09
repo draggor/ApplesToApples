@@ -18,12 +18,12 @@ public class MgrCmdEndGame extends ManagerCommand {
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		Name winner = ata.getWinner();
 		
-		responses.add(MSG("#channel", "GAME OVER!  The winner is " + winner));
+		responses.add(MSG(msgInfo.MESSAGE, "GAME OVER!  The winner is " + winner));
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
-			responses.add(MSG("#channel", e.getKey() + " is: " + e.getValue().greenCards()));
+			responses.add(MSG(msgInfo.MESSAGE, e.getKey() + " is: " + e.getValue().greenCards()));
 		}
 		
-		ata = null;
+		gameManager.reset(msgInfo.MESSAGE);
 	}
 
 }

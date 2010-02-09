@@ -1,6 +1,6 @@
 package net.dracolair.games.applestoapples;
 
-public class Name {
+public class Name implements Comparable<Name> {
 	
 	public String m_name = null;
 	
@@ -18,6 +18,10 @@ public class Name {
 	
 	public boolean equals(Name name) {
 		return m_name.equals(name.m_name);
+	}
+	
+	public int compareTo(Name name) {
+		return m_name.compareTo(name.m_name);
 	}
 	
 }
