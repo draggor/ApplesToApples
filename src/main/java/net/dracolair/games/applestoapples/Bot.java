@@ -4,6 +4,9 @@ import static net.dracolair.games.applestoapples.Factories.*;
 
 import java.util.List;
 
+import net.dracolair.games.applestoapples.card.CardRenderer;
+import net.dracolair.games.applestoapples.card.DefaultCardRenderer;
+
 import org.jibble.pircbot.PircBot;
 
 public class Bot extends PircBot {
@@ -13,7 +16,8 @@ public class Bot extends PircBot {
 	public Bot(String name) {
 		this.setName(name);
 		this.setLogin(name);
-		m_gameManager = new GameManager(name);
+		CardRenderer cardRenderer = new DefaultCardRenderer();
+		m_gameManager = new GameManager(name, cardRenderer, cardRenderer);
 	}
 	
 	public void processResponses(List<Message> responses) {

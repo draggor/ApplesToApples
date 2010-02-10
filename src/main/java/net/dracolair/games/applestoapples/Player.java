@@ -3,6 +3,8 @@ package net.dracolair.games.applestoapples;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.dracolair.games.applestoapples.card.Card;
+
 public class Player {
 	public int m_score = 0;
 	public List<Card> m_redCards = new LinkedList<Card>();

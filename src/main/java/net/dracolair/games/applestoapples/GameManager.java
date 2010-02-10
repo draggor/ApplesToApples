@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.dracolair.games.applestoapples.card.Card;
+import net.dracolair.games.applestoapples.card.CardRenderer;
+import net.dracolair.games.applestoapples.card.DefaultCardRenderer;
 import net.dracolair.games.applestoapples.commands.CmdLimit;
 import net.dracolair.games.applestoapples.commands.MgrCmdChoose;
 import net.dracolair.games.applestoapples.commands.MgrCmdCleanup;
@@ -33,14 +36,16 @@ public class GameManager {
 	public Map<String, Name> 	m_nickToNameMap = new LinkedHashMap<String, Name>();
 	public String				m_name;
 	
-	public GameManager(String name) {
+	public GameManager(String name, CardRenderer redCardRenderer, CardRenderer greenCardRenderer) {
 		m_name = name;
 		
+		
+		
 		if(RED == null) {
-			RED = loadCardsFromFile("src/main/resources/red.txt");
+			RED = loadCardsFromFile("src/main/resources/red.txt", redCardRenderer);
 		}
 		if(GREEN == null) {
-			GREEN = loadCardsFromFile("src/main/resources/green.txt");
+			GREEN = loadCardsFromFile("src/main/resources/green.txt", greenCardRenderer);
 		}
 		
 		m_commands.put("join", new CmdJoin());

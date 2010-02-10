@@ -3,6 +3,9 @@ package net.dracolair.games.applestoapples;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.dracolair.games.applestoapples.card.CardRenderer;
+import net.dracolair.games.applestoapples.card.DefaultCardRenderer;
+
 import junit.framework.*;
 
 import static net.dracolair.games.applestoapples.Factories.*;
@@ -10,9 +13,10 @@ import static net.dracolair.games.applestoapples.Factories.*;
 public class ApplesToApplesTest extends TestCase{
 	
 	private GameManager gameManager = null;
+	private CardRenderer cardRenderer = new DefaultCardRenderer();
 	
 	protected void setUp() {
-		gameManager = new GameManager("bees");
+		gameManager = new GameManager("bees", cardRenderer, cardRenderer);
 	}
 	
 	protected void tearDown() {

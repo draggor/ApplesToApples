@@ -2,12 +2,15 @@ package net.dracolair.games.applestoapples;
 
 import java.util.List;
 
+import net.dracolair.games.applestoapples.card.Card;
+import net.dracolair.games.applestoapples.card.CardRenderer;
+
 public final class Factories {
 	
 	private Factories() {}
 	
-	public static Card CARD(String name, String desc) {
-		return new Card(name, desc);
+	public static Card CARD(String name, String desc, CardRenderer cardRenderer) {
+		return new Card(name, desc, cardRenderer);
 	}
 	
 	public static Message MSG(String target, String message) {
