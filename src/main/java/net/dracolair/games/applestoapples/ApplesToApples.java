@@ -1,5 +1,7 @@
 package net.dracolair.games.applestoapples;
 
+import net.dracolair.games.applestoapples.bot.Bot;
+
 public class ApplesToApples {
 	
 	public static void main(String[] args) throws Exception {

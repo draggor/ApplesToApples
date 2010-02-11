@@ -5,7 +5,6 @@ import java.util.List;
 import net.dracolair.games.applestoapples.Game;
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.MessageInfo;
-import net.dracolair.games.applestoapples.Requirement;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 

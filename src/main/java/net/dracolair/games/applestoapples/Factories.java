@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.dracolair.games.applestoapples.card.Card;
 import net.dracolair.games.applestoapples.card.CardRenderer;
+import net.dracolair.games.applestoapples.commands.Requirement;
 
 public final class Factories {
 	

@@ -7,7 +7,6 @@ import net.dracolair.games.applestoapples.Game;
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
-import net.dracolair.games.applestoapples.Requirement;
 
 public abstract class Command {
 	

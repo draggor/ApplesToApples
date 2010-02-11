@@ -7,7 +7,6 @@ import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
 import net.dracolair.games.applestoapples.Player;
-import net.dracolair.games.applestoapples.Requirement;
 import net.dracolair.games.applestoapples.State;
 import net.dracolair.games.applestoapples.card.Card;
 

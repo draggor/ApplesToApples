@@ -2,6 +2,8 @@ package net.dracolair.games.applestoapples;
 
 import java.io.IOException;
 
+import net.dracolair.games.applestoapples.bot.Bot;
+
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
 

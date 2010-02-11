@@ -7,7 +7,6 @@ import java.util.Map;
 
 import net.dracolair.games.applestoapples.card.Card;
 import net.dracolair.games.applestoapples.card.CardRenderer;
-import net.dracolair.games.applestoapples.card.DefaultCardRenderer;
 import net.dracolair.games.applestoapples.commands.CmdLimit;
 import net.dracolair.games.applestoapples.commands.MgrCmdChoose;
 import net.dracolair.games.applestoapples.commands.MgrCmdCleanup;
