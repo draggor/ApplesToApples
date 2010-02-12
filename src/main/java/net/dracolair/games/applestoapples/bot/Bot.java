@@ -2,13 +2,15 @@ package net.dracolair.games.applestoapples.bot;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.card.CardRenderer;
-import net.dracolair.games.applestoapples.card.DefaultCardRenderer;
 
+import org.jibble.pircbot.IrcException;
+import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.PircBot;
 
 public class Bot extends PircBot {
@@ -18,8 +20,9 @@ public class Bot extends PircBot {
 	public Bot(String name) {
 		this.setName(name);
 		this.setLogin(name);
-		CardRenderer cardRenderer = new DefaultCardRenderer();
-		m_gameManager = new GameManager(name, cardRenderer, cardRenderer);
+		CardRenderer redCardRenderer = new IrcRedCardRenderer();
+		CardRenderer greenCardRenderer = new IrcGreenCardRenderer();
+		m_gameManager = new GameManager(name, redCardRenderer, greenCardRenderer);
 	}
 	
 	public void processResponses(List<Message> responses) {
@@ -82,4 +85,19 @@ public class Bot extends PircBot {
 		m_gameManager.changeNick(oldNick, newNick);
 	}
 	
+	@Override
+	public void onDisconnect() {
+		try {
+			reconnect();
+		} catch (NickAlreadyInUseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IrcException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

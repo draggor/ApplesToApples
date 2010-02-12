@@ -23,7 +23,7 @@ public class MgrCmdPlay extends ManagerCommand {
 		
 		ata.m_greenCard = ata.m_greenCards.remove(0);
 		
-		responses.add(MSG(msgInfo.MESSAGE, ata.m_judge + " is the judge.  Green card is: " + ata.m_greenCard));
+		responses.add(MSG(msgInfo.MESSAGE, ata.m_judge + " is the judge.  Green card is: " + ata.m_greenCard.toFormattedString()));
 		responses.add(MSG(msgInfo.MESSAGE, "Waiting for players to play cards..."));
 		
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
@@ -33,7 +33,7 @@ public class MgrCmdPlay extends ManagerCommand {
 				b.append(" ");
 				b.append((i+1));
 				b.append(". ");
-				b.append(e.getValue().m_redCards.get(i).m_name);
+				b.append(e.getValue().m_redCards.get(i).getFormattedName());
 			}
 			responses.add(MSG(e.getKey().toString(), b.toString()));
 		}

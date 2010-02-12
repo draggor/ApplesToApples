@@ -29,7 +29,7 @@ public class CmdPlay extends Command {
 				p.m_redCards.add(newCard);
 				c.m_playedBy = n;
 				ata.m_cards.add(c);
-				responses.add(MSG(msgInfo.NICK, newCard.toString()));
+				responses.add(MSG(msgInfo.NICK, newCard.toFormattedString()));
 				if(ata.m_waiting.isEmpty()) {
 					responses.add(MSG(gameManager.getName(), "!botchoose " + msgInfo.ROOM));
 				}

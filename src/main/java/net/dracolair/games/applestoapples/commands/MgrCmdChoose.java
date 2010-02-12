@@ -21,10 +21,10 @@ public class MgrCmdChoose extends ManagerCommand {
 			Collections.shuffle(ata.m_cards);
 		}
 		
-		responses.add(MSG(msgInfo.MESSAGE, "The green card is: " + ata.m_greenCard));
+		responses.add(MSG(msgInfo.MESSAGE, "The green card is: " + ata.m_greenCard.toFormattedString()));
 		
 		for(int cnt = 0; cnt < ata.m_cards.size(); cnt++) {
-			responses.add(MSG(msgInfo.MESSAGE, (cnt + 1) + ". " + ata.m_cards.get(cnt)));
+			responses.add(MSG(msgInfo.MESSAGE, (cnt + 1) + ". " + ata.m_cards.get(cnt).toFormattedString()));
 		}
 		
 		responses.add(MSG(msgInfo.MESSAGE, ata.m_judge + " must choose a red card!  Type '!choose number'"));

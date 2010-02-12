@@ -21,7 +21,7 @@ public class MgrCmdDeal7 extends ManagerCommand {
 		for(int c = 0; c < 7; c++) {
 			Card card = ata.m_redCards.remove(0);
 			p.m_redCards.add(card);
-			responses.add(MSG(msgInfo.MESSAGE, card.toString()));
+			responses.add(MSG(msgInfo.MESSAGE, card.toFormattedString()));
 		}
 	}
 	

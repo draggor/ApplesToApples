@@ -32,6 +32,8 @@ public class ApplesToApples {
 				bot.joinChannel(args[i]);
 			}
 		}
+		
+		
 	}
 	
 }

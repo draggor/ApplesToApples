@@ -1,25 +1,24 @@
 package net.dracolair.games.applestoapples.bot;
 
+import org.jibble.pircbot.Colors;
+
 import net.dracolair.games.applestoapples.card.CardRenderer;
 
 public class IrcGreenCardRenderer implements CardRenderer {
 
 	@Override
 	public String render(String name, String desc) {
-		// TODO Auto-generated method stub
-		return null;
+		return renderName(name) + " - " + renderDesc(desc);
 	}
 
 	@Override
 	public String renderDesc(String desc) {
-		// TODO Auto-generated method stub
-		return null;
+		return desc;
 	}
 
 	@Override
 	public String renderName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return Colors.GREEN + Colors.REVERSE + Colors.BOLD + name + Colors.NORMAL;
 	}
 
 }

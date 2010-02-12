@@ -18,7 +18,7 @@ public class Player {
 		StringBuilder builder = new StringBuilder();
 		
 		for(Card c : m_greenCards) {
-			builder.append(c.m_name);
+			builder.append(c.getFormattedName());
 			builder.append(", ");
 		}
 		

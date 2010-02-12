@@ -35,7 +35,7 @@ public class CmdStart extends Command {
 		boolean cond1 = ata.m_state == State.BEGIN;
 		Message msg1 = MSG(msgInfo.ROOM, "A game has already begun!");
 		
-		boolean cond2 = ata.m_players.size() >= 3;
+		boolean cond2 = ata.m_players.size() >= 1;
 		Message msg2 = MSG(msgInfo.ROOM, msgInfo.NICK + 
 					                    " is fail, needs " + 
 					                    (3-ata.m_players.size()) + 
