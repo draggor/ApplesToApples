@@ -18,7 +18,7 @@ public class Game {
 	public State				m_state = 			State.BEGIN;
 	public List<Name>			m_activePlayers =	new LinkedList<Name>();
 	public Name					m_judge = 			null;
-	public int					m_limit = 			2;
+	public int					m_limit = 			7;
 	public Card					m_greenCard = 		null;
 	public List<Card>			m_greenCards = 		null;
 	public List<Card>			m_redCards = 		null;

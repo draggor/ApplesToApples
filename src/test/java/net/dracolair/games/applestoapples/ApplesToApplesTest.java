@@ -308,6 +308,7 @@ public class ApplesToApplesTest extends TestCase{
 	public void testChooseLastWinner() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
+		roomCmd("bob", "!limit 2");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
 		roomCmd("bob", "!start");
@@ -332,6 +333,7 @@ public class ApplesToApplesTest extends TestCase{
 	public void testEndGame() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
+		roomCmd("bob", "!limit 2");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
 		roomCmd("bob", "!start");
