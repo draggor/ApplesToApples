@@ -41,10 +41,10 @@ public class GameManager {
 		
 		
 		if(RED == null) {
-			RED = loadCardsFromFile("src/main/resources/red.txt", redCardRenderer);
+			RED = loadCardsFromFile(this.getClass().getResourceAsStream("/red.txt"), redCardRenderer);
 		}
 		if(GREEN == null) {
-			GREEN = loadCardsFromFile("src/main/resources/green.txt", greenCardRenderer);
+			GREEN = loadCardsFromFile(this.getClass().getResourceAsStream("/green.txt"), greenCardRenderer);
 		}
 		
 		m_commands.put("join", new CmdJoin());

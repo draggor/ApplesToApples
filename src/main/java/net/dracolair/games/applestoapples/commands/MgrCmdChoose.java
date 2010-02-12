@@ -2,6 +2,7 @@ package net.dracolair.games.applestoapples.commands;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.dracolair.games.applestoapples.Game;
@@ -15,6 +16,10 @@ public class MgrCmdChoose extends ManagerCommand {
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		ata.m_state = State.CHOOSE;		
+		
+		if(ata.m_isRandom) {
+			Collections.shuffle(ata.m_cards);
+		}
 		
 		responses.add(MSG(msgInfo.MESSAGE, "The green card is: " + ata.m_greenCard));
 		
