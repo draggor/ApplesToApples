@@ -5,20 +5,24 @@ import static net.dracolair.games.applestoapples.Factories.*;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
+import net.dracolair.games.applestoapples.Game;
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
+import net.dracolair.games.applestoapples.State;
 import net.dracolair.games.applestoapples.card.CardRenderer;
 
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
 import org.jibble.pircbot.PircBot;
 
-public class Bot extends PircBot {
+public class Bot extends PircBot implements Runnable {
 	
 	public GameManager m_gameManager;
 	public List<Channel> m_channels = new LinkedList<Channel>();
 	public String m_server;
+	public Thread m_thread;
 	
 	public Bot(String name) {
 		this.setName(name);
@@ -26,6 +30,8 @@ public class Bot extends PircBot {
 		CardRenderer redCardRenderer = new IrcRedCardRenderer();
 		CardRenderer greenCardRenderer = new IrcGreenCardRenderer();
 		m_gameManager = new GameManager(name, redCardRenderer, greenCardRenderer);
+		m_thread = new Thread(this);
+		m_thread.start();
 	}
 	
 	public void processResponses(List<Message> responses) {
@@ -137,5 +143,28 @@ public class Bot extends PircBot {
 	public void joinAndSaveChannel(Channel channel) {
 		m_channels.add(channel);
 		join(channel);
+	}
+
+	@Override
+	public void run() {
+		for(;;) {
+			for(Entry<String, Game> e : m_gameManager.m_roomToGameMap.entrySet()) {
+				Game ata = e.getValue();
+				String channel = e.getKey();
+				long wait = System.currentTimeMillis() - ata.m_time;
+				if(ata.m_state.equals(State.PLAY) || ata.m_state.equals(State.CHOOSE)) {
+					if(wait > 30000) {
+						m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botwarning " + channel));
+					} else if(wait > 60000) {
+						m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botaway " + channel));
+					}
+				}
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

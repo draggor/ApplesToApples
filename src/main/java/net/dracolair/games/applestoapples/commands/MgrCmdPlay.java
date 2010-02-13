@@ -36,6 +36,8 @@ public class MgrCmdPlay extends ManagerCommand {
 				b.append(e.getValue().m_redCards.get(i).getFormattedName());
 			}
 			responses.add(MSG(e.getKey().toString(), b.toString()));
+			
+			ata.m_time = System.currentTimeMillis();
 		}
 	}
 	

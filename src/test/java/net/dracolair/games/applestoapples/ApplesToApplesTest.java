@@ -246,11 +246,15 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botdeal7 derp");
 		privCmd("bees", "!botplay #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 3");
 		List<Message> responses = privCmd("bees", "!botaway #channel");
+		Game ata = gameManager.getGameByChan("#channel");
 		
+		assertEquals(0, ata.m_waiting.size());
+		assertEquals(3, ata.m_activePlayers.size());
 		assertMessage("#channel", "derp, you're being flagged as away.  Use !back to rejoin.", responses.get(0));
 	}
 	
@@ -272,6 +276,43 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("#channel", "1. A Locker Room - Steamy atmosphere ... bawdy humor ... sweaty bodies ... HEY! Sounds like Cable TV!", responses.get(1));
 		assertMessage("#channel", "2. A Sunset - The sun never set on the British Empire ... because God didn't trust the English in the dark.", responses.get(2));
 		assertMessage("#channel", "bob must choose a red card!  Type '!choose number'", responses.get(3));
+	}
+	
+	public void testJudgeWarning() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		privCmd("bees", "!botchoose #channel");
+		List<Message> responses = privCmd("bees", "!botwarning #channel");
+		
+		assertMessage("#channel", "bob, choose a card or be marked away!", responses.get(0));
+	}
+	
+	public void testJudgeAway() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		privCmd("bees", "!botchoose #channel");
+		List<Message> responses = privCmd("bees", "!botaway #channel");
+		
+		assertMessage("#channel", "bob, you're being flagged as away.  Use !back to rejoin.", responses.get(0));
+		
 	}
 	
 	public void testAllPlayersPlayCardsAndJudgePicks() {

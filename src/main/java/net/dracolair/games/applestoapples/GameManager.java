@@ -8,6 +8,7 @@ import java.util.Map;
 import net.dracolair.games.applestoapples.card.Card;
 import net.dracolair.games.applestoapples.card.CardRenderer;
 import net.dracolair.games.applestoapples.commands.CmdLimit;
+import net.dracolair.games.applestoapples.commands.MgrCmdAway;
 import net.dracolair.games.applestoapples.commands.MgrCmdChoose;
 import net.dracolair.games.applestoapples.commands.MgrCmdCleanup;
 import net.dracolair.games.applestoapples.commands.MgrCmdCreateGame;
@@ -20,6 +21,7 @@ import net.dracolair.games.applestoapples.commands.CmdList;
 import net.dracolair.games.applestoapples.commands.CmdPlay;
 import net.dracolair.games.applestoapples.commands.CmdStart;
 import net.dracolair.games.applestoapples.commands.Command;
+import net.dracolair.games.applestoapples.commands.MgrCmdWarning;
 
 import static net.dracolair.games.applestoapples.FileParser.*;
 import static net.dracolair.games.applestoapples.Factories.*;
@@ -57,6 +59,8 @@ public class GameManager {
 		m_commands.put("botcleanup", new MgrCmdCleanup());
 		m_commands.put("botendgame", new MgrCmdEndGame());
 		m_commands.put("botcreategame", new MgrCmdCreateGame());
+		m_commands.put("botwarning", new MgrCmdWarning());
+		m_commands.put("botaway", new MgrCmdAway());
 	}
 	
 	public List<Message> processRoomMessage(MessageInfo msgInfo) {
