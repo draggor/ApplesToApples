@@ -1,6 +1,7 @@
 package net.dracolair.games.applestoapples;
 
 import net.dracolair.games.applestoapples.bot.Bot;
+import net.dracolair.games.applestoapples.bot.Channel;
 
 public class ApplesToApples {
 	
@@ -27,9 +28,9 @@ public class ApplesToApples {
 		for(int i = 2; i < args.length; i++) {
 			String key = System.getProperty("key" + (i-1));
 			if(key != null) {
-				bot.joinChannel(args[i], key);
+				bot.joinAndSaveChannel(new Channel(args[i], key));
 			} else {
-				bot.joinChannel(args[i]);
+				bot.joinAndSaveChannel(new Channel(args[i]));
 			}
 		}
 		

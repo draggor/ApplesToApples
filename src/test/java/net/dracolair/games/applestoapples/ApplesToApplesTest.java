@@ -220,6 +220,40 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("bees", "!botchoose #channel", responses.get(1));
 	}
 	
+	public void testOnePlayerGetsWarning() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		List<Message> responses = privCmd("bees", "!botwarning #channel");
+		
+		assertMessage("#channel", "grue, play a card or be marked as away!", responses.get(0));
+	}
+	
+	public void testOnePlayerGetsMarkedAway() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("derp", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 3");
+		List<Message> responses = privCmd("bees", "!botaway #channel");
+		
+		assertMessage("#channel", "derp, you're being flagged as away.  Use !back to rejoin.", responses.get(0));
+	}
+	
 	public void testChooseMenu() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");

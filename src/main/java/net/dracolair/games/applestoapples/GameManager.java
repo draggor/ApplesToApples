@@ -38,8 +38,6 @@ public class GameManager {
 	public GameManager(String name, CardRenderer redCardRenderer, CardRenderer greenCardRenderer) {
 		m_name = name;
 		
-		
-		
 		if(RED == null) {
 			RED = loadCardsFromFile(this.getClass().getResourceAsStream("/red.txt"), redCardRenderer);
 		}

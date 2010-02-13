@@ -3,6 +3,7 @@ package net.dracolair.games.applestoapples.bot;
 import static net.dracolair.games.applestoapples.Factories.*;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.dracolair.games.applestoapples.GameManager;
@@ -16,6 +17,8 @@ import org.jibble.pircbot.PircBot;
 public class Bot extends PircBot {
 	
 	public GameManager m_gameManager;
+	public List<Channel> m_channels = new LinkedList<Channel>();
+	public String m_server;
 	
 	public Bot(String name) {
 		this.setName(name);
@@ -89,6 +92,7 @@ public class Bot extends PircBot {
 	public void onDisconnect() {
 		try {
 			reconnect();
+			rejoinChannels();
 		} catch (NickAlreadyInUseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,5 +103,39 @@ public class Bot extends PircBot {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void connect() {
+		try {
+			connect(m_server);
+		} catch (NickAlreadyInUseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IrcException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void join(Channel channel) {
+		if(channel.m_pass != null) {
+			joinChannel(channel.m_channel, channel.m_pass);
+		} else {
+			joinChannel(channel.m_channel);
+		}
+	}
+	
+	public void rejoinChannels() {
+		for(Channel channel : m_channels) {
+			join(channel);
+		}
+	}
+
+	public void joinAndSaveChannel(Channel channel) {
+		m_channels.add(channel);
+		join(channel);
 	}
 }
