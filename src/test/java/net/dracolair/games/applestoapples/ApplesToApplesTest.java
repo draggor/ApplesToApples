@@ -256,6 +256,7 @@ public class ApplesToApplesTest extends TestCase{
 		assertEquals(0, ata.m_waiting.size());
 		assertEquals(3, ata.m_activePlayers.size());
 		assertMessage("#channel", "derp, you're being flagged as away.  Use !back to rejoin.", responses.get(0));
+		assertMessage("bees", "!botchoose #channel", responses.get(1));
 	}
 	
 	public void testChooseMenu() {
@@ -312,6 +313,7 @@ public class ApplesToApplesTest extends TestCase{
 		List<Message> responses = privCmd("bees", "!botaway #channel");
 		
 		assertMessage("#channel", "bob, you're being flagged as away.  Use !back to rejoin.", responses.get(0));
+		assertMessage("bees", "!botcleanup #channel", responses.get(1));
 		
 	}
 	

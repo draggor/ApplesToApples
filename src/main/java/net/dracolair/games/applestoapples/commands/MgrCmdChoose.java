@@ -16,6 +16,7 @@ public class MgrCmdChoose extends ManagerCommand {
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		ata.m_state = State.CHOOSE;		
+		ata.m_time = System.currentTimeMillis();
 		
 		if(ata.m_isRandom) {
 			Collections.shuffle(ata.m_cards);

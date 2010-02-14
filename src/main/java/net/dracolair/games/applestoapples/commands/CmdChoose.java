@@ -20,7 +20,7 @@ public class CmdChoose extends Command {
 		
 		if(cardIndex >= 0 && cardIndex < ata.m_cards.size()) {
 			Card winner = ata.m_cards.get(cardIndex);
-			ata.m_cards.clear();
+		//	ata.m_cards.clear();
 			Player p = ata.m_players.get(winner.m_playedBy);
 			p.m_greenCards.add(ata.m_greenCard);
 			
