@@ -153,9 +153,9 @@ public class Bot extends PircBot implements Runnable {
 				String channel = e.getKey();
 				long wait = System.currentTimeMillis() - ata.m_time;
 				if(ata.m_state.equals(State.PLAY) || ata.m_state.equals(State.CHOOSE)) {
-					if(wait > 30000) {
+					if(wait > 30000 && !ata.m_warning) {
 						m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botwarning " + channel));
-					} else if(wait > 60000) {
+					} else if(wait > 60000 && ata.m_warning) {
 						m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botaway " + channel));
 					}
 				}

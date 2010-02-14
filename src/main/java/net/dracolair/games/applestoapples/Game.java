@@ -25,6 +25,7 @@ public class Game {
 	public boolean				m_isRandom = 		true;
 	public Random				m_random = 			new Random();
 	public long 				m_time = 			0;
+	public boolean 				m_warning = 		false;
 	
 	public Game(List<Card> red, List<Card> green, boolean isRandom) {
 		m_redCards = new LinkedList<Card>(red);

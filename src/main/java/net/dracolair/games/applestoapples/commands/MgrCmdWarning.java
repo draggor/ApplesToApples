@@ -15,6 +15,7 @@ public class MgrCmdWarning extends ManagerCommand {
 
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo,	List<Message> responses) {
+		ata.m_warning = true;
 		if(ata.m_state == State.PLAY) {
 			StringBuilder b = new StringBuilder();
 			for(Name name : ata.m_waiting) {

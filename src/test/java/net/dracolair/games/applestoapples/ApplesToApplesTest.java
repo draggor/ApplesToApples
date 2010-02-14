@@ -231,8 +231,11 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botdeal7 grue");
 		privCmd("bees", "!botplay #channel");
 		roomCmd("neel", "!play 5");
+		Game ata = gameManager.getGameByChan("#channel");
+		assertFalse(ata.m_warning);
 		List<Message> responses = privCmd("bees", "!botwarning #channel");
 		
+		assertTrue(ata.m_warning);
 		assertMessage("#channel", "grue, play a card or be marked as away!", responses.get(0));
 	}
 	
@@ -250,9 +253,13 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botplay #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 3");
-		List<Message> responses = privCmd("bees", "!botaway #channel");
-		Game ata = gameManager.getGameByChan("#channel");
+		privCmd("bees", "!botwarning #channel");
 		
+		Game ata = gameManager.getGameByChan("#channel");
+		assertTrue(ata.m_warning);
+		List<Message> responses = privCmd("bees", "!botaway #channel");
+		
+		assertFalse(ata.m_warning);
 		assertEquals(0, ata.m_waiting.size());
 		assertEquals(3, ata.m_activePlayers.size());
 		assertMessage("#channel", "derp, you're being flagged as away.  Use !back to rejoin.", responses.get(0));
@@ -292,8 +299,12 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		privCmd("bees", "!botchoose #channel");
+		
+		Game ata = gameManager.getGameByChan("#channel");
+		assertFalse(ata.m_warning);
 		List<Message> responses = privCmd("bees", "!botwarning #channel");
 		
+		assertTrue(ata.m_warning);
 		assertMessage("#channel", "bob, choose a card or be marked away!", responses.get(0));
 	}
 	
@@ -310,8 +321,13 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		privCmd("bees", "!botchoose #channel");
+		privCmd("bees", "!botwarning #channel");
+		
+		Game ata = gameManager.getGameByChan("#channel");
+		assertTrue(ata.m_warning);
 		List<Message> responses = privCmd("bees", "!botaway #channel");
 		
+		assertFalse(ata.m_warning);
 		assertMessage("#channel", "bob, you're being flagged as away.  Use !back to rejoin.", responses.get(0));
 		assertMessage("bees", "!botcleanup #channel", responses.get(1));
 		
