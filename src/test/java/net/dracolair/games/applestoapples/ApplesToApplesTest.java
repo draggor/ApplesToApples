@@ -199,7 +199,7 @@ public class ApplesToApplesTest extends TestCase{
 		assertEquals(2, ata.m_waiting.size());
 		assertEquals("bob", ata.m_judge.toString());
 		
-		assertMessage("#channel", "bob is the judge.  Green card is: Absurd - ridiculous, senseless, foolish", responses.get(0));
+		assertMessage("#channel", "bob is the judge.  Green card is:  Absurd  - ridiculous, senseless, foolish", responses.get(0));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
 	}
 	
@@ -216,7 +216,7 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("neel", "!play 5");
 		List<Message> responses = roomCmd("grue", "!play 4");
 		
-		assertMessage("grue", "Adolph Hitler - 1889-1945, turned Germany into a militarized dictatorship, caused the slaughter of millions and launched World War II.", responses.get(0));
+		assertMessage("grue", " Adolph Hitler  - 1889-1945, turned Germany into a militarized dictatorship, caused the slaughter of millions and launched World War II.", responses.get(0));
 		assertMessage("bees", "!botchoose #channel", responses.get(1));
 	}
 	
@@ -280,9 +280,9 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("grue", "!play 4");
 		List<Message> responses = privCmd("bees", "!botchoose #channel");
 		
-		assertMessage("#channel", "The green card is: Absurd - ridiculous, senseless, foolish", responses.get(0));
-		assertMessage("#channel", "1. A Locker Room - Steamy atmosphere ... bawdy humor ... sweaty bodies ... HEY! Sounds like Cable TV!", responses.get(1));
-		assertMessage("#channel", "2. A Sunset - The sun never set on the British Empire ... because God didn't trust the English in the dark.", responses.get(2));
+		assertMessage("#channel", "The green card is:  Absurd  - ridiculous, senseless, foolish", responses.get(0));
+		assertMessage("#channel", "1.  A Locker Room  - Steamy atmosphere ... bawdy humor ... sweaty bodies ... HEY! Sounds like Cable TV!", responses.get(1));
+		assertMessage("#channel", "2.  A Sunset  - The sun never set on the British Empire ... because God didn't trust the English in the dark.", responses.get(2));
 		assertMessage("#channel", "bob must choose a red card!  Type '!choose number'", responses.get(3));
 	}
 	
@@ -348,7 +348,7 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botchoose #channel");
 		List<Message> responses = roomCmd("bob", "!choose 2");
 		
-		assertMessage("#channel", "The winner is grue: A Sunset!", responses.get(0));
+		assertMessage("#channel", "The winner is grue:  A Sunset !", responses.get(0));
 		assertMessage("#channel", "Scores: bob:0 neel:0 grue:1 ", responses.get(1));
 		assertMessage("bees", "!botcleanup #channel", responses.get(2));
 	}
@@ -394,7 +394,7 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botcleanup #channel");
 		List<Message> responses = privCmd("bees", "!botplay #channel");
 		
-		assertMessage("#channel", "neel is the judge.  Green card is: Addictive - obsessive, consuming, captivating", responses.get(0));
+		assertMessage("#channel", "neel is the judge.  Green card is:  Addictive  - obsessive, consuming, captivating", responses.get(0));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
 	}
 	
@@ -448,7 +448,7 @@ public class ApplesToApplesTest extends TestCase{
 		
 		assertMessage("#channel", "GAME OVER!  The winner is grue", responses.get(0));
 		assertMessage("#channel", "neel is: ", responses.get(1));
-		assertMessage("#channel", "grue is: Absurd, Addictive", responses.get(2));
+		assertMessage("#channel", "grue is:  Absurd ,  Addictive ", responses.get(2));
 		assertMessage("#channel", "bob is: ", responses.get(3));
 	}
 	

@@ -34,6 +34,7 @@ public class MgrCmdWarning extends ManagerCommand {
 		boolean req = (ata.m_state == State.PLAY && !ata.m_waiting.isEmpty()) || ata.m_state == State.CHOOSE;
 		
 		requirements.add(REQ(req, MSG("", "")));
+		requirements.add(REQ(!ata.m_warning, MSG("", "")));
 	}
 
 }

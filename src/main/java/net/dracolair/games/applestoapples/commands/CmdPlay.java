@@ -43,5 +43,6 @@ public class CmdPlay extends Command {
 	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
 		requirements.add(REQ(ata.m_state == State.PLAY, MSG("", "")));
 		requirements.add(REQ(ata.m_judge != gameManager.m_nickToNameMap.get(msgInfo.NICK), MSG("", "")));
+		requirements.add(REQ(ata.m_waiting.contains(gameManager.m_nickToNameMap.get(msgInfo.NICK)), MSG("", "")));
 	}
 }

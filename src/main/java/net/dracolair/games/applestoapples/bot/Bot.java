@@ -23,6 +23,8 @@ public class Bot extends PircBot implements Runnable {
 	public List<Channel> m_channels = new LinkedList<Channel>();
 	public String m_server;
 	public Thread m_thread;
+	public int m_warningTimer = 600000;
+	public int m_awayTimer = 1200000;
 	
 	public Bot(String name) {
 		this.setName(name);
@@ -30,8 +32,8 @@ public class Bot extends PircBot implements Runnable {
 		CardRenderer redCardRenderer = new IrcRedCardRenderer();
 		CardRenderer greenCardRenderer = new IrcGreenCardRenderer();
 		m_gameManager = new GameManager(name, redCardRenderer, greenCardRenderer);
-		m_thread = new Thread(this);
-		m_thread.start();
+	//	m_thread = new Thread(this);
+	//	m_thread.start();
 	}
 	
 	public void processResponses(List<Message> responses) {
@@ -153,10 +155,10 @@ public class Bot extends PircBot implements Runnable {
 				String channel = e.getKey();
 				long wait = System.currentTimeMillis() - ata.m_time;
 				if(ata.m_state.equals(State.PLAY) || ata.m_state.equals(State.CHOOSE)) {
-					if(wait > 30000 && !ata.m_warning) {
-						m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botwarning " + channel));
-					} else if(wait > 60000 && ata.m_warning) {
-						m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botaway " + channel));
+					if(wait > m_warningTimer && wait < m_awayTimer && !ata.m_warning) {
+						processResponses(m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botwarning " + channel)));
+					} else if(wait > m_awayTimer && ata.m_warning) {
+						processResponses(m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botaway " + channel)));
 					}
 				}
 			}

@@ -23,7 +23,7 @@ public class FileParser {
 			String line;
 			while((line=reader.readLine()) != null) {
 				String[] sp = line.split(" - ", 2);
-				cards.add(CARD(sp[0], sp[1], cardRenderer));
+				cards.add(CARD(" " + sp[0] + " ", sp[1], cardRenderer));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
