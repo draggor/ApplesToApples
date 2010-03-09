@@ -10,7 +10,11 @@ import net.dracolair.games.applestoapples.MessageInfo;
 
 public abstract class Command {
 	
-	public List<Message> execute(GameManager gameManager, Game ata, MessageInfo msgInfo) {
+	public GameManager gameManager;
+	public Game ata;
+	public MessageInfo msgInfo;
+	
+	public List<Message> execute() {
 		List<Message> responses = new LinkedList<Message>();
 		List<Requirement> requirements = new LinkedList<Requirement>();
 		

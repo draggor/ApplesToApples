@@ -12,6 +12,7 @@ import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.State;
 import net.dracolair.games.applestoapples.card.CardRenderer;
+import net.dracolair.games.applestoapples.commands.Command;
 
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
@@ -34,13 +35,25 @@ public class Bot extends PircBot implements Runnable {
 		m_gameManager = new GameManager(name, redCardRenderer, greenCardRenderer);
 	//	m_thread = new Thread(this);
 	//	m_thread.start();
+		
+		
 	}
 	
-	public void processResponses(List<Message> responses) {
+	public void processResponses(Command cmd) {
+		List<Message> responses = cmd.execute();
 		System.out.println(responses);
 		for(Message response : responses) {
-			sendMessage(response.m_target, response.m_message);
+			sendMessageNoQueue(response.m_target, response.m_message);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+	}
+	
+	public void sendMessageNoQueue(String target, String message) {
+		sendRawLine("PRIVMSG " + target + " :" + message);
 	}
 	
 	@Override

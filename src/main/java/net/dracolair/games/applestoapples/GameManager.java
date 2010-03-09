@@ -33,9 +33,9 @@ public class GameManager {
 	
 	public Map<String, Game>	m_roomToGameMap = new LinkedHashMap<String, Game>();
 	public Map<Name, Game>		m_nameToGameMap = new LinkedHashMap<Name, Game>();
-	public Map<String, Command> m_commands = new LinkedHashMap<String, Command>();
 	public Map<String, Name> 	m_nickToNameMap = new LinkedHashMap<String, Name>();
 	public String				m_name;
+	public CommandFactory		m_cmdFactory = new CommandFactory();
 	
 	public GameManager(String name, CardRenderer redCardRenderer, CardRenderer greenCardRenderer) {
 		m_name = name;
@@ -46,24 +46,19 @@ public class GameManager {
 		if(GREEN == null) {
 			GREEN = loadCardsFromFile(this.getClass().getResourceAsStream("/green.txt"), greenCardRenderer);
 		}
-		
-		m_commands.put("join", new CmdJoin());
-		m_commands.put("list", new CmdList());
-		m_commands.put("start", new CmdStart());
-		m_commands.put("play", new CmdPlay());
-		m_commands.put("choose", new CmdChoose());
-		m_commands.put("limit", new CmdLimit());
-		m_commands.put("botplay", new MgrCmdPlay());
-		m_commands.put("botchoose", new MgrCmdChoose());
-		m_commands.put("botdeal7", new MgrCmdDeal7());
-		m_commands.put("botcleanup", new MgrCmdCleanup());
-		m_commands.put("botendgame", new MgrCmdEndGame());
-		m_commands.put("botcreategame", new MgrCmdCreateGame());
-		m_commands.put("botwarning", new MgrCmdWarning());
-		m_commands.put("botaway", new MgrCmdAway());
 	}
 	
-	public List<Message> processRoomMessage(MessageInfo msgInfo) {
+	/**
+	 * TODO: Modify processRoomMessage and processPrivMessage to return Command objects instead of a List<Message>
+	 *       That way, when the bot goes to send a message, it will evaluate the command at that point, and not create timers
+	 *       and then sit on it while it waits to send.
+	 *       Note that in the bot, there will need to be some way to stagger the adding of messages.  Could SendRawMessage and
+	 *       use a delay timer of my own.
+	 *       Ideally, instead of adding a String to a queue, we would add the command itself to delay evaluation that way.
+	 * @param msgInfo
+	 * @return
+	 */
+	public Command processRoomMessage(MessageInfo msgInfo) {
 		List<Message> responses = new LinkedList<Message>();
 		System.out.println("processRoomMessage: " + msgInfo.MESSAGE);
 		if(msgInfo.MESSAGE.charAt(0) == '!') {
@@ -76,17 +71,21 @@ public class GameManager {
 				modMsgInfo.MESSAGE = parsedMessage[1];
 			}
 			
-			Command cmd = m_commands.get(cmdKey);
+			Command cmd = m_cmdFactory.create(cmdKey);
 			Game ata = getGameByChan(modMsgInfo.ROOM);
 			
 			if (cmd != null) {
-				responses = cmd.execute(this, ata, modMsgInfo);
+				cmd.ata = ata;
+				cmd.gameManager = this;
+				cmd.msgInfo = modMsgInfo;
 			}
+			return cmd;
+		} else {
+			return null;
 		}
-		return responses;
 	}
 	
-	public List<Message> processPrivMessage(MessageInfo msgInfo) {
+	public Command processPrivMessage(MessageInfo msgInfo) {
 		List<Message> responses = new LinkedList<Message>();
 		System.out.println("processPrivMessage: " + msgInfo.MESSAGE);
 		String[] parsedMessage = msgInfo.MESSAGE.split(" ", 3);
@@ -98,17 +97,19 @@ public class GameManager {
 			modMsgInfo.MESSAGE = parsedMessage[1];
 		}
 		
-		Command cmd = m_commands.get(cmdKey);
+		Command cmd = m_cmdFactory.create(cmdKey);
 		Game ata = getGameByChan(modMsgInfo.MESSAGE);
 		if(ata == null) {
 			ata = getGameByNick(modMsgInfo.MESSAGE);
 		}
 		
 		if (cmd != null) {
-			responses = cmd.execute(this, ata, modMsgInfo);
+			cmd.ata = ata;
+			cmd.gameManager = this;
+			cmd.msgInfo = modMsgInfo;
 		}
 
-		return responses;
+		return cmd;
 	}
 
 	public Game getGameByChan(String channel) {

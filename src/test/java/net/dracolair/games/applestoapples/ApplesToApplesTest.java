@@ -98,9 +98,9 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
 		MessageInfo msgMap1 = MSGINFO("#bees", "bees", "!botcreategame false");
-		gameManager.processRoomMessage(msgMap1);
+		gameManager.processRoomMessage(msgMap1).execute();
 		MessageInfo msgMap2 = MSGINFO("#bees", "bob", "!join");
-		List<Message> responses = gameManager.processRoomMessage(msgMap2);
+		List<Message> responses = gameManager.processRoomMessage(msgMap2).execute();
 		
 		Game ataFromGList = gameManager.m_roomToGameMap.get("#channel");
 		Game ataFromPList = gameManager.getGameByNick("bob");
@@ -454,12 +454,12 @@ public class ApplesToApplesTest extends TestCase{
 	
 	public List<Message> roomCmd(String name, String command) {
 		MessageInfo msgInfo = MSGINFO("#channel", name, command);
-		return gameManager.processRoomMessage(msgInfo);
+		return gameManager.processRoomMessage(msgInfo).execute();
 	}
 	
 	public List<Message> privCmd(String name, String command) {
 		MessageInfo msgInfo = MSGINFO("#channel", name, command);
-		return gameManager.processPrivMessage(msgInfo);
+		return gameManager.processPrivMessage(msgInfo).execute();
 	}
 	
 	public static void assertMessage(String target, String message, Message msg) {
