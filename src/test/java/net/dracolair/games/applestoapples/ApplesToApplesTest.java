@@ -390,6 +390,27 @@ public class ApplesToApplesTest extends TestCase{
 		
 	}
 	
+	public void testUserSetAway() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("id10t", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botdeal7 id10t");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		List<Message> responses = roomCmd("id10t", "!away");
+		Game ata = gameManager.getGameByChan("#channel");
+		
+		assertEquals(3, ata.m_activePlayers.size());
+		assertMessage("#channel", "id10t has been marked as away.  Use !back to rejoin.", responses.get(0));
+	}
+	
 	public void testAllPlayersPlayCardsAndJudgePicks() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
