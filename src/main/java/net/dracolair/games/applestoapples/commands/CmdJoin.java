@@ -7,6 +7,7 @@ import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
 import net.dracolair.games.applestoapples.Name;
+import net.dracolair.games.applestoapples.State;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
@@ -18,7 +19,12 @@ public class CmdJoin extends Command {
 		gameManager.m_nameToGameMap.put(n, ata);
 		gameManager.m_nickToNameMap.put(msgInfo.NICK, n);
 		ata.addPlayer(n);
-		responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has joined the game, need "+ (3-ata.m_players.size()) + " more to start."));
+		if(ata.m_state == State.BEGIN) {
+			responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has joined the game, need "+ (3-ata.m_players.size()) + " more to start."));
+		} else {
+			responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has joined the game!  Cards will be dealt at the start of the next round."));
+			responses.add(MSG(gameManager.getName(), "!botdelaycmd " + msgInfo.ROOM + " !botdeal7 " + msgInfo.NICK));
+		}
 	}
 
 	@Override

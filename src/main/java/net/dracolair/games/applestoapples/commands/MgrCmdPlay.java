@@ -23,8 +23,8 @@ public class MgrCmdPlay extends ManagerCommand {
 		
 		ata.m_greenCard = ata.m_greenCards.remove(0);
 		
-		responses.add(MSG(msgInfo.MESSAGE, ata.m_judge + " is the judge.  Green card is: " + ata.m_greenCard.toFormattedString()));
-		responses.add(MSG(msgInfo.MESSAGE, "Waiting for players to play cards..."));
+		responses.add(MSG(msgInfo.ROOM, ata.m_judge + " is the judge.  Green card is: " + ata.m_greenCard.toFormattedString()));
+		responses.add(MSG(msgInfo.ROOM, "Waiting for players to play cards..."));
 		
 		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
 			StringBuilder b = new StringBuilder();

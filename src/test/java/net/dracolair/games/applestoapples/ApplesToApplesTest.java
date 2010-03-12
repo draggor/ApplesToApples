@@ -220,6 +220,63 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("bees", "!botchoose #channel", responses.get(1));
 	}
 	
+	public void testPlayerJoinsMidGame() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		List<Message> responses = roomCmd("id10t", "!join");
+		
+		assertMessage("#channel", "id10t has joined the game!  Cards will be dealt at the start of the next round.", responses.get(0));
+		assertMessage("bees", "!botdelaycmd #channel !botdeal7 id10t", responses.get(1));
+	}
+	
+	public void testDelayCmd() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("id10t", "!join");
+		List<Message> responses = privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
+		Game ata = gameManager.getGameByChan("#channel");
+		
+		assertEquals(1, ata.m_queuedCommands.size());
+	}
+	
+	public void testRunDelayedCmd() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("id10t", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
+		roomCmd("grue", "!play 4");
+		privCmd("bees", "!botchoose #channel");
+		roomCmd("bob", "!choose 2");
+		List<Message> responses = privCmd("bees", "!botcleanup #channel");
+		
+		assertMessage("bees", "!botdeal7 id10t", responses.get(0));
+		assertMessage("bees", "!botplay #channel", responses.get(1));
+	}
+	
 	public void testOnePlayerGetsWarning() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
@@ -458,7 +515,7 @@ public class ApplesToApplesTest extends TestCase{
 	}
 	
 	public List<Message> privCmd(String name, String command) {
-		MessageInfo msgInfo = MSGINFO("#channel", name, command);
+		MessageInfo msgInfo = MSGINFO("asdf", name, command);
 		return gameManager.processPrivMessage(msgInfo).execute();
 	}
 	

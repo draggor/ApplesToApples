@@ -35,8 +35,6 @@ public class Bot extends PircBot implements Runnable {
 		m_gameManager = new GameManager(name, redCardRenderer, greenCardRenderer);
 	//	m_thread = new Thread(this);
 	//	m_thread.start();
-		
-		
 	}
 	
 	public void processResponses(Command cmd) {
@@ -79,7 +77,16 @@ public class Bot extends PircBot implements Runnable {
 								 String login,
 								 String hostname,
 								 String message) {
-		processResponses(m_gameManager.processPrivMessage(MSGINFO(sender, sender, message)));
+		if(sender.equals("Draggor") && hostname.equals("216-80-120-145.alc-bsr1.chi-alc.il.static.cable.rcn.com")) {
+			String[] sp = message.split(" ", 3);
+			if(sp[0].equals("!c")) {
+				processResponses(m_gameManager.processPrivMessage(MSGINFO(sender, sp[1], sp[2])));
+			} else {
+				processResponses(m_gameManager.processPrivMessage(MSGINFO(sender, sender, message)));
+			}
+		} else {
+			processResponses(m_gameManager.processPrivMessage(MSGINFO(sender, sender, message)));
+		}
 	}
 	
 	@Override

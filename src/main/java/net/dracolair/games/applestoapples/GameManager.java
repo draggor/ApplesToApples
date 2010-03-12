@@ -1,27 +1,13 @@
 package net.dracolair.games.applestoapples;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import net.dracolair.games.applestoapples.card.Card;
 import net.dracolair.games.applestoapples.card.CardRenderer;
-import net.dracolair.games.applestoapples.commands.CmdLimit;
-import net.dracolair.games.applestoapples.commands.MgrCmdAway;
-import net.dracolair.games.applestoapples.commands.MgrCmdChoose;
-import net.dracolair.games.applestoapples.commands.MgrCmdCleanup;
-import net.dracolair.games.applestoapples.commands.MgrCmdCreateGame;
-import net.dracolair.games.applestoapples.commands.MgrCmdDeal7;
-import net.dracolair.games.applestoapples.commands.MgrCmdEndGame;
-import net.dracolair.games.applestoapples.commands.MgrCmdPlay;
-import net.dracolair.games.applestoapples.commands.CmdChoose;
-import net.dracolair.games.applestoapples.commands.CmdJoin;
-import net.dracolair.games.applestoapples.commands.CmdList;
-import net.dracolair.games.applestoapples.commands.CmdPlay;
-import net.dracolair.games.applestoapples.commands.CmdStart;
+import net.dracolair.games.applestoapples.commands.CommandFactory;
 import net.dracolair.games.applestoapples.commands.Command;
-import net.dracolair.games.applestoapples.commands.MgrCmdWarning;
 
 import static net.dracolair.games.applestoapples.FileParser.*;
 import static net.dracolair.games.applestoapples.Factories.*;
@@ -59,7 +45,6 @@ public class GameManager {
 	 * @return
 	 */
 	public Command processRoomMessage(MessageInfo msgInfo) {
-		List<Message> responses = new LinkedList<Message>();
 		System.out.println("processRoomMessage: " + msgInfo.MESSAGE);
 		if(msgInfo.MESSAGE.charAt(0) == '!') {
 			String[] parsedMessage = msgInfo.MESSAGE.split(" ", 2);
@@ -86,29 +71,32 @@ public class GameManager {
 	}
 	
 	public Command processPrivMessage(MessageInfo msgInfo) {
-		List<Message> responses = new LinkedList<Message>();
 		System.out.println("processPrivMessage: " + msgInfo.MESSAGE);
 		String[] parsedMessage = msgInfo.MESSAGE.split(" ", 3);
 		String cmdKey = parsedMessage[0].substring(1);
 		MessageInfo modMsgInfo = msgInfo.clone();
 		if (parsedMessage.length < 2) {
 			modMsgInfo.MESSAGE = "";
-		} else {
+		} else if (parsedMessage.length < 3) {
 			modMsgInfo.MESSAGE = parsedMessage[1];
+			modMsgInfo.ROOM = parsedMessage[1];
+		} else {
+			modMsgInfo.MESSAGE = parsedMessage[2];
+			modMsgInfo.ROOM = parsedMessage[1];
 		}
-		
+ 
 		Command cmd = m_cmdFactory.create(cmdKey);
-		Game ata = getGameByChan(modMsgInfo.MESSAGE);
+		Game ata = getGameByChan(modMsgInfo.ROOM);
 		if(ata == null) {
-			ata = getGameByNick(modMsgInfo.MESSAGE);
+			ata = getGameByNick(modMsgInfo.ROOM);
 		}
-		
+ 
 		if (cmd != null) {
 			cmd.ata = ata;
 			cmd.gameManager = this;
 			cmd.msgInfo = modMsgInfo;
 		}
-
+ 
 		return cmd;
 	}
 
