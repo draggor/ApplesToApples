@@ -11,7 +11,7 @@ public class MgrCmdDelay extends ManagerCommand {
 
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
-		ata.m_queuedCommands.add(msgInfo.MESSAGE);
+		ata.m_delayedCommands.add(msgInfo.MESSAGE);
 	}
 
 }

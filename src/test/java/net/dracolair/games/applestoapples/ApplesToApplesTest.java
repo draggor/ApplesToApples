@@ -252,7 +252,7 @@ public class ApplesToApplesTest extends TestCase{
 		List<Message> responses = privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
 		Game ata = gameManager.getGameByChan("#channel");
 		
-		assertEquals(1, ata.m_queuedCommands.size());
+		assertEquals(1, ata.m_delayedCommands.size());
 	}
 	
 	public void testRunDelayedCmd() {

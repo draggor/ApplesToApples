@@ -15,10 +15,10 @@ public class MgrCmdCleanup extends ManagerCommand {
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		ata.rotatePlayers();
 		ata.m_cards.clear();
-		for(String delayCmd : ata.m_queuedCommands) {
+		for(String delayCmd : ata.m_delayedCommands) {
 			responses.add(MSG(gameManager.getName(), delayCmd));
 		}
-		ata.m_queuedCommands.clear();
+		ata.m_delayedCommands.clear();
 		responses.add(MSG(gameManager.getName(), "!botplay " + msgInfo.MESSAGE));
 	}
 

@@ -26,7 +26,7 @@ public class Game {
 	public Random				m_random = 			new Random();
 	public long 				m_time = 			0;
 	public boolean 				m_warning = 		false;
-	public List<String>			m_queuedCommands = 	new LinkedList<String>();
+	public List<String>			m_delayedCommands = 	new LinkedList<String>();
 	
 	public Game(List<Card> red, List<Card> green, boolean isRandom) {
 		m_redCards = new LinkedList<Card>(red);
