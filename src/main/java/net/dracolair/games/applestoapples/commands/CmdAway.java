@@ -9,14 +9,26 @@ import net.dracolair.games.applestoapples.Game;
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
+import net.dracolair.games.applestoapples.Name;
+import net.dracolair.games.applestoapples.State;
 
 public class CmdAway extends Command {
 
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
-		ata.m_activePlayers.remove(gameManager.m_nickToNameMap.get(msgInfo.NICK));
-		
 		responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has been marked as away.  Use !back to rejoin."));
+		Name name = gameManager.m_nickToNameMap.get(msgInfo.NICK);
+		ata.m_activePlayers.remove(name);
+		if(ata.m_state == State.PLAY) {
+			ata.m_waiting.remove(name);
+			if(ata.m_waiting.size() == 0) {
+				responses.add(MSG(gameManager.getName(), "!botchoose " + msgInfo.ROOM));
+			}
+		} else if(ata.m_state == State.CHOOSE) {
+			responses.add(MSG(gameManager.getName(), "!botcleanup " + msgInfo.ROOM));
+		}
+		
+		
 	}
 	
 	@Override

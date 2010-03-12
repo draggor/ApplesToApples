@@ -403,12 +403,59 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botdeal7 id10t");
 		privCmd("bees", "!botplay #channel");
 		roomCmd("neel", "!play 5");
+		List<Message> responses = roomCmd("id10t", "!away");
+		Game ata = gameManager.getGameByChan("#channel");
+		
+		assertEquals(3, ata.m_activePlayers.size());
+		assertEquals(1, ata.m_waiting.size());
+		assertEquals(1, responses.size());
+		assertMessage("#channel", "id10t has been marked as away.  Use !back to rejoin.", responses.get(0));
+	}
+	
+	public void testUserSetAwayThenChoose() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("id10t", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botdeal7 id10t");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		List<Message> responses = roomCmd("id10t", "!away");
 		Game ata = gameManager.getGameByChan("#channel");
 		
 		assertEquals(3, ata.m_activePlayers.size());
+		assertEquals(0, ata.m_waiting.size());
 		assertMessage("#channel", "id10t has been marked as away.  Use !back to rejoin.", responses.get(0));
+		assertMessage("bees", "!botchoose #channel", responses.get(1));
+	}
+	
+	public void testUserSetAwayThenCleanup() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("id10t", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botdeal7 id10t");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		List<Message> responses = roomCmd("id10t", "!away");
+		Game ata = gameManager.getGameByChan("#channel");
+		
+		assertEquals(3, ata.m_activePlayers.size());
+		assertEquals(0, ata.m_waiting.size());
+		assertMessage("#channel", "id10t has been marked as away.  Use !back to rejoin.", responses.get(0));
+		assertMessage("bees", "!botchoose #channel", responses.get(1));
 	}
 	
 	public void testAllPlayersPlayCardsAndJudgePicks() {
