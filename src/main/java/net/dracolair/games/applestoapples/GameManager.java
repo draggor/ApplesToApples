@@ -34,16 +34,6 @@ public class GameManager {
 		}
 	}
 	
-	/**
-	 * TODO: Modify processRoomMessage and processPrivMessage to return Command objects instead of a List<Message>
-	 *       That way, when the bot goes to send a message, it will evaluate the command at that point, and not create timers
-	 *       and then sit on it while it waits to send.
-	 *       Note that in the bot, there will need to be some way to stagger the adding of messages.  Could SendRawMessage and
-	 *       use a delay timer of my own.
-	 *       Ideally, instead of adding a String to a queue, we would add the command itself to delay evaluation that way.
-	 * @param msgInfo
-	 * @return
-	 */
 	public Command processRoomMessage(MessageInfo msgInfo) {
 		System.out.println("processRoomMessage: " + msgInfo.MESSAGE);
 		if(msgInfo.MESSAGE.charAt(0) == '!') {
