@@ -90,6 +90,16 @@ public class Bot extends PircBot implements Runnable {
 	}
 	
 	@Override
+	public void onQuit(String sourceNick,
+					   String sourceLogin,
+					   String sourceHostname,
+					   String reason) {
+		if(!sourceNick.equals(m_gameManager.getName())) {
+			processResponses(m_gameManager.processPrivMessage(MSGINFO(m_gameManager.getName(), m_gameManager.getName(), "!botaway " + sourceNick)));
+		}
+	}
+	
+	@Override
 	public void onJoin(String channel,
 					   String sender,
 					   String login,
