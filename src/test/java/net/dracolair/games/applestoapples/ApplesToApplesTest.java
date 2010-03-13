@@ -323,6 +323,32 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("bees", "!botchoose #channel", responses.get(1));
 	}
 	
+	public void testPlayerBack() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		roomCmd("id10t", "!join");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botdeal7 id10t");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		roomCmd("id10t", "!away");
+		privCmd("bees", "!botchoose #channel");
+		roomCmd("bob", "!choose 2");
+		privCmd("bees", "!botcleanup #channel");
+		privCmd("bees", "!botplay #channel");
+		List<Message> responses = roomCmd("id10t", "!back");
+		Game ata = gameManager.getGameByChan("#channel");
+		
+		assertEquals(4, ata.m_activePlayers.size());
+		assertMessage("#channel", "Welcome back id10t!  You'll be in next round.", responses.get(0));
+	}
+	
 	public void testChooseMenu() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
