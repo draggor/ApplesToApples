@@ -21,7 +21,11 @@ public class CmdBack extends Command {
 	
 	@Override
 	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
-		
+		boolean isPlayer = gameManager.m_nickToNameMap.containsKey(msgInfo.NICK);
+		Name name = gameManager.m_nickToNameMap.get(msgInfo.NICK);
+		boolean isAway = !ata.m_activePlayers.contains(name);
+		requirements.add(REQ(isPlayer, MSG("", "")));
+		requirements.add(REQ(isAway, MSG("", "")));
 	}
 	
 }
