@@ -33,8 +33,8 @@ public class Bot extends PircBot implements Runnable {
 		CardRenderer redCardRenderer = new IrcRedCardRenderer();
 		CardRenderer greenCardRenderer = new IrcGreenCardRenderer();
 		m_gameManager = new GameManager(name, redCardRenderer, greenCardRenderer);
-	//	m_thread = new Thread(this);
-	//	m_thread.start();
+		m_thread = new Thread(this);
+		m_thread.start();
 	}
 	
 	public void processResponses(Command cmd) {

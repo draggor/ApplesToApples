@@ -23,8 +23,8 @@ public class CmdJoin extends Command {
 			responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has joined the game, need "+ (3-ata.m_players.size()) + " more to start."));
 		} else {
 			responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has joined the game!  Cards will be dealt at the start of the next round."));
-			responses.add(MSG(gameManager.getName(), "!botdelaycmd " + msgInfo.ROOM + " !botdeal7 " + msgInfo.NICK));
 		}
+		responses.add(MSG(gameManager.getName(), "!botdelaycmd " + msgInfo.ROOM + " !botdeal7 " + msgInfo.NICK));
 	}
 
 	@Override

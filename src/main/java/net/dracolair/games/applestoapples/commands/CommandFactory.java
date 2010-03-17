@@ -26,6 +26,8 @@ public class CommandFactory {
 		m_commands.put("botwarning", MgrCmdWarning.class);
 		m_commands.put("botaway", MgrCmdAway.class);
 		m_commands.put("botdelaycmd", MgrCmdDelay.class);
+		m_commands.put("botsettime", MgrCmdSetTime.class);
+		m_commands.put("botshowplayercards", MgrCmdShowPlayerCards.class);
 	}
 	
 	public Command create(String cmd) {

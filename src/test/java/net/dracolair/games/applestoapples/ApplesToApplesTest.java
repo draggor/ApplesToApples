@@ -37,6 +37,7 @@ public class ApplesToApplesTest extends TestCase{
 	public void testCmdIsRunningTrueForBob1Player() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("Neel", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
 		List<Message> responses = roomCmd("bob", "!list");
 		Game ata = gameManager.getGameByChan("#channel");
 		Name neel = gameManager.m_nickToNameMap.get("Neel");
@@ -50,6 +51,8 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("Neel", "!join");
 		roomCmd("Grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		List<Message> responses = roomCmd("bob", "!list");
 		Game ata = gameManager.getGameByChan("#channel");
 		Name neel = gameManager.m_nickToNameMap.get("Neel");
@@ -80,6 +83,7 @@ public class ApplesToApplesTest extends TestCase{
 	public void testBobCantJoinTwice() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
 		List<Message> responses = roomCmd("bob", "!join");
 		
 		Game ataFromGList = gameManager.m_roomToGameMap.get("#channel");
@@ -97,6 +101,7 @@ public class ApplesToApplesTest extends TestCase{
 	public void testBobCantJoinTwiceFromAnotherChannel() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
 		MessageInfo msgMap1 = MSGINFO("#bees", "bees", "!botcreategame false");
 		gameManager.processRoomMessage(msgMap1).execute();
 		MessageInfo msgMap2 = MSGINFO("#bees", "bob", "!join");
@@ -114,9 +119,13 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("#bees", "bob is already playing.", responses.get(0));
 	}
 	
+	/**
+	 * TODO: Review this, maybe make changes on how delayed cmds are stored
+	 */
 	public void testChangeNick() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
 		gameManager.changeNick("bob", "newhart");
 		List<Message> responses = roomCmd("newhart", "!list");
 		
@@ -133,7 +142,11 @@ public class ApplesToApplesTest extends TestCase{
 	public void testStartGameNeeds2More() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
 		List<Message> responses = roomCmd("bob", "!start");
+		Game ata = gameManager.getGameByChan("#channel");
+		
+		assertEquals(1, ata.m_delayedCommands.size());
 		
 		assertMessage("#channel", "bob is fail, needs 2 to play.", responses.get(0));
 	}
@@ -143,6 +156,9 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		List<Message> responses = roomCmd("bob", "!start");
 		Game ata = gameManager.getGameByChan("#channel");
 		
@@ -153,32 +169,35 @@ public class ApplesToApplesTest extends TestCase{
 		
 		assertMessage("#channel", "We have >=3 players, the game will begin!", responses.get(0));
 		assertMessage("#channel", "Dealing out cards...", responses.get(1));
-		assertMessage("bees", "!botdeal7 bob", responses.get(2));
-		assertMessage("bees", "!botdeal7 neel", responses.get(3));
-		assertMessage("bees", "!botdeal7 grue", responses.get(4));
-		assertMessage("bees", "!botplay #channel", responses.get(5));
+		assertMessage("bees", "!botplay #channel", responses.get(2));
 	}
-	
 	public void testDeal7() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		List<Message> responses = privCmd("bees", "!botdeal7 bob");
 		
+		assertEquals(7, responses.size());
 /*		for(int i = 0; i < 7; i++) {
 			assertMessage("bob", "Card - " + (i + 1), responses.get(i));
 		}
 */		
 		responses = privCmd("bees", "!botdeal7 neel");
 		
+		assertEquals(7, responses.size());
 /*		for(int i = 0; i < 7; i++) {
 			assertMessage("neel", "Card - " + (i + 8), responses.get(i));
 		}
 */		
 		responses = privCmd("bees", "!botdeal7 grue");
 		
+		assertEquals(7, responses.size());
 /*		for(int i = 0; i < 7; i++) {
 			assertMessage("grue", "Card - " + (i + 15), responses.get(i));
 		}
@@ -189,18 +208,44 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
-		privCmd("bees", "!botdeal7 bob");
-		privCmd("bees", "!botdeal7 neel");
-		privCmd("bees", "!botdeal7 grue");
 		List<Message> responses = privCmd("bees", "!botplay #channel");
 		Game ata = gameManager.getGameByChan("#channel");
 		
 		assertEquals(2, ata.m_waiting.size());
 		assertEquals("bob", ata.m_judge.toString());
+		assertEquals(7, responses.size());
 		
-		assertMessage("#channel", "bob is the judge.  Green card is:  Absurd  - ridiculous, senseless, foolish", responses.get(0));
-		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
+		assertMessage("bees", "!botdeal7 bob", responses.get(0));
+		assertMessage("bees", "!botdeal7 neel", responses.get(1));
+		assertMessage("bees", "!botdeal7 grue", responses.get(2));
+		assertMessage("#channel", "bob is the judge.  Green card is:  Absurd  - ridiculous, senseless, foolish", responses.get(3));
+		assertMessage("#channel", "Waiting for players to play cards...", responses.get(4));
+		assertMessage("bees", "!botshowplayercards #channel", responses.get(5));
+		assertMessage("bees", "!botsettime #channel", responses.get(6));
+	}
+	
+	public void testProper() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		privCmd("bees", "!botchoose #channel");
 	}
 	
 	public void testAllPlayersPlayCards() {
@@ -208,11 +253,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		List<Message> responses = roomCmd("grue", "!play 4");
 		
@@ -225,11 +275,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		List<Message> responses = roomCmd("id10t", "!join");
 		
@@ -242,14 +297,19 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("id10t", "!join");
-		List<Message> responses = privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
 		Game ata = gameManager.getGameByChan("#channel");
 		
 		assertEquals(1, ata.m_delayedCommands.size());
@@ -260,21 +320,26 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("id10t", "!join");
 		privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
 		roomCmd("grue", "!play 4");
 		privCmd("bees", "!botchoose #channel");
 		roomCmd("bob", "!choose 2");
-		List<Message> responses = privCmd("bees", "!botcleanup #channel");
+		privCmd("bees", "!botcleanup #channel");
+		List<Message> responses = privCmd("bees", "!botplay #channel");
 		
 		assertMessage("bees", "!botdeal7 id10t", responses.get(0));
-		assertMessage("bees", "!botplay #channel", responses.get(1));
 	}
 	
 	public void testOnePlayerGetsWarning() {
@@ -282,11 +347,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		Game ata = gameManager.getGameByChan("#channel");
 		assertFalse(ata.m_warning);
@@ -302,12 +372,18 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
 		roomCmd("derp", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 derp");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
 		privCmd("bees", "!botdeal7 derp");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 3");
 		privCmd("bees", "!botwarning #channel");
@@ -329,12 +405,18 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
 		roomCmd("id10t", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
 		privCmd("bees", "!botdeal7 id10t");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		roomCmd("id10t", "!away");
@@ -354,11 +436,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		List<Message> responses = privCmd("bees", "!botchoose #channel");
@@ -374,11 +461,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		privCmd("bees", "!botchoose #channel");
@@ -396,11 +488,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		privCmd("bees", "!botchoose #channel");
@@ -422,12 +519,18 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
 		roomCmd("id10t", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
 		privCmd("bees", "!botdeal7 id10t");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		List<Message> responses = roomCmd("id10t", "!away");
 		Game ata = gameManager.getGameByChan("#channel");
@@ -444,12 +547,18 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
 		roomCmd("id10t", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
 		privCmd("bees", "!botdeal7 id10t");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		List<Message> responses = roomCmd("id10t", "!away");
@@ -467,12 +576,18 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
 		roomCmd("id10t", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 id10t");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
 		privCmd("bees", "!botdeal7 id10t");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		List<Message> responses = roomCmd("id10t", "!away");
@@ -489,11 +604,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		privCmd("bees", "!botchoose #channel");
@@ -509,11 +629,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		privCmd("bees", "!botchoose #channel");
@@ -533,11 +658,16 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!join");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
 		privCmd("bees", "!botdeal7 grue");
-		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
 		roomCmd("neel", "!play 5");
 		roomCmd("grue", "!play 4");
 		privCmd("bees", "!botchoose #channel");
@@ -547,6 +677,8 @@ public class ApplesToApplesTest extends TestCase{
 		
 		assertMessage("#channel", "neel is the judge.  Green card is:  Addictive  - obsessive, consuming, captivating", responses.get(0));
 		assertMessage("#channel", "Waiting for players to play cards...", responses.get(1));
+		assertMessage("bees", "!botshowplayercards #channel", responses.get(2));
+		assertMessage("bees", "!botsettime #channel", responses.get(3));
 	}
 	
 	public void testChooseLastWinner() {
@@ -555,6 +687,9 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!limit 2");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");
@@ -580,6 +715,9 @@ public class ApplesToApplesTest extends TestCase{
 		roomCmd("bob", "!limit 2");
 		roomCmd("neel", "!join");
 		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
 		roomCmd("bob", "!start");
 		privCmd("bees", "!botdeal7 bob");
 		privCmd("bees", "!botdeal7 neel");

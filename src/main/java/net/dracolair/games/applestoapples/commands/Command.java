@@ -25,6 +25,7 @@ public abstract class Command {
 			if(!requirement.m_condition) {
 				runCmd = false;
 				responses.add(requirement.m_message);
+				break;
 			}
 		}
 		

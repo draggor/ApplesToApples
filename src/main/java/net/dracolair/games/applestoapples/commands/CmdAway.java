@@ -27,8 +27,6 @@ public class CmdAway extends Command {
 		} else if(ata.m_state == State.CHOOSE) {
 			responses.add(MSG(gameManager.getName(), "!botcleanup " + msgInfo.ROOM));
 		}
-		
-		
 	}
 	
 	@Override

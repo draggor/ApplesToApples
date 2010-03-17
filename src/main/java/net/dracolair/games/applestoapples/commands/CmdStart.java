@@ -2,13 +2,10 @@ package net.dracolair.games.applestoapples.commands;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 
 import net.dracolair.games.applestoapples.Game;
 import net.dracolair.games.applestoapples.GameManager;
 import net.dracolair.games.applestoapples.Message;
-import net.dracolair.games.applestoapples.Name;
-import net.dracolair.games.applestoapples.Player;
 import net.dracolair.games.applestoapples.State;
 import net.dracolair.games.applestoapples.MessageInfo;
 
@@ -23,9 +20,6 @@ public class CmdStart extends Command {
 		}
 		responses.add(MSG(msgInfo.ROOM, "We have >=3 players, the game will begin!"));
 		responses.add(MSG(msgInfo.ROOM, "Dealing out cards..."));
-		for(Entry<Name, Player> e : ata.m_players.entrySet()) {
-			responses.add(MSG(gameManager.getName(), "!botdeal7 " + e.getKey()));
-		}
 		
 		responses.add(MSG(gameManager.getName(), "!botplay " + msgInfo.ROOM));
 	}
