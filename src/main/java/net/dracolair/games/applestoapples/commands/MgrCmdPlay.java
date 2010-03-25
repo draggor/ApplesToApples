@@ -15,6 +15,7 @@ public class MgrCmdPlay extends ManagerCommand {
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
 		ata.m_state = State.PLAY;
+		ata.m_waiting.clear();
 		ata.m_waiting.addAll(ata.m_activePlayers);
 		ata.m_judge = ata.m_waiting.remove(0);
 		

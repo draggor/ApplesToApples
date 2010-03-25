@@ -19,13 +19,19 @@ public class CmdAway extends Command {
 		responses.add(MSG(msgInfo.ROOM, msgInfo.NICK + " has been marked as away.  Use !back to rejoin."));
 		Name name = gameManager.m_nickToNameMap.get(msgInfo.NICK);
 		ata.m_activePlayers.remove(name);
-		if(ata.m_state == State.PLAY) {
+		if(ata.m_activePlayers.size() < 3) {
+			ata.m_state = State.LOCK;
+			responses.add(MSG(gameManager.getName(), "!botendgame " + msgInfo.ROOM));
+		}
+		if(ata.m_judge.equals(msgInfo.NICK)) {
+			ata.m_state = State.LOCK;
+			responses.add(MSG(gameManager.getName(), "!botcleanup " + msgInfo.ROOM));
+		} else if(ata.m_state == State.PLAY) {
 			ata.m_waiting.remove(name);
 			if(ata.m_waiting.size() == 0) {
+				ata.m_waiting.remove(name);
 				responses.add(MSG(gameManager.getName(), "!botchoose " + msgInfo.ROOM));
 			}
-		} else if(ata.m_state == State.CHOOSE) {
-			responses.add(MSG(gameManager.getName(), "!botcleanup " + msgInfo.ROOM));
 		}
 	}
 	

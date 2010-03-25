@@ -26,9 +26,11 @@ public class MgrCmdAway extends ManagerCommand {
 			ata.m_waiting.clear();
 			b.append("you're being flagged as away.  Use !back to rejoin.");
 			responses.add(MSG(msgInfo.MESSAGE, b.toString()));
+			ata.m_state = State.LOCK;
 			responses.add(MSG(msgInfo.NICK, "!botchoose " + msgInfo.MESSAGE));
 		} else {
 			responses.add(MSG(msgInfo.MESSAGE, ata.m_judge + ", you're being flagged as away.  Use !back to rejoin."));
+			ata.m_state = State.LOCK;
 			responses.add(MSG(msgInfo.NICK, "!botcleanup " + msgInfo.MESSAGE));
 		}
 	}

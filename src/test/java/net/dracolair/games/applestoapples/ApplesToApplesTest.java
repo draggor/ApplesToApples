@@ -171,6 +171,7 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("#channel", "Dealing out cards...", responses.get(1));
 		assertMessage("bees", "!botplay #channel", responses.get(2));
 	}
+	
 	public void testDeal7() {
 		roomCmd("bees", "!botcreategame false");
 		roomCmd("bob", "!join");
@@ -268,6 +269,31 @@ public class ApplesToApplesTest extends TestCase{
 		
 		assertMessage("grue", " Adolph Hitler  - 1889-1945, turned Germany into a militarized dictatorship, caused the slaughter of millions and launched World War II.", responses.get(0));
 		assertMessage("bees", "!botchoose #channel", responses.get(1));
+	}
+	
+	public void testPlayerChangesCard() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botplay #channel");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botshowplayercards #channel");
+		privCmd("bees", "!botsettime #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("neel", "!play 4");
+		Game ata = gameManager.getGameByChan("#channel");
+		Name n = gameManager.m_nickToNameMap.get("neel");
+		Player p = ata.m_players.get(n);
+		
+		assertEquals(1, ata.m_cards.size());
+		assertEquals(7, p.m_redCards.size());
 	}
 	
 	public void testPlayerJoinsMidGame() {

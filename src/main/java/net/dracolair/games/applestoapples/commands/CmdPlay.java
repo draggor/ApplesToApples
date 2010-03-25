@@ -24,19 +24,41 @@ public class CmdPlay extends Command {
 				Name n = gameManager.m_nickToNameMap.get(msgInfo.NICK);
 				ata.m_waiting.remove(n);
 				Player p = ata.m_players.get(n);
+				Card oldCard = getCard(ata, n);
 				Card c = p.m_redCards.remove(cardIndex);
-				Card newCard = ata.m_redCards.remove(0);
-				p.m_redCards.add(newCard);
+				if(oldCard == null) {
+					Card newCard = ata.m_redCards.remove(0);
+					p.m_redCards.add(newCard);
+					responses.add(MSG(msgInfo.NICK, newCard.toFormattedString()));
+				} else {
+					p.m_redCards.add(oldCard);
+				}
 				c.m_playedBy = n;
 				ata.m_cards.add(c);
-				responses.add(MSG(msgInfo.NICK, newCard.toFormattedString()));
 				if(ata.m_waiting.isEmpty()) {
+					ata.m_state = State.LOCK;
 					responses.add(MSG(gameManager.getName(), "!botchoose " + msgInfo.ROOM));
 				}
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private Card getCard(Game ata, Name nick) {
+		Card c = null;
+		
+		for(Card card : ata.m_cards) {
+			if(card.m_playedBy.equals(nick)) {
+				c = card;
+			}
+		}
+		
+		if(c != null) {
+			ata.m_cards.remove(c);
+		}
+		
+		return c;
 	}
 	
 	@Override
