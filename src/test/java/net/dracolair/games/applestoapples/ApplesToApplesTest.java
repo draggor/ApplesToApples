@@ -767,6 +767,83 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("#channel", "bob is: ", responses.get(3));
 	}
 	
+	public void testCustomRed() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("bob", "!limit 2");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		privCmd("bees", "!botchoose #channel");
+		roomCmd("bob", "!choose 2");
+		List<Message> responses = privCmd("bees", "!botcleanup #channel");
+		
+		assertMessage("bees", "!botcustomred #channel", responses.get(0));
+	}
+	
+	public void testCustomRedMenu() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("bob", "!limit 2");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		privCmd("bees", "!botchoose #channel");
+		roomCmd("bob", "!choose 2");
+		privCmd("bees", "!botcleanup #channel");
+		List<Message> responses = privCmd("bees", "!botcustomred #channel");
+		
+		assertMessage("#channel", "It's custom RED card time!  Grue needs to make a custom card!", responses.get(0));
+		assertMessage("#channel", "Type /msg bees !custom cardname - description", responses.get(0));
+	}
+	
+	public void testCustomRedMake() {
+		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!join");
+		roomCmd("bob", "!limit 2");
+		roomCmd("neel", "!join");
+		roomCmd("grue", "!join");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 bob");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 neel");
+		privCmd("bees", "!botdelaycmd #channel !botdeal7 grue");
+		roomCmd("bob", "!start");
+		privCmd("bees", "!botdeal7 bob");
+		privCmd("bees", "!botdeal7 neel");
+		privCmd("bees", "!botdeal7 grue");
+		privCmd("bees", "!botplay #channel");
+		roomCmd("neel", "!play 5");
+		roomCmd("grue", "!play 4");
+		privCmd("bees", "!botchoose #channel");
+		roomCmd("bob", "!choose 2");
+		privCmd("bees", "!botcleanup #channel");
+		privCmd("bees", "!botcustomred #channel");
+		List<Message> responses = privCmd("grue", "!custom hurf - durf");
+	}
+	
+	public void testHelpNoArgs() {
+		List<Message> responses = roomCmd("bob", "!help");
+		
+		assertMessage("bob", "Use !help <command>, available commands: away back choose join limit list play start", responses.get(0));
+	}
+	
 	public List<Message> roomCmd(String name, String command) {
 		MessageInfo msgInfo = MSGINFO("#channel", name, command);
 		return gameManager.processRoomMessage(msgInfo).execute();

@@ -17,6 +17,7 @@ public class CommandFactory {
 		m_commands.put("limit", CmdLimit.class);
 		m_commands.put("away", CmdAway.class);
 		m_commands.put("back", CmdBack.class);
+		m_commands.put("help", CmdHelp.class);
 		m_commands.put("botplay", MgrCmdPlay.class);
 		m_commands.put("botchoose", MgrCmdChoose.class);
 		m_commands.put("botdeal7", MgrCmdDeal7.class);

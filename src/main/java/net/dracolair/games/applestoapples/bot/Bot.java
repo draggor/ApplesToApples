@@ -37,6 +37,10 @@ public class Bot extends PircBot implements Runnable {
 		m_thread.start();
 	}
 	
+	/**
+	 * TODO: Change this to a blocking queue of {@link Command}s that sleeps 1 second between sending each response
+	 * @param cmd
+	 */
 	public void processResponses(Command cmd) {
 		List<Message> responses = cmd.execute();
 		System.out.println(responses);
@@ -60,16 +64,7 @@ public class Bot extends PircBot implements Runnable {
 						  String login, 
 						  String hostname, 
 						  String message) {
-		if(sender.equals("Draggor") && hostname.equals("216-80-120-145.alc-bsr1.chi-alc.il.static.cable.rcn.com")) {
-			String[] sp = message.split(" ", 3);
-			if(sp[0].equals("!c")) {
-				processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sp[1], sp[2])));
-			} else {
-				processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sender, message)));
-			}
-		} else {
-			processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sender, message)));
-		}
+		processResponses(m_gameManager.processRoomMessage(MSGINFO(channel, sender, message)));
 	}
 	
 	@Override
