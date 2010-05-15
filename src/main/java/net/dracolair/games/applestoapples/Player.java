@@ -7,6 +7,7 @@ import net.dracolair.games.applestoapples.card.Card;
 
 public class Player {
 	public int m_score = 0;
+	public String m_room = null;
 	public List<Card> m_redCards = new LinkedList<Card>();
 	public List<Card> m_greenCards = new LinkedList<Card>();
 	

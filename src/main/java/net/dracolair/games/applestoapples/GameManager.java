@@ -20,17 +20,20 @@ public class GameManager {
 	public Map<String, Game>	m_roomToGameMap = new LinkedHashMap<String, Game>();
 	public Map<Name, Game>		m_nameToGameMap = new LinkedHashMap<Name, Game>();
 	public Map<String, Name> 	m_nickToNameMap = new LinkedHashMap<String, Name>();
+	public CardRenderer			m_redCardRenderer;
+	public CardRenderer			m_greenCardRenderer;
 	public String				m_name;
 	public CommandFactory		m_cmdFactory = new CommandFactory();
 	
 	public GameManager(String name, CardRenderer redCardRenderer, CardRenderer greenCardRenderer) {
 		m_name = name;
-		
+		m_redCardRenderer = redCardRenderer;
+		m_greenCardRenderer = greenCardRenderer;
 		if(RED == null) {
-			RED = loadCardsFromFile(this.getClass().getResourceAsStream("/red.txt"), redCardRenderer);
+			RED = loadCardsFromFile(this.getClass().getResourceAsStream("/red.txt"), m_redCardRenderer);
 		}
 		if(GREEN == null) {
-			GREEN = loadCardsFromFile(this.getClass().getResourceAsStream("/green.txt"), greenCardRenderer);
+			GREEN = loadCardsFromFile(this.getClass().getResourceAsStream("/green.txt"), m_greenCardRenderer);
 		}
 	}
 	
@@ -62,24 +65,37 @@ public class GameManager {
 	
 	public Command processPrivMessage(MessageInfo msgInfo) {
 		System.out.println("processPrivMessage: " + msgInfo.MESSAGE);
-		String[] parsedMessage = msgInfo.MESSAGE.split(" ", 3);
-		String cmdKey = parsedMessage[0].substring(1);
-		MessageInfo modMsgInfo = msgInfo.clone();
-		if (parsedMessage.length < 2) {
-			modMsgInfo.MESSAGE = "";
-		} else if (parsedMessage.length < 3) {
-			modMsgInfo.MESSAGE = parsedMessage[1];
-			modMsgInfo.ROOM = parsedMessage[1];
+		String[] parsedMessage = null;
+		String cmdKey = null;
+		MessageInfo modMsgInfo = null;
+		Game ata = null;
+		if(msgInfo.NICK.equals(m_name)) {
+			parsedMessage = msgInfo.MESSAGE.split(" ", 3);
+			cmdKey = parsedMessage[0].substring(1);
+			modMsgInfo = msgInfo.clone();
+			if (parsedMessage.length < 2) {
+				modMsgInfo.MESSAGE = "";
+			} else if (parsedMessage.length < 3) {
+				modMsgInfo.MESSAGE = parsedMessage[1];
+				modMsgInfo.ROOM = parsedMessage[1];
+			} else {
+				modMsgInfo.MESSAGE = parsedMessage[2];
+				modMsgInfo.ROOM = parsedMessage[1];
+			}
+			ata = getGameByChan(modMsgInfo.ROOM);
+			if(ata == null) {
+				ata = getGameByNick(modMsgInfo.ROOM);
+			}
 		} else {
-			modMsgInfo.MESSAGE = parsedMessage[2];
-			modMsgInfo.ROOM = parsedMessage[1];
+			parsedMessage = msgInfo.MESSAGE.split(" ", 2);
+			modMsgInfo = msgInfo.clone();
+			modMsgInfo.MESSAGE = parsedMessage[1];
+			ata = getGameByNick(modMsgInfo.NICK);
+			modMsgInfo.ROOM = ata.m_players.get(m_nickToNameMap.get(modMsgInfo.NICK)).m_room;
+			cmdKey = parsedMessage[0].substring(1);
 		}
- 
+		
 		Command cmd = m_cmdFactory.create(cmdKey);
-		Game ata = getGameByChan(modMsgInfo.ROOM);
-		if(ata == null) {
-			ata = getGameByNick(modMsgInfo.ROOM);
-		}
  
 		if (cmd != null) {
 			cmd.ata = ata;

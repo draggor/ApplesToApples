@@ -850,7 +850,9 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botcleanup #channel");
 		privCmd("bees", "!botcustomred #channel");
 		List<Message> responses = privCmd("grue", "!custom hurf - durf");
+		Game ata = gameManager.getGameByChan("#channel");
 		
+		assertEquals(1, ata.m_customRedCards.size());
 		assertMessage("#channel", "Thanks for the card!", responses.get(0));
 		assertMessage("bees", "!botplay #channel", responses.get(1));
 	}

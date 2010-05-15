@@ -4,5 +4,7 @@ public enum State {
 	BEGIN,
 	PLAY,
 	CHOOSE,
-	LOCK
+	LOCK,
+	CUSTOMRED,
+	CUSTOMGREEN
 }

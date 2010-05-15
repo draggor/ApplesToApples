@@ -23,6 +23,7 @@ public class Game {
 	public Card					m_winnerRed	=		null;
 	public List<Card>			m_greenCards = 		null;
 	public List<Card>			m_redCards = 		null;
+	public List<Card>			m_customRedCards =	new LinkedList<Card>();
 	public boolean				m_isRandom = 		true;
 	public Random				m_random = 			new Random();
 	public long 				m_time = 			0;
