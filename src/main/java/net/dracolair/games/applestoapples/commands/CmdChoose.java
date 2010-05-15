@@ -8,7 +8,6 @@ import net.dracolair.games.applestoapples.Message;
 import net.dracolair.games.applestoapples.MessageInfo;
 import net.dracolair.games.applestoapples.Player;
 import net.dracolair.games.applestoapples.State;
-import net.dracolair.games.applestoapples.card.Card;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
@@ -19,15 +18,15 @@ public class CmdChoose extends Command {
 		int cardIndex = Integer.parseInt(msgInfo.MESSAGE) - 1;
 		
 		if(cardIndex >= 0 && cardIndex < ata.m_cards.size()) {
-			Card winner = ata.m_cards.get(cardIndex);
+			ata.m_winnerRed = ata.m_cards.get(cardIndex);
 		//	ata.m_cards.clear();
-			Player p = ata.m_players.get(winner.m_playedBy);
+			Player p = ata.m_players.get(ata.m_winnerRed.m_playedBy);
 			p.m_greenCards.add(ata.m_greenCard);
 			
 			if(++p.m_score == ata.m_limit) {
 				responses.add(MSG(gameManager.getName(), "!botendgame " + msgInfo.ROOM));
 			} else {
-				responses.add(MSG(msgInfo.ROOM, "The winner is " + winner.m_playedBy + ": " + winner.m_name + "!"));
+				responses.add(MSG(msgInfo.ROOM, "The winner is " + ata.m_winnerRed.m_playedBy + ": " + ata.m_winnerRed.m_name + "!"));
 				responses.add(MSG(msgInfo.ROOM, "Scores: " + ata.playersNscores()));
 				responses.add(MSG(gameManager.getName(), "!botcleanup " + msgInfo.ROOM));
 			}

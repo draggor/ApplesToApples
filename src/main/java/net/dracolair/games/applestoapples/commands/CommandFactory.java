@@ -18,6 +18,7 @@ public class CommandFactory {
 		m_commands.put("away", CmdAway.class);
 		m_commands.put("back", CmdBack.class);
 		m_commands.put("help", CmdHelp.class);
+		m_commands.put("customred", CmdCustomRed.class);
 		m_commands.put("botplay", MgrCmdPlay.class);
 		m_commands.put("botchoose", MgrCmdChoose.class);
 		m_commands.put("botdeal7", MgrCmdDeal7.class);
@@ -29,6 +30,7 @@ public class CommandFactory {
 		m_commands.put("botdelaycmd", MgrCmdDelay.class);
 		m_commands.put("botsettime", MgrCmdSetTime.class);
 		m_commands.put("botshowplayercards", MgrCmdShowPlayerCards.class);
+		m_commands.put("botcustomred", MgrCmdCustomRed.class);
 	}
 	
 	public Command create(String cmd) {

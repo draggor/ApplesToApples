@@ -9,17 +9,13 @@ import net.dracolair.games.applestoapples.MessageInfo;
 
 import static net.dracolair.games.applestoapples.Factories.*;
 
-public class MgrCmdCleanup extends ManagerCommand {
+public class CmdCustomRed extends Command {
 
 	@Override
 	public void run(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Message> responses) {
-		ata.rotatePlayers();
-		ata.m_cards.clear();
-		if(ata.m_isCustomRed) {
-			responses.add(MSG(gameManager.getName(), "!botcustomred " + msgInfo.MESSAGE));
-		} else {
-			responses.add(MSG(gameManager.getName(), "!botplay " + msgInfo.MESSAGE));
-		}
+		ata.m_isCustomRed = !ata.m_isCustomRed;
+		
+		responses.add(MSG(msgInfo.ROOM, "Winner makes custom red card: " + ata.m_isCustomRed));
 	}
-	
+
 }

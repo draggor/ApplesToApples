@@ -767,8 +767,20 @@ public class ApplesToApplesTest extends TestCase{
 		assertMessage("#channel", "bob is: ", responses.get(3));
 	}
 	
+	public void testSetCustomRedGame() {
+		roomCmd("bees", "!botcreategame false");
+		List<Message> responses = roomCmd("bob", "!customred");
+		
+		assertMessage("#channel", "Winner makes custom red card: true", responses.get(0));
+		
+		responses = roomCmd("bob", "!customred");
+		
+		assertMessage("#channel", "Winner makes custom red card: false", responses.get(0));
+	}
+	
 	public void testCustomRed() {
 		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!customred");
 		roomCmd("bob", "!join");
 		roomCmd("bob", "!limit 2");
 		roomCmd("neel", "!join");
@@ -792,6 +804,7 @@ public class ApplesToApplesTest extends TestCase{
 	
 	public void testCustomRedMenu() {
 		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!customred");
 		roomCmd("bob", "!join");
 		roomCmd("bob", "!limit 2");
 		roomCmd("neel", "!join");
@@ -811,12 +824,13 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botcleanup #channel");
 		List<Message> responses = privCmd("bees", "!botcustomred #channel");
 		
-		assertMessage("#channel", "It's custom RED card time!  Grue needs to make a custom card!", responses.get(0));
-		assertMessage("#channel", "Type /msg bees !custom cardname - description", responses.get(0));
+		assertMessage("#channel", "It's custom RED card time!  grue needs to make a custom card!", responses.get(0));
+		assertMessage("#channel", "Type /msg bees !custom cardname - description", responses.get(1));
 	}
 	
 	public void testCustomRedMake() {
 		roomCmd("bees", "!botcreategame false");
+		roomCmd("bob", "!customred");
 		roomCmd("bob", "!join");
 		roomCmd("bob", "!limit 2");
 		roomCmd("neel", "!join");
@@ -836,6 +850,9 @@ public class ApplesToApplesTest extends TestCase{
 		privCmd("bees", "!botcleanup #channel");
 		privCmd("bees", "!botcustomred #channel");
 		List<Message> responses = privCmd("grue", "!custom hurf - durf");
+		
+		assertMessage("#channel", "Thanks for the card!", responses.get(0));
+		assertMessage("bees", "!botplay #channel", responses.get(1));
 	}
 	
 	public void testHelpNoArgs() {

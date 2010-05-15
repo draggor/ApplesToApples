@@ -20,13 +20,15 @@ public class Game {
 	public Name					m_judge = 			null;
 	public int					m_limit = 			7;
 	public Card					m_greenCard = 		null;
+	public Card					m_winnerRed	=		null;
 	public List<Card>			m_greenCards = 		null;
 	public List<Card>			m_redCards = 		null;
 	public boolean				m_isRandom = 		true;
 	public Random				m_random = 			new Random();
 	public long 				m_time = 			0;
 	public boolean 				m_warning = 		false;
-	public List<String>			m_delayedCommands = 	new LinkedList<String>();
+	public List<String>			m_delayedCommands = new LinkedList<String>();
+	public boolean				m_isCustomRed =		false;
 	
 	public Game(List<Card> red, List<Card> green, boolean isRandom) {
 		m_redCards = new LinkedList<Card>(red);
