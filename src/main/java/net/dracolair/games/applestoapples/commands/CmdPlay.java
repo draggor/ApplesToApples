@@ -12,6 +12,7 @@ import net.dracolair.games.applestoapples.State;
 import net.dracolair.games.applestoapples.card.Card;
 
 import static net.dracolair.games.applestoapples.Factories.*;
+import static net.dracolair.games.applestoapples.Lookup.*;
 
 public class CmdPlay extends Command {
 
@@ -27,7 +28,7 @@ public class CmdPlay extends Command {
 				Card oldCard = getCard(ata, n);
 				Card c = p.m_redCards.remove(cardIndex);
 				if(oldCard == null) {
-					Card newCard = ata.m_redCards.remove(0);
+					Card newCard = ata.getNextRed(); //m_redCards.remove(0);
 					p.m_redCards.add(newCard);
 					responses.add(MSG(msgInfo.NICK, newCard.toFormattedString()));
 				} else {
@@ -63,8 +64,8 @@ public class CmdPlay extends Command {
 	
 	@Override
 	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
-		requirements.add(REQ(ata.m_state == State.PLAY, MSG("", "")));
-		requirements.add(REQ(ata.m_judge != gameManager.m_nickToNameMap.get(msgInfo.NICK), MSG("", "")));
-		requirements.add(REQ(ata.m_waiting.contains(gameManager.m_nickToNameMap.get(msgInfo.NICK)), MSG("", "")));
+		requirements.add(REQ(ata.m_state == State.PLAY, BLANK_MESSAGE));
+		requirements.add(REQ(ata.m_judge != gameManager.m_nickToNameMap.get(msgInfo.NICK), BLANK_MESSAGE));
+		requirements.add(REQ(ata.m_waiting.contains(gameManager.m_nickToNameMap.get(msgInfo.NICK)), BLANK_MESSAGE));
 	}
 }

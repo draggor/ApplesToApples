@@ -30,6 +30,7 @@ public class Game {
 	public boolean 				m_warning = 		false;
 	public List<String>			m_delayedCommands = new LinkedList<String>();
 	public boolean				m_isCustomRed =		false;
+	public Random				m_generator =		new Random();
 	
 	public Game(List<Card> red, List<Card> green, boolean isRandom) {
 		m_redCards = new LinkedList<Card>(red);
@@ -78,6 +79,29 @@ public class Game {
 			}
 		}
 		return n;
+	}
+	
+	public Card getNextRed() {
+		Card c = null;
+		
+		if(m_isRandom) {
+			if(m_customRedCards.size() > 0) {
+				int p = m_generator.nextInt(m_activePlayers.size() - 1);
+				if(p == 1) {
+					c = m_customRedCards.remove(0);
+				}
+			}
+		} else {
+			if(m_customRedCards.size() > 0) {
+				c = m_customRedCards.remove(0);
+			}
+		}
+		
+		if(c == null) {
+			c = m_redCards.remove(0);
+		}
+		
+		return c;
 	}
 	
 }

@@ -10,6 +10,7 @@ import net.dracolair.games.applestoapples.Player;
 import net.dracolair.games.applestoapples.State;
 
 import static net.dracolair.games.applestoapples.Factories.*;
+import static net.dracolair.games.applestoapples.Lookup.*;
 
 public class CmdChoose extends Command {
 
@@ -35,7 +36,7 @@ public class CmdChoose extends Command {
 	
 	@Override
 	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
-		requirements.add(REQ(ata.m_state == State.CHOOSE, MSG("", "")));
+		requirements.add(REQ(ata.m_state == State.CHOOSE, BLANK_MESSAGE));
 	}
 	
 }

@@ -10,6 +10,7 @@ import net.dracolair.games.applestoapples.Name;
 import net.dracolair.games.applestoapples.State;
 
 import static net.dracolair.games.applestoapples.Factories.*;
+import static net.dracolair.games.applestoapples.Lookup.*;
 
 public class MgrCmdAway extends ManagerCommand {
 
@@ -39,8 +40,8 @@ public class MgrCmdAway extends ManagerCommand {
 	public void getRequirements(GameManager gameManager, Game ata, MessageInfo msgInfo, List<Requirement> requirements) {
 		boolean req = (ata.m_state == State.PLAY && !ata.m_waiting.isEmpty()) || ata.m_state == State.CHOOSE;
 		
-		requirements.add(REQ(req, MSG("", "")));
-		requirements.add(REQ(ata.m_warning, MSG("", "")));
+		requirements.add(REQ(req, BLANK_MESSAGE));
+		requirements.add(REQ(ata.m_warning, BLANK_MESSAGE));
 	}
 	
 }

@@ -9,6 +9,7 @@ import net.dracolair.games.applestoapples.MessageInfo;
 import net.dracolair.games.applestoapples.Name;
 
 import static net.dracolair.games.applestoapples.Factories.*;
+import static net.dracolair.games.applestoapples.Lookup.*;
 
 public class CmdBack extends Command {
 
@@ -24,8 +25,8 @@ public class CmdBack extends Command {
 		boolean isPlayer = gameManager.m_nickToNameMap.containsKey(msgInfo.NICK);
 		Name name = gameManager.m_nickToNameMap.get(msgInfo.NICK);
 		boolean isAway = !ata.m_activePlayers.contains(name);
-		requirements.add(REQ(isPlayer, MSG("", "")));
-		requirements.add(REQ(isAway, MSG("", "")));
+		requirements.add(REQ(isPlayer, BLANK_MESSAGE));
+		requirements.add(REQ(isAway, BLANK_MESSAGE));
 	}
 	
 }
